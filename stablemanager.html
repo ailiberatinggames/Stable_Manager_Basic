@@ -1,0 +1,2383 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Template</title> <!-- Title removed -->
+    <style>
+        /* --- Global Styles --- */
+        :root { /* Define light mode colors */
+            --body-bg: #dcdcdc;
+            --container-bg: #f8f9fa;
+            --text-color: #212529;
+            --heading-color: #1a1a1a;
+            --border-color: #dee2e6;
+            --border-color-light: #e9ecef;
+            --border-color-dark: #cccccc;
+            --card-bg: #ffffff;
+            --card-shadow: rgba(0,0,0,0.06);
+            --table-header-bg: #e9ecef;
+            --table-header-color: #495057;
+            --table-hover-bg: #f1f1f1;
+            --table-footer-bg: #e2e6ea;
+            --input-bg: #fff;
+            --input-color: #495057;
+            --input-border: #ced4da;
+            --link-color: #0069d9;
+            --link-hover-color: #004085;
+            --inline-form-bg: #f8f9fa;
+            --scroll-btn-bg: #5a6268;
+            --scroll-btn-hover-bg: #343a40;
+            --nav-btn-color: #6c757d;
+            --nav-btn-hover-color: #545b62;
+            --nav-btn-disabled-bg: #e9ecef;
+            --nav-btn-disabled-color: #adb5bd;
+            --nav-btn-disabled-border: #ced4da;
+        }
+
+        body.dark-mode { /* Define dark mode colors */
+            --body-bg: #212529;
+            --container-bg: #343a40;
+            --text-color: #e9ecef;
+            --heading-color: #f8f9fa;
+            --border-color: #495057;
+            --border-color-light: #495057;
+            --border-color-dark: #5a6268;
+            --card-bg: #454c52;
+            --card-shadow: rgba(0,0,0,0.3);
+            --table-header-bg: #495057;
+            --table-header-color: #f8f9fa;
+            --table-hover-bg: #5a6268;
+            --table-footer-bg: #3e444a;
+            --input-bg: #495057;
+            --input-color: #f8f9fa;
+            --input-border: #6c757d;
+            --link-color: #58a6ff; /* Lighter blue for dark */
+            --link-hover-color: #80bfff;
+            --inline-form-bg: #495057;
+            --scroll-btn-bg: #6c757d;
+            --scroll-btn-hover-bg: #adb5bd;
+            --nav-btn-color: #adb5bd;
+            --nav-btn-hover-color: #ced4da;
+            --nav-btn-disabled-bg: #495057;
+            --nav-btn-disabled-color: #6c757d;
+            --nav-btn-disabled-border: #6c757d;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+            background-color: var(--body-bg);
+            color: var(--text-color);
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+        .page-container {
+            max-width: 1400px;
+            /* Increased top margin */
+            margin: 40px auto 25px;
+            background: var(--container-bg);
+            padding: 25px 30px;
+            border-radius: 8px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
+            color: var(--text-color);
+            position: relative;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+        h1, h2, h3 {
+            color: var(--heading-color);
+            text-align: center;
+            margin-top: 0;
+            margin-bottom: 25px;
+            transition: color 0.3s ease;
+        }
+        h1 {
+            border-bottom: 2px solid var(--border-color-dark);
+            padding-bottom: 15px;
+            font-size: 2.3em;
+            font-weight: 600;
+        }
+        h2 {
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 12px;
+            margin-top: 40px;
+            font-size: 1.9em;
+            font-weight: 500;
+        }
+        h3 {
+            font-size: 1.4em;
+            font-weight: 600;
+            color: var(--heading-color);
+        }
+        label {
+            display: block;
+            margin-bottom: 6px;
+            font-weight: 600;
+            font-size: 0.95em;
+            color: var(--text-color);
+            opacity: 0.9;
+        }
+        select, input[type="text"], input[type="number"], input[type="url"] {
+            width: 100%;
+            padding: 10px 12px;
+            margin-bottom: 18px;
+            border: 1px solid var(--input-border);
+            border-radius: 4px;
+            box-sizing: border-box;
+            font-size: 1em;
+            background-color: var(--input-bg);
+            color: var(--input-color);
+            transition: border-color 0.2s ease, box-shadow 0.2s ease, background-color 0.3s ease, color 0.3s ease;
+        }
+        select:focus, input:focus {
+             border-color: #80bdff;
+             outline: 0;
+             box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+        }
+        button, .button-link { padding: 10px 18px; margin: 5px; border: 1px solid transparent; border-radius: 4px; cursor: pointer; font-size: 0.95em; font-weight: 500; text-decoration: none; display: inline-block; text-align: center; transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease, box-shadow 0.15s ease-in-out; line-height: 1.5; }
+        .btn-primary { background-color: #007bff; color: white; border-color: #007bff;} .btn-primary:hover { background-color: #0056b3; border-color: #0056b3;}
+        .btn-secondary { background-color: #6c757d; color: white; border-color: #6c757d;} .btn-secondary:hover { background-color: #545b62; border-color: #545b62;}
+        .btn-success { background-color: #28a745; color: white; border-color: #28a745;} .btn-success:hover { background-color: #1e7e34; border-color: #1e7e34;}
+        .btn-info { background-color: #17a2b8; color: white; border-color: #17a2b8;} .btn-info:hover { background-color: #117a8b; border-color: #117a8b;}
+        .btn-danger { background-color: #dc3745; color: white; border-color: #dc3745;} .btn-danger:hover { background-color: #bd2130; border-color: #bd2130;}
+        .btn-warning { background-color: #ffc107; color: black; border-color: #ffc107;} .btn-warning:hover { background-color: #d39e00; border-color: #d39e00;}
+        .btn-sm { padding: 4px 8px; font-size: 0.85em; line-height: 1.4; }
+
+        button:disabled, .button-link:disabled { background-color: var(--nav-btn-disabled-bg); border-color: var(--nav-btn-disabled-border); color: var(--nav-btn-disabled-color); cursor: not-allowed; opacity: 0.65; box-shadow: none; }
+        .hidden { display: none !important; }
+        .nav-links { margin-bottom: 30px; text-align: center; border-bottom: 1px solid var(--border-color); padding-bottom: 20px;}
+        .nav-links .button-link { margin: 0 8px; background-color: transparent; border-color: transparent; color: var(--link-color); font-weight: 500; padding: 8px 12px; }
+        .nav-links .button-link:hover { background-color: transparent; color: var(--link-hover-color); text-decoration: underline; }
+        .nav-links .btn-success { background-color: #28a745; border-color: #28a745; color: white; }
+        .nav-links .btn-success:hover { background-color: #1e7e34; border-color: #1e7e34; text-decoration: none; }
+        .nav-links .btn-io { background-color: var(--card-bg); color: var(--text-color); border: 1px solid var(--border-color-dark); }
+        .nav-links .btn-io:hover { background-color: var(--table-hover-bg); border-color: var(--border-color-dark); }
+
+
+        /* Theme Switch */
+        .theme-switch-wrapper { position: absolute; top: 20px; right: 30px; display: flex; align-items: center; z-index: 1001;}
+        .theme-switch-wrapper em { margin-right: 10px; font-size: 0.9rem; color: var(--text-color); }
+        .theme-switch { display: inline-block; height: 24px; position: relative; width: 48px; }
+        .theme-switch input { display: none; }
+        .slider { background-color: #ccc; bottom: 0; cursor: pointer; left: 0; position: absolute; right: 0; top: 0; transition: .4s; border-radius: 24px; }
+        .slider:before { background-color: #fff; bottom: 3px; content: ""; height: 18px; left: 3px; position: absolute; transition: .4s; width: 18px; border-radius: 50%; }
+        input:checked + .slider { background-color: #007bff; }
+        input:checked + .slider:before { transform: translateX(24px); }
+        body.dark-mode .slider { background-color: #555; }
+        body.dark-mode .slider:before { background-color: #ccc; }
+
+        /* Overview/Financials Page Table Styles */
+        #overviewPage table, #financialsPage table { width: 100%; border-collapse: collapse; margin-top: 20px; font-size: 0.9em; background-color: var(--card-bg); border-radius: 4px; overflow: hidden; }
+        #overviewPage th, #overviewPage td, #financialsPage th, #financialsPage td { border: 1px solid var(--border-color); padding: 9px 12px; text-align: left; white-space: nowrap; vertical-align: middle;}
+        #overviewPage th, #financialsPage th { background-color: var(--table-header-bg); font-weight: 600; color: var(--table-header-color); border-bottom: 2px solid var(--border-color); }
+        #overviewPage tbody tr, #financialsPage tbody tr { cursor: default; transition: background-color 0.15s ease; }
+        #overviewPage tbody tr.dragging { opacity: 0.5; background: #cce1ff; }
+        #overviewPage tbody tr.drag-over { border-top: 2px solid #007bff; }
+        #overviewPage .action-link, #financialsPage .action-link { color: var(--link-color); text-decoration: none; font-weight: bold; cursor: pointer; }
+        #overviewPage .action-link:hover, #financialsPage .action-link:hover { text-decoration: underline; color: var(--link-hover-color); }
+        #overviewPage .no-horses, #financialsPage .no-horses { text-align: center; color: var(--text-color); opacity: 0.7; font-style: italic; white-space: normal; padding: 20px; background-color: transparent; }
+        #overviewPage .drag-handle { cursor: grab; user-select: none; text-align: center; width: 30px; }
+        #overviewPage .drag-handle:active { cursor: grabbing; }
+        #overviewPage .table-footer td, #financialsPage .table-footer td { font-weight: bold; background-color: var(--table-footer-bg); color: var(--table-header-color); border-top: 2px solid var(--border-color-dark); }
+        #overviewPage .table-footer td.footer-total, #financialsPage .table-footer td.footer-total { text-align: right; }
+        #financialsPage th:nth-child(2), #financialsPage td:nth-child(2),
+        #financialsPage th:nth-child(3), #financialsPage td:nth-child(3),
+        #financialsPage th:nth-child(4), #financialsPage td:nth-child(4),
+        #financialsPage th:nth-child(5), #financialsPage td:nth-child(5) { text-align: right; }
+        #financialsPage .table-footer td { text-align: right; }
+        #financialsPage .table-footer td:first-child { text-align: left;}
+        /* Style for forged label on financials page */
+        #financialsPage .forged-label { font-size:0.8em; color:#dc3745; font-style: italic; margin-left: 5px;}
+
+
+        /* Detail Page */
+        #detailPage .page-container-inner { max-width: 950px; margin: 0 auto; }
+        #detailPage #mainActions { display: flex; flex-wrap: wrap; justify-content: center; align-items: center; gap: 10px; margin-bottom: 25px; padding-bottom: 20px; border-bottom: 1px solid var(--border-color); }
+        #detailPage #horseProfileDisplay { border: 1px solid var(--border-color); padding: 25px; margin-top: 15px; background-color: var(--card-bg); border-radius: 6px; box-shadow: 0 1px 4px var(--card-shadow); }
+        #detailPage #horseProfileDisplay h2 { text-align: left; border-bottom: none; font-size: 1.7em; margin-bottom: 20px; color: var(--heading-color); }
+        #detailPage .profile-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 25px; }
+        #detailPage .profile-section { background-color: var(--card-bg); padding: 20px; border: 1px solid var(--border-color-light); border-radius: 5px; box-shadow: 0 1px 2px var(--card-shadow); }
+        #detailPage .profile-section h3 { margin-top: 0; color: #007bff; font-size: 1.2em; border-bottom: 1px solid var(--border-color-light); padding-bottom: 8px; margin-bottom: 15px; text-align: left; font-weight: 600;}
+        body.dark-mode #detailPage .profile-section h3 { color: #58a6ff; border-bottom-color: var(--border-color-dark); }
+        #detailPage #horseProfileDisplay p { margin: 7px 0; color: var(--text-color); font-size: 0.95em; }
+        #detailPage #horseProfileDisplay strong { color: var(--heading-color); opacity: 0.9; /* min-width removed for stats */ display: inline-block; font-weight: 600; }
+        /* Re-add min-width for non-stat sections if needed */
+        #detailPage #basicInfo strong,
+        #detailPage #raceRecord strong,
+        #detailPage #pedigree strong,
+        #detailPage #augments strong,
+        #detailPage #financials strong { min-width: 145px; }
+        #detailPage #pedigree p strong { min-width: 110px; }
+        /* Style for stars span in stats */
+        #detailPage #stats p span.stars { display: block; margin-top: 4px; /* Add space below heading */}
+        #detailPage #horseForm { border: 1px solid var(--border-color); padding: 30px; margin-top: 25px; background-color: var(--card-bg); border-radius: 6px; }
+        #detailPage #horseForm h2 { text-align: left; font-size: 1.7em; border-bottom: 1px solid var(--border-color); color: var(--heading-color); }
+        #detailPage .form-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 15px 25px; }
+        #prevHorseBtn, #nextHorseBtn { background-color: var(--nav-btn-color); color: white; border-color: var(--nav-btn-color); }
+        #prevHorseBtn:hover:not(:disabled), #nextHorseBtn:hover:not(:disabled) { background-color: var(--nav-btn-hover-color); border-color: var(--nav-btn-hover-color); }
+        #raceTimeChartContainer { margin-top: 20px; padding: 15px; background-color: var(--card-bg); border: 1px solid var(--border-color); border-radius: 5px; box-shadow: 0 1px 3px var(--card-shadow); }
+        #raceTimeChartContainer h3 { text-align: center; margin-top: 0; margin-bottom: 15px; color: var(--heading-color); border-bottom: 1px solid var(--border-color-light); padding-bottom: 10px; }
+        #raceTimeChartContainer p { text-align: center; font-style: italic; opacity: 0.7; }
+
+
+        /* Breeding Pool */
+        #poolPage .horse-list { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 25px; margin-top: 20px; }
+        #poolPage .horse-card { border: 1px solid var(--border-color); border-radius: 6px; padding: 20px; background-color: var(--card-bg); box-shadow: 0 2px 5px var(--card-shadow); transition: box-shadow 0.2s ease; }
+        #poolPage .horse-card:hover { box-shadow: 0 5px 12px var(--card-shadow); }
+        #poolPage .horse-card h3 { margin-top: 0; margin-bottom: 18px; padding-bottom: 10px; border-bottom: 1px solid var(--border-color-light); text-align: center; color: var(--link-color); font-size: 1.35em; font-weight: 600; }
+        #poolPage .horse-card h4 { margin-top: 18px; margin-bottom: 10px; color: var(--heading-color); opacity: 0.8; font-size: 1.0em; text-transform: uppercase; letter-spacing: 0.5px; border-bottom: 1px dotted var(--border-color); padding-bottom: 5px;}
+        #poolPage .horse-card p { margin: 6px 0; font-size: 0.9em; color: var(--text-color); }
+        #poolPage .horse-card strong { display: inline-block; min-width: 85px; color: var(--heading-color); opacity: 0.9; margin-right: 5px; font-weight: 600; }
+        #poolPage .view-details-link { display: block; margin-top: 20px; text-align: center; color: var(--link-color); text-decoration: none; font-weight: 600; padding: 8px; border: 1px solid var(--border-color); border-radius: 4px; background-color: var(--container-bg); transition: background-color 0.2s, border-color 0.2s; }
+        #poolPage .view-details-link:hover { background-color: var(--table-hover-bg); border-color: var(--border-color-dark); color: var(--link-hover-color); }
+        #poolPage .no-horses { text-align: center; color: var(--text-color); opacity: 0.7; margin-top: 25px; font-style: italic; padding: 20px; }
+        #poolPage .horse-card .financials-pool strong { min-width: 115px; } /* Adjusted for longer label */
+
+        /* Breeds Page */
+        #breedsPage .breeding-record-card { border: 1px solid var(--border-color-dark); border-radius: 6px; margin-bottom: 25px; padding: 25px; background-color: var(--card-bg); box-shadow: 0 2px 8px var(--card-shadow); }
+        #breedsPage .record-details { display: grid; grid-template-columns: repeat(auto-fit, minmax(290px, 1fr)); gap: 30px; }
+        #breedsPage .parent-section, #breedsPage .offspring-section { border: 1px solid var(--border-color); padding: 20px; border-radius: 5px; background-color: var(--card-bg); display: flex; flex-direction: column; box-shadow: inset 0 1px 2px var(--card-shadow); }
+        #breedsPage .parent-section h3, #breedsPage .offspring-section h3 { margin-top: 0; margin-bottom: 15px; padding-bottom: 10px; border-bottom: 1px solid var(--border-color-light); text-align: left; font-size: 1.25em; color: #007bff; font-weight: 600;}
+        body.dark-mode #breedsPage .parent-section h3, body.dark-mode #breedsPage .offspring-section h3 { color: #58a6ff; }
+        #breedsPage .horse-details { flex-grow: 1; margin-bottom: 15px; }
+        #breedsPage p { margin: 6px 0; font-size: 0.9em; color: var(--text-color); }
+        #breedsPage strong { display: inline-block; min-width: 95px; font-weight: 600; color: var(--heading-color); opacity: 0.9; margin-right: 5px; }
+        #breedsPage .no-records { text-align: center; color: var(--text-color); opacity: 0.7; margin-top: 25px; font-style: italic; padding: 20px; }
+        #breedsPage .edit-parent-button, #breedsPage .edit-offspring-button { align-self: center; margin-top: auto; }
+        #breedsPage .inline-edit-form { margin-top: 15px; border-top: 1px dashed var(--border-color); padding-top: 15px; background-color: var(--inline-form-bg); padding: 15px; border-radius: 4px; margin-bottom: 15px;}
+        #breedsPage .inline-edit-form label { font-size: 0.9em; font-weight: 500; margin-bottom: 4px; color: var(--text-color); }
+        #breedsPage .inline-edit-form select, #breedsPage .inline-edit-form input { font-size: 0.9em; padding: 7px 9px; margin-bottom: 12px; background-color: var(--input-bg); color: var(--input-color); border-color: var(--input-border); }
+        #breedsPage .inline-edit-buttons { text-align: center; margin-top: 10px; }
+        #breedsPage .forged-label { font-size:0.8em; color:#dc3745; font-style: italic; font-weight: bold; margin-left: 5px;}
+        #breedsPage .clickable-horse-name { color: var(--link-color); cursor: pointer; text-decoration: underline; font-weight: bold; }
+        #breedsPage .clickable-horse-name:hover { color: var(--link-hover-color); }
+        #breedsPage .non-clickable-name { font-style: italic; opacity: 0.8; }
+
+        /* Lineage Page */
+        #lineagePage #lineageDisplayArea { margin-top: 15px; }
+         #lineagePage .no-lineage { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; white-space: normal; text-align: center; color: var(--text-color); opacity: 0.7; padding: 20px; background-color: var(--card-bg); border: 1px solid var(--border-color); border-radius: 5px;}
+        .lineage-tree-card { background-color: var(--card-bg); border: 1px solid var(--border-color); border-radius: 6px; padding: 20px 25px; font-family: monospace; white-space: pre-wrap; line-height: 1.7; margin-bottom: 25px; overflow-x: auto; font-size: 1em; box-shadow: 0 2px 5px var(--card-shadow); }
+        #lineagePage .lineage-stars { color: #ffc107; font-size: 0.9em; margin-left: 3px; white-space: nowrap; }
+        #lineagePage .lineage-race-record { font-size: 0.85em; color: var(--text-color); opacity: 0.8; margin-left: 5px; white-space: nowrap; }
+        /* No clickable name styles needed for lineage page now */
+
+
+        /* Common */
+        .stars { white-space: nowrap; color: #ffc107; }
+        #scrollTopBtn { display: none; position: fixed; bottom: 25px; right: 30px; z-index: 1000; border: none; outline: none; background-color: var(--scroll-btn-bg); color: white; cursor: pointer; padding: 12px 15px; border-radius: 5px; font-size: 0.95em; opacity: 0.8; transition: background-color 0.3s ease, opacity 0.3s ease; box-shadow: 0 3px 8px rgba(0, 0, 0, 0.3); }
+        #scrollTopBtn:hover { background-color: var(--scroll-btn-hover-bg); opacity: 1; }
+
+    </style>
+    <!-- Include Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+
+    <div class="page-container">
+        <div class="theme-switch-wrapper">
+            <em>Dark Mode:</em>
+            <label class="theme-switch" for="darkModeToggle">
+                <input type="checkbox" id="darkModeToggle" />
+                <div class="slider round"></div>
+            </label>
+        </div>
+
+        <h1></h1> <!-- Title text removed -->
+
+        <!-- Navigation -->
+        <div class="nav-links">
+            <!-- Keeping nav buttons as they define structure -->
+            <button class="button-link" onclick="showPage('overviewPage')">Overview</button>
+            <button class="button-link" onclick="showPage('poolPage')">Pool</button>
+            <button class="button-link" onclick="showPage('breedsPage')">Records</button>
+            <button class="button-link" onclick="showPage('lineagePage')">Lineage</button>
+            <button class="button-link" onclick="showPage('financialsPage')">Financials</button>
+            <!-- Import/Export Buttons -->
+            <input type="file" id="importFile" accept=".json" style="display: none;">
+            <button class="button-link btn-io" onclick="document.getElementById('importFile').click();">Import Data</button>
+            <button class="button-link btn-io" onclick="exportData()">Export Data</button>
+            <!-- Add New Item Button -->
+            <button class="button-link btn-success" onclick="showDetailPage('ADD_NEW')">Add New Item</button>
+        </div>
+
+        <!-- ===== OVERVIEW PAGE ===== -->
+        <div id="overviewPage" class="page-view">
+            <h2></h2> <!-- Section title removed -->
+            <div style="overflow-x: auto;">
+                <table id="horseTable">
+                    <thead>
+                        <tr>
+                            <!-- Keeping column headers empty -->
+                            <th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th>
+                        </tr>
+                    </thead>
+                    <tbody id="horseTableBody">
+                        <!-- Rows and footer inserted by JS -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- ===== DETAIL PAGE ===== -->
+        <div id="detailPage" class="page-view hidden">
+             <div class="page-container-inner">
+                 <button class="button-link btn-secondary" style="margin-bottom:15px;" onclick="showPage('overviewPage')">← Back to Overview</button>
+                 <label for="horseSelector">Select Item:</label> <!-- Text genericized -->
+                 <select id="horseSelector">
+                     <option value="">-- Select an Item --</option> <!-- Text genericized -->
+                 </select>
+                 <div id="mainActions">
+                     <button id="prevHorseBtn" class="hidden">← Previous</button>
+                     <button id="editButton" class="btn-warning hidden">Edit Selected</button> <!-- Text genericized -->
+                     <button id="sendToBreedingPoolButton" class="btn-info hidden">Send to Pool</button> <!-- Text genericized -->
+                     <button id="forgeButton" class="btn-danger hidden">Forge</button> <!-- Text restored -->
+                     <button id="nextHorseBtn" class="hidden">Next →</button>
+                 </div>
+                 <div id="horseProfileDisplay" class="hidden">
+                     <h2 id="profileName"></h2> <!-- Profile title cleared -->
+                     <div class="profile-grid">
+                         <div class="profile-section" id="basicInfo">
+                             <h3></h3> <!-- Section title cleared -->
+                             <p><strong>Generation:</strong> <span id="displayGen"></span></p>
+                             <p><strong>Gender:</strong> <span id="displayGender"></span></p>
+                             <p><strong>Breed:</strong> <span id="displayBreed"></span></p>
+                             <p><strong>Colour Trait:</strong> <span id="displayColourTrait"></span></p>
+                         </div>
+                         <div class="profile-section" id="stats">
+                              <h3></h3> <!-- Section title cleared -->
+                              <!-- Changed Structure: Stars below heading -->
+                              <p><strong>Overall:</strong><br><span id="displayOverall" class="stars"></span></p>
+                              <p><strong>Speed:</strong><br><span id="displaySpeed" class="stars"></span></p>
+                              <p><strong>Sprint:</strong><br><span id="displaySprint" class="stars"></span></p>
+                              <p><strong>Endurance:</strong><br><span id="displayEndurance" class="stars"></span></p>
+                          </div>
+                         <div class="profile-section" id="raceRecord">
+                             <h3></h3> <!-- Section title cleared -->
+                             <p><strong>Races:</strong> <span id="displayRaces"></span></p>
+                             <p><strong>1st:</strong> <span id="displayFirst"></span></p>
+                             <p><strong>2nd:</strong> <span id="displaySecond"></span></p>
+                             <p><strong>3rd:</strong> <span id="displayThird"></span></p>
+                             <p><strong>Places:</strong> <span id="displayPlaces"></span></p>
+                             <p><strong>Race Time:</strong> <span id="displayRaceTime"></span></p>
+                             <!-- Removed Previous Race Time Display -->
+                         </div>
+                         <div class="profile-section" id="pedigree">
+                             <h3></h3> <!-- Section title cleared -->
+                             <p><strong>Sire Name:</strong> <span id="displaySireName"></span></p>
+                             <p><strong>Sire Breed:</strong> <span id="displaySireBreed"></span></p>
+                             <p><strong>Sire Colour:</strong> <span id="displaySireColourTrait"></span></p>
+                             <p><strong>Dam Name:</strong> <span id="displayDamName"></span></p>
+                             <p><strong>Dam Breed:</strong> <span id="displayDamBreed"></span></p>
+                             <p><strong>Dam Colour:</strong> <span id="displayDamColourTrait"></span></p>
+                         </div>
+                         <div class="profile-section" id="augments">
+                             <h3></h3> <!-- Section title cleared -->
+                             <p><strong>CPU:</strong> <span id="displayCPU"></span></p>
+                             <p><strong>RAM:</strong> <span id="displayRAM"></span></p>
+                             <p><strong>Hydraulic:</strong> <span id="displayHydraulic"></span></p>
+                         </div>
+                         <div class="profile-section" id="financials">
+                             <h3></h3> <!-- Section title cleared -->
+                             <p><strong>Cost:</strong> <span id="displayBreedCost"></span></p> <!-- Generic Label -->
+                             <p><strong>Start Bal:</strong> <span id="displayStrtZedBal"></span></p> <!-- Generic Label -->
+                             <p><strong>Balance:</strong> <span id="displayZedBalance"></span></p> <!-- Generic Label -->
+                             <p><strong>Total Value Sold:</strong> <span id="displaySoldBreeds"></span></p> <!-- Updated Label -->
+                             <p><strong>Profit/Loss:</strong> <span id="displayROI"></span></p>
+                         </div>
+                     </div>
+                     <!-- Chart Section -->
+                     <div id="raceTimeChartContainer" class="profile-section hidden" style="grid-column: 1 / -1;">
+                        <h3></h3> <!-- Chart title cleared -->
+                        <canvas id="raceTimeChartCanvas"></canvas>
+                        <p id="chartNoDataMessage" class="hidden"></p> <!-- Message text cleared -->
+                     </div>
+                 </div>
+                 <div id="horseForm" class="hidden">
+                     <h2 id="formTitle"></h2> <!-- Form title cleared -->
+                     <form id="editAddForm">
+                         <input type="hidden" id="horseIdInput">
+                         <div class="form-grid">
+                            <!-- Keeping labels, removing placeholders -->
+                            <div class="form-group"><label for="inputName">Name:</label><input type="text" id="inputName" required></div>
+                            <div class="form-group"><label for="inputGen">Generation:</label><select id="inputGen"><option>G0</option><option>G1</option><option>G2</option><option>G3</option><option>G4</option><option>G5</option></select></div>
+                            <div class="form-group"><label for="inputGender">Gender:</label><select id="inputGender"><option>M</option><option>F</option></select></div>
+                            <div class="form-group"><label for="inputBreed">Breed:</label><select id="inputBreed"><option>Nakamoto</option><option>Szabo</option><option>Finney</option><option>Buterin</option></select></div>
+                            <div class="form-group"><label for="inputColourTrait">Colour Trait:</label><select id="inputColourTrait"><option>Nakamoto</option><option>Szabo</option><option>Finney</option><option>Buterin</option></select></div>
+                            <div class="form-group"><label for="inputSireName">Sire Name:</label><input type="text" id="inputSireName"></div>
+                            <div class="form-group"><label for="inputSireBreed">Sire Breed:</label><select id="inputSireBreed"><option value="">Unknown</option><option>Nakamoto</option><option>Szabo</option><option>Finney</option><option>Buterin</option></select></div>
+                            <div class="form-group"><label for="inputSireColourTrait">Sire Colour Trait:</label><select id="inputSireColourTrait"><option value="">Unknown</option><option>Nakamoto</option><option>Szabo</option><option>Finney</option><option>Buterin</option></select></div>
+                            <div class="form-group"><label for="inputDamName">Dam Name:</label><input type="text" id="inputDamName"></div>
+                            <div class="form-group"><label for="inputDamBreed">Dam Breed:</label><select id="inputDamBreed"><option value="">Unknown</option><option>Nakamoto</option><option>Szabo</option><option>Finney</option><option>Buterin</option></select></div>
+                            <div class="form-group"><label for="inputDamColourTrait">Dam Colour Trait:</label><select id="inputDamColourTrait"><option value="">Unknown</option><option>Nakamoto</option><option>Szabo</option><option>Finney</option><option>Buterin</option></select></div>
+                            <div class="form-group"><label for="inputOverall">Overall:</label><select id="inputOverall"><option value="-">-</option><option>⭐️</option><option>⭐️⭐️</option><option>⭐️⭐️☀️</option><option>⭐️⭐️⭐️</option><option>⭐️⭐️⭐️☀️</option><option>⭐️⭐️⭐️⭐️</option><option>⭐️⭐️⭐️⭐️☀️</option><option>⭐️⭐️⭐️⭐️⭐️</option></select></div>
+                            <div class="form-group"><label for="inputSpeed">Speed:</label><select id="inputSpeed"><option value="-">-</option><option>⭐️</option><option>⭐️⭐️</option><option>⭐️⭐️☀️</option><option>⭐️⭐️⭐️</option><option>⭐️⭐️⭐️☀️</option><option>⭐️⭐️⭐️⭐️</option><option>⭐️⭐️⭐️⭐️☀️</option><option>⭐️⭐️⭐️⭐️⭐️</option></select></div>
+                            <div class="form-group"><label for="inputSprint">Sprint:</label><select id="inputSprint"><option value="-">-</option><option>⭐️</option><option>⭐️⭐️</option><option>⭐️⭐️☀️</option><option>⭐️⭐️⭐️</option><option>⭐️⭐️⭐️☀️</option><option>⭐️⭐️⭐️⭐️</option><option>⭐️⭐️⭐️⭐️☀️</option><option>⭐️⭐️⭐️⭐️⭐️</option></select></div>
+                            <div class="form-group"><label for="inputEndurance">Endurance:</label><select id="inputEndurance"><option value="-">-</option><option>⭐️</option><option>⭐️⭐️</option><option>⭐️⭐️☀️</option><option>⭐️⭐️⭐️</option><option>⭐️⭐️⭐️☀️</option><option>⭐️⭐️⭐️⭐️</option><option>⭐️⭐️⭐️⭐️☀️</option><option>⭐️⭐️⭐️⭐️⭐️</option></select></div>
+                            <div class="form-group"><label for="inputRaces">Races:</label><input type="number" id="inputRaces" min="0" value="0"></div>
+                            <div class="form-group"><label for="inputFirst">1st:</label><input type="number" id="inputFirst" min="0" value="0"></div>
+                            <div class="form-group"><label for="inputSecond">2nd:</label><input type="number" id="inputSecond" min="0" value="0"></div>
+                            <div class="form-group"><label for="inputThird">3rd:</label><input type="number" id="inputThird" min="0" value="0"></div>
+                            <div class="form-group"><label for="inputRaceTime">Race Time:</label><input type="text" id="inputRaceTime"></div>
+                            <!-- Removed Previous Race Time Input -->
+                            <div class="form-group"><label for="inputCPU">CPU:</label><select id="inputCPU"><option>Void C100</option><option>Crimson</option><option>GX-Core C</option><option>Darklight 100C</option><option>Midnight 100C</option></select></div>
+                            <div class="form-group"><label for="inputRAM">RAM:</label><select id="inputRAM"><option>Void R100</option><option>Crimson R</option><option>GX-Core R</option><option>Darklight 100R</option><option>Midnight 100R</option></select></div>
+                            <div class="form-group"><label for="inputHydraulic">Hydraulic:</label><select id="inputHydraulic"><option>Void H100</option><option>Crimson H</option><option>GX - Core H</option><option>Darklight 100H</option><option>Midnight 100H</option></select></div>
+                            <div class="form-group"><label for="inputBreedCost">Cost:</label><input type="text" id="inputBreedCost"></div> <!-- Generic Label -->
+                            <div class="form-group"><label for="inputStrtZedBal">Start Bal:</label><input type="text" id="inputStrtZedBal"></div> <!-- Generic Label -->
+                            <div class="form-group"><label for="inputZedBalance">Balance:</label><input type="text" id="inputZedBalance"></div> <!-- Generic Label -->
+                            <div class="form-group"><label for="inputSoldBreeds">Add Sale Value:</label><input type="text" id="inputSoldBreeds" placeholder="Enter value of this sale"></div> <!-- Updated Label & Placeholder -->
+                         </div>
+                         <div style="text-align: center; margin-top: 20px;">
+                             <button type="submit" id="saveChangesButton" class="btn-primary">Save Changes</button>
+                             <button type="submit" id="saveNewButton" class="btn-primary">Save New Item</button> <!-- Text genericized -->
+                             <button type="button" id="cancelButton" class="btn-secondary">Cancel</button>
+                         </div>
+                     </form>
+                 </div>
+             </div>
+        </div>
+
+        <!-- ===== BREEDING POOL PAGE ===== -->
+        <div id="poolPage" class="page-view hidden">
+            <h2></h2> <!-- Section title cleared -->
+            <section id="siresSection">
+                <h3></h3> <!-- Section title cleared -->
+                <div id="siresList" class="horse-list">
+                    <p class="no-horses"></p> <!-- Placeholder text cleared -->
+                </div>
+            </section>
+            <section id="damsSection">
+                <h3></h3> <!-- Section title cleared -->
+                <div id="damsList" class="horse-list">
+                    <p class="no-horses"></p> <!-- Placeholder text cleared -->
+                </div>
+            </section>
+        </div>
+
+        <!-- ===== BREEDS PAGE ===== -->
+        <div id="breedsPage" class="page-view hidden">
+            <h2></h2> <!-- Section title cleared -->
+
+            <!-- Breeding Simulation Section -->
+            <div id="breedingSimulationSection" style="margin-bottom: 40px; padding: 25px; border: 1px solid var(--border-color-dark); border-radius: 6px; background-color: var(--card-bg);">
+                <h3></h3> <!-- Section title cleared -->
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; align-items: end; margin-bottom: 20px;">
+                    <div>
+                        <label for="selectSire">Select Sire:</label> <!-- Text genericized -->
+                        <select id="selectSire">
+                            <option value="">-- Select Sire --</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label for="selectDam">Select Dam:</label> <!-- Text genericized -->
+                        <select id="selectDam">
+                            <option value="">-- Select Dam --</option>
+                        </select>
+                    </div>
+                    <div>
+                         <button id="breedButton" class="btn-primary" disabled>Simulate</button> <!-- Text genericized -->
+                    </div>
+                </div>
+
+                <!-- Offspring Result Area -->
+                <div id="offspringResult" class="hidden" style="margin-top: 25px; padding: 20px; border: 1px dashed var(--border-color); border-radius: 5px; background-color: var(--inline-form-bg);">
+                    <h4></h4> <!-- Preview title cleared -->
+                     <div class="form-group">
+                        <label for="inputOffspringName">Offspring Name:</label>
+                        <input type="text" id="inputOffspringName" placeholder="Enter a unique name" required>
+                    </div>
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 10px 20px;">
+                        <!-- Keeping labels, clearing display spans -->
+                        <p><strong>Generation:</strong> <span id="offspringGen"></span></p>
+                        <p><strong>Gender:</strong> <span id="offspringGender"></span></p>
+                        <p><strong>Breed:</strong> <span id="offspringBreed"></span></p>
+                        <p><strong>Colour Trait:</strong> <span id="offspringColourTrait"></span></p>
+                        <p><strong>Overall:</strong> <span id="offspringOverall" class="stars"></span></p>
+                        <p><strong>Speed:</strong> <span id="offspringSpeed" class="stars"></span></p>
+                        <p><strong>Sprint:</strong> <span id="offspringSprint" class="stars"></span></p>
+                        <p><strong>Endurance:</strong> <span id="offspringEndurance" class="stars"></span></p>
+                        <p><strong>Sire:</strong> <span id="offspringSireName"></span></p>
+                        <p><strong>Dam:</strong> <span id="offspringDamName"></span></p>
+                    </div>
+                    <div style="text-align: center; margin-top: 20px;">
+                        <button id="addOffspringButton" class="btn-success">Add Offspring</button> <!-- Text genericized -->
+                        <button type="button" class="btn-secondary" onclick="cancelOffspring()">Cancel</button>
+                    </div>
+                </div>
+            </div>
+            <!-- End Breeding Section -->
+
+
+            <h3></h3> <!-- Section title cleared -->
+            <div id="breedingRecordsList">
+                <p class="no-records"></p> <!-- Placeholder text cleared -->
+            </div>
+        </div>
+
+        <!-- ===== LINEAGE PAGE ===== -->
+        <div id="lineagePage" class="page-view hidden">
+            <h2></h2> <!-- Section title cleared -->
+            <div id="lineageDisplayArea">
+                <p class="no-lineage"></p> <!-- Placeholder text cleared -->
+            </div>
+        </div>
+
+        <!-- ===== FINANCIALS PAGE ===== -->
+        <div id="financialsPage" class="page-view hidden">
+            <h2></h2> <!-- Section title cleared -->
+             <div style="overflow-x: auto;">
+                <table id="financialsTable">
+                    <thead>
+                        <tr>
+                            <!-- Adjusted Headers -->
+                            <th>Name</th>
+                            <th>Cost</th>
+                            <th>Balance</th>
+                            <th>Total Value Sold</th>
+                            <th>Profit / Loss</th>
+                        </tr>
+                    </thead>
+                    <tbody id="financialsTableBody">
+                        <!-- Financial rows inserted by JS -->
+                    </tbody>
+                    <tfoot id="financialsTableFooter">
+                        <!-- Footer row inserted by JS -->
+                    </tfoot>
+                </table>
+            </div>
+        </div>
+
+
+        <!-- ===== SCROLL TO TOP BUTTON ===== -->
+        <button id="scrollTopBtn" title="Go to top">↑ Top</button>
+
+    </div> <!-- End page-container -->
+
+    <script>
+        // ========================================================================
+        // == GLOBAL VARIABLES & CONSTANTS ==
+        // ========================================================================
+        const STORAGE_KEY = 'templateDataStorage'; // Changed key
+        let horsesData = []; // Changed variable name for clarity, but kept logic
+        let nextId = 1;
+        let currentDetailHorseId = null;
+        let raceTimeChartInstance = null;
+        let tempOffspringData = null;
+        const defaultHorsesData = []; // Default data removed
+
+        // --- DOM Element References (IDs remain the same) ---
+        // Note: Removed references to displayPreviousRaceTime and inputPreviousRaceTime
+        const overviewPage = document.getElementById('overviewPage'); const detailPage = document.getElementById('detailPage'); const poolPage = document.getElementById('poolPage'); const breedsPage = document.getElementById('breedsPage'); const lineagePage = document.getElementById('lineagePage'); const financialsPage = document.getElementById('financialsPage');
+        const allPages = [overviewPage, detailPage, poolPage, breedsPage, lineagePage, financialsPage];
+        const horseTableBody = document.getElementById('horseTableBody');
+        const detailContent = document.getElementById('detailContent'); const horseSelector = document.getElementById('horseSelector'); const mainActionsDiv = document.getElementById('mainActions'); const editButton = document.getElementById('editButton'); const sendToBreedingPoolButton = document.getElementById('sendToBreedingPoolButton'); const forgeButton = document.getElementById('forgeButton'); const prevHorseBtn = document.getElementById('prevHorseBtn'); const nextHorseBtn = document.getElementById('nextHorseBtn');
+        const horseProfileDisplayDiv = document.getElementById('horseProfileDisplay'); const profileName = document.getElementById('profileName'); const displayGen = document.getElementById('displayGen'); const displayGender = document.getElementById('displayGender'); const displayBreed = document.getElementById('displayBreed'); const displayColourTrait = document.getElementById('displayColourTrait'); const displaySireName = document.getElementById('displaySireName'); const displaySireBreed = document.getElementById('displaySireBreed'); const displaySireColourTrait = document.getElementById('displaySireColourTrait'); const displayDamName = document.getElementById('displayDamName'); const displayDamBreed = document.getElementById('displayDamBreed'); const displayDamColourTrait = document.getElementById('displayDamColourTrait'); const displayOverall = document.getElementById('displayOverall'); const displaySpeed = document.getElementById('displaySpeed'); const displaySprint = document.getElementById('displaySprint'); const displayEndurance = document.getElementById('displayEndurance'); const displayRaces = document.getElementById('displayRaces'); const displayFirst = document.getElementById('displayFirst'); const displaySecond = document.getElementById('displaySecond'); const displayThird = document.getElementById('displayThird'); const displayPlaces = document.getElementById('displayPlaces'); const displayRaceTime = document.getElementById('displayRaceTime'); const displayCPU = document.getElementById('displayCPU'); const displayRAM = document.getElementById('displayRAM'); const displayHydraulic = document.getElementById('displayHydraulic'); const displayBreedCost = document.getElementById('displayBreedCost'); const displayStrtZedBal = document.getElementById('displayStrtZedBal'); const displayZedBalance = document.getElementById('displayZedBalance'); const displaySoldBreeds = document.getElementById('displaySoldBreeds'); const displayROI = document.getElementById('displayROI');
+        const horseFormDiv = document.getElementById('horseForm'); const formTitle = document.getElementById('formTitle'); const editAddForm = document.getElementById('editAddForm'); const horseIdInput = document.getElementById('horseIdInput'); const inputName = document.getElementById('inputName'); const inputGen = document.getElementById('inputGen'); const inputGender = document.getElementById('inputGender'); const inputBreed = document.getElementById('inputBreed'); const inputColourTrait = document.getElementById('inputColourTrait'); const inputSireName = document.getElementById('inputSireName'); const inputSireBreed = document.getElementById('inputSireBreed'); const inputSireColourTrait = document.getElementById('inputSireColourTrait'); const inputDamName = document.getElementById('inputDamName'); const inputDamBreed = document.getElementById('inputDamBreed'); const inputDamColourTrait = document.getElementById('inputDamColourTrait'); const inputOverall = document.getElementById('inputOverall'); const inputSpeed = document.getElementById('inputSpeed'); const inputSprint = document.getElementById('inputSprint'); const inputEndurance = document.getElementById('inputEndurance'); const inputRaces = document.getElementById('inputRaces'); const inputFirst = document.getElementById('inputFirst'); const inputSecond = document.getElementById('inputSecond'); const inputThird = document.getElementById('inputThird'); const inputRaceTime = document.getElementById('inputRaceTime'); const inputCPU = document.getElementById('inputCPU'); const inputRAM = document.getElementById('inputRAM'); const inputHydraulic = document.getElementById('inputHydraulic'); const inputBreedCost = document.getElementById('inputBreedCost'); const inputStrtZedBal = document.getElementById('inputStrtZedBal'); const inputZedBalance = document.getElementById('inputZedBalance'); const inputSoldBreeds = document.getElementById('inputSoldBreeds'); const saveChangesButton = document.getElementById('saveChangesButton'); const saveNewButton = document.getElementById('saveNewButton'); const cancelButton = document.getElementById('cancelButton');
+        const siresListElement = document.getElementById('siresList'); const damsListElement = document.getElementById('damsList');
+        const breedingRecordsList = document.getElementById('breedingRecordsList');
+        const lineageDisplayArea = document.getElementById('lineageDisplayArea');
+        const financialsTableBody = document.getElementById('financialsTableBody');
+        const financialsTableFooter = document.getElementById('financialsTableFooter');
+        const darkModeToggle = document.getElementById('darkModeToggle');
+        const scrollTopButton = document.getElementById('scrollTopBtn');
+        const importFileInput = document.getElementById('importFile');
+        const raceTimeChartCanvas = document.getElementById('raceTimeChartCanvas');
+        const chartNoDataMessage = document.getElementById('chartNoDataMessage');
+        // Breeding Simulation Elements
+        const selectSire = document.getElementById('selectSire');
+        const selectDam = document.getElementById('selectDam');
+        const breedButton = document.getElementById('breedButton');
+        const offspringResultDiv = document.getElementById('offspringResult');
+        const inputOffspringName = document.getElementById('inputOffspringName');
+        const offspringGenSpan = document.getElementById('offspringGen');
+        const offspringGenderSpan = document.getElementById('offspringGender');
+        const offspringBreedSpan = document.getElementById('offspringBreed');
+        const offspringColourTraitSpan = document.getElementById('offspringColourTrait');
+        const offspringOverallSpan = document.getElementById('offspringOverall');
+        const offspringSpeedSpan = document.getElementById('offspringSpeed');
+        const offspringSprintSpan = document.getElementById('offspringSprint');
+        const offspringEnduranceSpan = document.getElementById('offspringEndurance');
+        const offspringSireNameSpan = document.getElementById('offspringSireName');
+        const offspringDamNameSpan = document.getElementById('offspringDamName');
+        const addOffspringButton = document.getElementById('addOffspringButton');
+
+        // --- Drag & Drop State ---
+        let draggedRow = null;
+
+        // ========================================================================
+        // == HELPER FUNCTIONS ==
+        // ========================================================================
+        function parseNumericValue(valueString) { // Generic parser
+             if (typeof valueString !== 'string' && typeof valueString !== 'number') return 0; // Handle potential numbers passed directly
+             // Basic cleaning, remove common currency/unit symbols if needed, handle commas
+             const cleanedString = String(valueString).replace(/[^\d.-]/g, '').trim(); // Ensure string input
+             const value = parseFloat(cleanedString);
+             return isNaN(value) ? 0 : value;
+        }
+        function formatNumericValue(value) { // Generic formatter
+            // Format with commas, handling potential decimals appropriately
+            return value.toLocaleString(undefined, { minimumFractionDigits: 0, maximumFractionDigits: 2 });
+        }
+
+
+        // --- Profit/Loss Calculation (UPDATED for 5% rule) ---
+        function calculateROI(item) {
+            if (item === null || item === undefined) return "N/A";
+
+            const currentBalance = parseNumericValue(item.zedBalance);
+            const cost = parseNumericValue(item.breedCost);
+            const totalSaleValue = parseNumericValue(item.soldBreeds); // Get stored total value sold
+            const profitFromSales = totalSaleValue * 0.05; // Calculate 5% profit
+
+            // P/L = Balance - Cost + (5% of Total Sales)
+            const totalProfitLoss = currentBalance - cost + profitFromSales;
+
+            const sign = totalProfitLoss >= 0 ? '+' : '';
+            // Format with 2 decimal places for currency/precise values
+            return `${sign}${totalProfitLoss.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+        }
+
+
+        function calculatePlaces(item) { // Renamed from horse
+             if (!item) return 0;
+             const first = parseInt(item.first) || 0;
+             const second = parseInt(item.second) || 0;
+             const third = parseInt(item.third) || 0;
+             return first + second + third;
+         }
+
+        // Helper to format race record string for Lineage View
+        function formatRaceRecord(item) { // Renamed from horse
+            if (!item || typeof item.races !== 'number' || item.races <= 0) {
+                return '';
+            }
+            const races = item.races ?? 0;
+            const first = item.first ?? 0;
+            const second = item.second ?? 0;
+            const third = item.third ?? 0;
+            const winPercent = races > 0 ? Math.round((first / races) * 100) : 0;
+            const recordString = `[${races} / ${first} - ${second} - ${third} | ${winPercent}%]`;
+            return `<span class="lineage-race-record">${recordString}</span>`;
+        }
+
+        // Helper Function: Parse time string (e.g., "1:12.50") to seconds
+        function parseRaceTime(timeString) {
+            if (!timeString || typeof timeString !== 'string') return null;
+            const parts = timeString.split(':');
+            let seconds = 0;
+            try {
+                if (parts.length === 2) { // Format M:SS.ss
+                    seconds = parseFloat(parts[0]) * 60 + parseFloat(parts[1]);
+                } else if (parts.length === 1) { // Format SS.ss
+                    seconds = parseFloat(parts[0]);
+                } else {
+                    return null; // Invalid format
+                }
+                return isNaN(seconds) ? null : seconds;
+            } catch (e) {
+                console.error("Error parsing race time:", timeString, e);
+                return null;
+            }
+        }
+
+        // Helper: Parse Generation String (e.g., "G5")
+        function parseGen(genString) {
+            if (!genString || typeof genString !== 'string') return 0; // Default to 0 if invalid
+            const match = genString.match(/G(\d+)/i);
+            return match ? parseInt(match[1], 10) : 0;
+        }
+
+        // Helpers for Breeding Stats (Kept Star logic as it's structural)
+        const starValues = {'-':0, '': 0, '⭐️': 1, '⭐️⭐️': 2, '⭐️⭐️☀️': 2.5, '⭐️⭐️⭐️': 3, '⭐️⭐️⭐️☀️': 3.5, '⭐️⭐️⭐️⭐️': 4, '⭐️⭐️⭐️⭐️☀️': 4.5, '⭐️⭐️⭐️⭐️⭐️': 5};
+        const starKeys = Object.keys(starValues).sort((a, b) => starValues[a] - starValues[b]);
+
+        function getStarNumericValue(starString) {
+            return starValues[starString || '-'] || 0;
+        }
+
+        function mapNumericToStars(numericValue) {
+            if (numericValue <= 0) return '-';
+            let closestStar = '-';
+            for (let i = starKeys.length - 1; i >= 0; i--) {
+                const key = starKeys[i];
+                if (key !== '-' && key !== '' && numericValue >= starValues[key]) {
+                    closestStar = key;
+                    break;
+                }
+            }
+            const lowerBound = starValues[closestStar];
+             if(closestStar.includes('⭐️') && !closestStar.includes('☀️') && numericValue >= lowerBound + 0.25 && numericValue < lowerBound + 0.75) {
+                 const halfStarKey = closestStar + '☀️';
+                 if(starValues.hasOwnProperty(halfStarKey)) {
+                    return halfStarKey;
+                 }
+             }
+            return closestStar;
+        }
+
+        function findIndexById(itemId) { // Renamed from horseId
+             if (itemId === null || itemId === undefined) return -1;
+             const idToFind = parseInt(itemId);
+             if (isNaN(idToFind)) return -1;
+             return horsesData.findIndex(h => h && h.id === idToFind); // Kept 'h' for brevity
+         }
+        function findHorseById(itemId) { // Renamed from horseId
+             if (itemId === null || itemId === undefined) return null;
+             const idToFind = parseInt(itemId);
+             if (isNaN(idToFind)) return null;
+             return horsesData.find(h => h && h.id === idToFind); // Kept 'h' for brevity
+         }
+        function findHorseByName(name) { // Kept name find logic
+             if (!name || typeof name !== 'string') return null;
+             const lowerCaseName = name.toLowerCase().trim();
+             if (lowerCaseName === '') return null;
+             let foundHorse = horsesData.find(h => h && h.name && h.name.toLowerCase().trim() === lowerCaseName && h.status !== 'forged');
+             if (!foundHorse) {
+                 foundHorse = horsesData.find(h => h && h.name && h.name.toLowerCase().trim() === lowerCaseName);
+             }
+             return foundHorse;
+         }
+        function getNavigableHorses() { // Kept navigation logic
+            return horsesData
+                .filter(h => h && h.status !== 'forged')
+                .sort((a, b) => a.name.localeCompare(b.name));
+        }
+
+        // ========================================================================
+        // == DATA HANDLING (localStorage & Import/Export) ==
+        // ========================================================================
+        function saveHorsesData() {
+             try {
+                 localStorage.setItem(STORAGE_KEY, JSON.stringify(horsesData));
+             } catch (e) {
+                 console.error("Save Error:", e);
+                 alert("Could not save data. LocalStorage might be full or disabled.");
+             }
+         }
+        function loadHorsesData() {
+            const storedData = localStorage.getItem(STORAGE_KEY);
+            let dataToUse = JSON.parse(JSON.stringify(defaultHorsesData)); // Uses the now empty default
+
+            if (storedData) {
+                try {
+                    let parsedData = JSON.parse(storedData);
+                    if (Array.isArray(parsedData)) { // Allow empty array
+                        dataToUse = parsedData;
+                    } else {
+                        console.warn("Stored data is not a valid array, using empty default.");
+                        dataToUse = []; // Ensure it's an array
+                    }
+                } catch (e) {
+                    console.error("Parse Error loading data:", e);
+                    dataToUse = []; // Fallback to empty array on error
+                }
+            } else {
+                 console.log("No stored data found, starting with empty data.");
+                 dataToUse = []; // Start empty if no stored data
+            }
+
+            let maxId = 0;
+            let updated = false;
+            dataToUse = Array.isArray(dataToUse) ? dataToUse.filter(h => h && typeof h === 'object') : []; // Filter valid objects
+
+            // Data migration/validation logic (kept as it ensures structure)
+            dataToUse.forEach((h, index) => {
+                if (h.id && typeof h.id === 'number' && h.id > maxId) {
+                    maxId = h.id;
+                }
+                if (!h.status) { h.status = 'active'; updated = true; }
+                if (h.order === undefined || h.order === null || typeof h.order !== 'number') { h.order = index; updated = true; }
+                if (h.hasOwnProperty('time') && !h.hasOwnProperty('raceTime')) { h.raceTime = h.time; delete h.time; updated = true; }
+                 // Removed check for previousRaceTime
+                 if (!h.hasOwnProperty('soldBreeds')) { h.soldBreeds = ""; updated = true;} // Default to empty string for value
+                 if (!h.hasOwnProperty('strtZedBal')) { h.strtZedBal = ""; updated = true; } // Cleared default value
+                 if (typeof h.races !== 'number' || isNaN(h.races)) { h.races = 0; updated = true; }
+                 if (typeof h.first !== 'number' || isNaN(h.first)) { h.first = 0; updated = true; }
+                 if (typeof h.second !== 'number' || isNaN(h.second)) { h.second = 0; updated = true; }
+                 if (typeof h.third !== 'number' || isNaN(h.third)) { h.third = 0; updated = true; }
+                 if (!h.hasOwnProperty('raceTimeHistory') || !Array.isArray(h.raceTimeHistory)) {
+                    h.raceTimeHistory = [];
+                    updated = true;
+                 }
+                 // Clear specific value formatters if necessary, e.g., for breedCost, zedBalance
+                 if (typeof h.breedCost !== 'string') { h.breedCost = ""; updated = true; }
+                 if (typeof h.zedBalance !== 'string') { h.zedBalance = ""; updated = true; }
+                 // Ensure soldBreeds is treated as a string or number for storage (empty string default)
+                 if (typeof h.soldBreeds !== 'string' && typeof h.soldBreeds !== 'number') { h.soldBreeds = ""; updated = true; }
+
+            });
+
+            nextId = maxId + 1;
+
+            // Assign IDs if missing
+            dataToUse.forEach(h => {
+                if (!h.id || typeof h.id !== 'number') {
+                    h.id = nextId++;
+                    updated = true;
+                }
+            });
+
+            horsesData = dataToUse;
+
+            if (updated || !storedData) {
+                console.log("Saving initial or updated item data.");
+                saveHorsesData();
+            }
+        }
+
+
+        // --- Import/Export Functions ---
+        function exportData() {
+            try {
+                const dataStr = JSON.stringify(horsesData, null, 2);
+                const blob = new Blob([dataStr], { type: "application/json" });
+                const url = URL.createObjectURL(blob);
+                const link = document.createElement('a');
+                link.href = url;
+                const date = new Date();
+                const dateString = `${date.getFullYear()}-${(date.getMonth() + 1).toString().padStart(2, '0')}-${date.getDate().toString().padStart(2, '0')}`;
+                link.download = `template_data_${dateString}.json`; // Generic filename
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+                URL.revokeObjectURL(url);
+                alert("Data exported successfully!");
+            } catch (e) {
+                console.error("Export Error:", e);
+                alert("Error exporting data.");
+            }
+        }
+
+        function importData(event) {
+            const file = event.target.files[0];
+            if (!file) {
+                return;
+            }
+            if (!file.name.endsWith('.json')) {
+                alert("Please select a valid JSON file (.json).");
+                return;
+            }
+
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                try {
+                    const importedData = JSON.parse(e.target.result);
+                    if (!Array.isArray(importedData)) {
+                        throw new Error("Imported data is not a valid array.");
+                    }
+
+                    // Simple validation (check for name/id)
+                    const isValid = importedData.every(item => typeof item === 'object' && item !== null && item.hasOwnProperty('name') && item.hasOwnProperty('id'));
+
+                    if (!isValid) {
+                         throw new Error("Imported data structure seems invalid. Missing required fields like 'name' or 'id'.");
+                    }
+
+                    if (window.confirm("Importing will OVERWRITE your current data. Are you sure you want to continue?")) {
+                        horsesData = importedData; // Overwrite
+                        loadHorsesData(); // Re-process/validate the imported data
+                        saveHorsesData(); // Save the newly imported data
+                        alert("Data imported successfully! Refreshing views.");
+                        const currentPage = allPages.find(page => !page.classList.contains('hidden'));
+                        if (currentPage) {
+                            showPage(currentPage.id); // Refresh current page view
+                        } else {
+                            showPage('overviewPage'); // Default to overview
+                        }
+                    }
+                } catch (error) {
+                    console.error("Import Error:", error);
+                    alert(`Error importing data: ${error.message}\nPlease ensure the file is valid JSON and matches the expected structure.`);
+                } finally {
+                     event.target.value = null; // Clear the file input
+                }
+            };
+            reader.onerror = function(e) {
+                 console.error("File Reading Error:", e);
+                 alert("Error reading the selected file.");
+                 event.target.value = null;
+            };
+            reader.readAsText(file);
+        }
+        // --- End Import/Export Functions ---
+
+
+        // ========================================================================
+        // == PAGE/VIEW MANAGEMENT (Logic kept) ==
+        // ========================================================================
+        function showPage(pageId) {
+             if (raceTimeChartInstance && pageId !== 'detailPage') {
+                 raceTimeChartInstance.destroy();
+                 raceTimeChartInstance = null;
+                 const chartContainer = document.getElementById('raceTimeChartContainer');
+                 if(chartContainer) chartContainer.classList.add('hidden');
+             }
+
+             allPages.forEach(page => {
+                 if(page) {
+                     page.classList.toggle('hidden', page.id !== pageId);
+                 } else {
+                     console.error("A page element reference is null. Check all getElementById calls and the allPages array.");
+                 }
+             });
+
+             // Render the newly shown page
+             if (pageId === 'overviewPage') renderOverviewPage();
+             else if (pageId === 'poolPage') renderPoolPage();
+             else if (pageId === 'breedsPage') {
+                 renderBreedsPage();
+                 populateBreedingSelectors();
+             }
+             else if (pageId === 'lineagePage') renderLineagePage();
+             else if (pageId === 'financialsPage') renderFinancialsPage();
+             // Detail page rendering is handled by showDetailPage
+
+              window.scrollTo({ top: 0, behavior: 'smooth' });
+         }
+        function showDetailPage(itemId) { // Renamed from horseId
+             if (itemId === null || itemId === undefined || itemId === '') {
+               console.warn("showDetailPage called with invalid ID:", itemId);
+               showPage('overviewPage');
+               return;
+           }
+
+            if (itemId !== 'ADD_NEW') {
+                const potentialItem = findHorseById(parseInt(itemId)); // Keep function name for now
+                 if (!potentialItem) {
+                     alert(`Item with ID ${itemId} not found.`); // Generic message
+                     showPage('overviewPage');
+                     return;
+                 }
+                 if (potentialItem.status === 'forged') { // 'forged' status kept for logic
+                     alert(`"${potentialItem.name}" has been Removed and cannot be viewed or edited.`); // Generic message
+                     showPage('overviewPage');
+                     return;
+                 }
+            }
+
+            currentDetailHorseId = (itemId !== 'ADD_NEW') ? parseInt(itemId) : null; // Keep var name
+            showPage('detailPage');
+            horseProfileDisplayDiv.classList.add('hidden');
+            horseFormDiv.classList.add('hidden');
+            mainActionsDiv.classList.remove('hidden');
+            hideDetailActionButtons();
+            const chartContainer = document.getElementById('raceTimeChartContainer');
+            if(chartContainer) chartContainer.classList.add('hidden');
+
+
+            populateHorseSelectorForDetail();
+
+            if (itemId === 'ADD_NEW') {
+                showAddForm();
+            } else if (currentDetailHorseId && !isNaN(currentDetailHorseId)) {
+                horseSelector.value = currentDetailHorseId;
+                renderHorseDetail(currentDetailHorseId); // Keep function name
+            } else {
+                horseSelector.value = "";
+                hideDetailActionButtons();
+                console.error("Reached unexpected state in showDetailPage for ID:", itemId);
+                 horseProfileDisplayDiv.innerHTML = '<p style="text-align:center; padding: 20px;">Error loading item details.</p>'; // Generic message
+                 horseProfileDisplayDiv.classList.remove('hidden');
+                 if(chartContainer) chartContainer.classList.add('hidden');
+            }
+        }
+
+        // ========================================================================
+        // == RENDERING FUNCTIONS (Kept logic, genericized text/labels) ==
+        // ========================================================================
+
+        function renderOverviewPage() {
+            horseTableBody.innerHTML = '';
+            const activeItems = horsesData // Renamed var
+                .filter(h => h && h.status === 'active')
+                .sort((a, b) => (a.order ?? Infinity) - (b.order ?? Infinity));
+
+            let totalCost = 0; // Generic name
+            let totalBalance = 0; // Generic name
+
+            if (activeItems.length === 0) {
+                 horseTableBody.innerHTML = '<tr><td colspan="15" class="no-horses">No active items found.</td></tr>'; // Generic message
+                 // Adjusted colspan to 15 based on the cleared headers
+                 return;
+            }
+
+            activeItems.forEach(item => { // Renamed var
+                const places = calculatePlaces(item);
+                const roi = calculateROI(item); // Uses updated ROI calc
+                const costValue = parseNumericValue(item?.breedCost); // Use generic parser
+                const balanceValue = parseNumericValue(item?.zedBalance); // Use generic parser
+                totalCost += costValue;
+                totalBalance += balanceValue;
+                const displayOverall = item.overall || '-';
+                const displaySpeed = item.speed || '-';
+                const displaySprint = item.sprint || '-';
+                const displayEndurance = item.endurance || '-';
+
+                const row = document.createElement('tr');
+                row.setAttribute('draggable', true);
+                row.setAttribute('data-horse-id', item.id); // Keep attribute name for now
+
+                // Data goes into appropriate cells based on original structure
+                row.innerHTML = `
+                    <td><span class="drag-handle" title="Drag to reorder">↕️</span></td>
+                    <td>${item.name}</td>
+                    <td>${item.gen || 'N/A'}</td>
+                    <td>${item.gender || 'N/A'}</td>
+                    <td>${item.breed || 'N/A'}</td>
+                    <td class="stars">${displayOverall}</td>
+                    <td class="stars">${displaySpeed}</td>
+                    <td class="stars">${displaySprint}</td>
+                    <td class="stars">${displayEndurance}</td>
+                    <td>${item.races ?? 'N/A'}</td>
+                    <td>${places}</td>
+                    <td>${item.breedCost || 'N/A'}</td>
+                    <td>${item.zedBalance || 'N/A'}</td>
+                    <td>${roi}</td>
+                    <td><span class="action-link" data-id="${item.id}">Details</span></td>
+                `;
+                 const detailsLink = row.querySelector('.action-link');
+                 if (detailsLink) {
+                    detailsLink.addEventListener('click', (e) => {
+                         e.stopPropagation();
+                         showDetailPage(item.id);
+                    });
+                 }
+                horseTableBody.appendChild(row);
+            });
+
+            // --- Footer Row ---
+            if (activeItems.length > 0) {
+                const footerRow = document.createElement('tr');
+                footerRow.classList.add('table-footer');
+                const emptyCellsBeforeCost = document.createElement('td');
+                emptyCellsBeforeCost.colSpan = 11; // Matches the number of preceding columns
+                footerRow.appendChild(emptyCellsBeforeCost);
+                const totalCostCell = document.createElement('td');
+                totalCostCell.textContent = formatNumericValue(totalCost); // Use generic formatter
+                totalCostCell.classList.add('footer-total');
+                footerRow.appendChild(totalCostCell);
+                const totalBalanceCell = document.createElement('td');
+                totalBalanceCell.textContent = formatNumericValue(totalBalance); // Use generic formatter
+                totalBalanceCell.classList.add('footer-total');
+                footerRow.appendChild(totalBalanceCell);
+                const remainingCells = document.createElement('td');
+                remainingCells.colSpan = 2; // Matches the number of following columns
+                footerRow.appendChild(remainingCells);
+                horseTableBody.appendChild(footerRow);
+            }
+        }
+
+        function populateHorseSelectorForDetail() { // Keep function name
+             const currentSelectedId = horseSelector.value;
+             horseSelector.innerHTML = '<option value="">-- Select an Item --</option>'; // Generic text
+             const selectableItems = getNavigableHorses(); // Keep function name
+
+             selectableItems.forEach((item) => { // Renamed var
+                 const option = document.createElement('option');
+                 option.value = item.id;
+                 option.textContent = item.name;
+                 horseSelector.appendChild(option);
+             });
+
+             const selectedItem = findHorseById(currentSelectedId); // Keep function name
+             if (selectedItem && selectedItem.status !== 'forged') {
+                 horseSelector.value = currentSelectedId;
+             } else {
+                  const currentDetailItem = findHorseById(currentDetailHorseId); // Keep function name
+                  if (currentDetailItem && currentDetailItem.status !== 'forged') {
+                       horseSelector.value = currentDetailHorseId;
+                  } else {
+                       horseSelector.value = "";
+                  }
+             }
+         }
+
+        function renderHorseDetail(itemId) { // Renamed from horseId
+            const item = findHorseById(itemId); // Keep function name
+            const chartContainer = document.getElementById('raceTimeChartContainer');
+            const canvas = document.getElementById('raceTimeChartCanvas');
+            const noDataMsg = document.getElementById('chartNoDataMessage');
+
+            if (!item || item.status === 'forged') {
+                 console.error("Cannot render detail for non-existent or removed item ID:", itemId); // Generic message
+                 horseProfileDisplayDiv.classList.add('hidden');
+                 horseFormDiv.classList.add('hidden');
+                 mainActionsDiv.classList.remove('hidden');
+                 hideDetailActionButtons();
+                 horseSelector.value = "";
+                 if(chartContainer) chartContainer.classList.add('hidden');
+                 return;
+             }
+
+            // --- Render standard profile data ---
+            const places = calculatePlaces(item);
+            const calculatedRoi = calculateROI(item); // Uses updated ROI
+
+            profileName.textContent = `${item.name}'s Profile`; // Keep profile text for context
+            displayGen.textContent = item.gen || 'N/A';
+            displayGender.textContent = item.gender || 'N/A';
+            displayBreed.textContent = item.breed || 'N/A';
+            displayColourTrait.textContent = item.colourTrait || 'N/A';
+            displaySireName.textContent = item.sireName || 'Unknown';
+            displaySireBreed.textContent = item.sireBreed || 'Unknown';
+            displaySireColourTrait.textContent = item.sireColourTrait || 'Unknown';
+            displayDamName.textContent = item.damName || 'Unknown';
+            displayDamBreed.textContent = item.damBreed || 'Unknown';
+            displayDamColourTrait.textContent = item.damColourTrait || 'Unknown';
+            displayOverall.textContent = item.overall || '-';
+            displaySpeed.textContent = item.speed || '-';
+            displaySprint.textContent = item.sprint || '-';
+            displayEndurance.textContent = item.endurance || '-';
+            displayRaces.textContent = item.races ?? 'N/A';
+            displayFirst.textContent = item.first ?? 'N/A';
+            displaySecond.textContent = item.second ?? 'N/A';
+            displayThird.textContent = item.third ?? 'N/A';
+            displayPlaces.textContent = places;
+            displayRaceTime.textContent = item.raceTime || 'N/A';
+            // Removed displayPreviousRaceTime setting
+            displayCPU.textContent = item.cpu || 'N/A';
+            displayRAM.textContent = item.ram || 'N/A';
+            displayHydraulic.textContent = item.hydraulic || 'N/A';
+            displayBreedCost.textContent = item.breedCost || 'N/A';
+            displayStrtZedBal.textContent = item.strtZedBal || 'N/A';
+            displayZedBalance.textContent = item.zedBalance || 'N/A';
+            displaySoldBreeds.textContent = item.soldBreeds || 'N/A'; // Displays total value stored
+            displayROI.textContent = calculatedRoi;
+
+             horseProfileDisplayDiv.classList.remove('hidden');
+             horseFormDiv.classList.add('hidden');
+             mainActionsDiv.classList.remove('hidden');
+             showDetailActionButtons();
+
+            // --- Chart Rendering (Kept logic) ---
+            if (chartContainer && canvas && noDataMsg) {
+                if (raceTimeChartInstance) {
+                    raceTimeChartInstance.destroy();
+                    raceTimeChartInstance = null;
+                }
+
+                const history = (item.raceTimeHistory || []).filter(entry => entry && entry.time && entry.timestamp)
+                                                          .sort((a, b) => a.timestamp - b.timestamp);
+
+                if (history.length >= 1) {
+                    chartContainer.classList.remove('hidden');
+                    canvas.classList.remove('hidden');
+                    noDataMsg.classList.add('hidden');
+
+                    const labels = history.map(entry => new Date(entry.timestamp).toLocaleDateString());
+                    const dataPoints = history.map(entry => parseRaceTime(entry.time)).filter(time => time !== null);
+                    const originalTimes = history.map(entry => entry.time);
+
+                    if(dataPoints.length > 0) {
+                         const ctx = canvas.getContext('2d');
+                         raceTimeChartInstance = new Chart(ctx, {
+                             type: 'line',
+                             data: {
+                                 labels: labels,
+                                 datasets: [{
+                                     label: 'Time Value (seconds)', // Generic label
+                                     data: dataPoints,
+                                     borderColor: 'rgb(75, 192, 192)',
+                                     backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                                     tension: 0.1,
+                                     fill: true,
+                                     originalTimes: originalTimes
+                                 }]
+                             },
+                             options: {
+                                 responsive: true,
+                                 maintainAspectRatio: true,
+                                 scales: {
+                                     y: {
+                                         beginAtZero: false,
+                                         title: { display: true, text: 'Time (Seconds - Lower is Better)' },
+                                     },
+                                     x: { title: { display: true, text: 'Date Recorded' } }
+                                 },
+                                 plugins: {
+                                     tooltip: {
+                                         callbacks: {
+                                             label: function(context) {
+                                                 let label = context.dataset.label || '';
+                                                 if (label) { label += ': '; }
+                                                 const originalTime = context.dataset.originalTimes[context.dataIndex];
+                                                 if (originalTime) {
+                                                      label += `${originalTime} (${context.parsed.y.toFixed(2)}s)`;
+                                                 } else {
+                                                      label += context.parsed.y.toFixed(2) + 's';
+                                                 }
+                                                 return label;
+                                             }
+                                         }
+                                     }
+                                 }
+                             }
+                         });
+                    } else {
+                        canvas.classList.add('hidden');
+                        noDataMsg.textContent = "Could not parse any time values for chart." // Generic message
+                        noDataMsg.classList.remove('hidden');
+                         chartContainer.classList.remove('hidden');
+                    }
+
+                } else {
+                    chartContainer.classList.remove('hidden');
+                    canvas.classList.add('hidden');
+                    noDataMsg.textContent = "Not enough time data to display chart." // Generic message
+                    noDataMsg.classList.remove('hidden');
+                }
+            } else {
+                console.error("Chart canvas, container, or no-data message element not found");
+            }
+
+            // Update nav buttons
+            const navigableItems = getNavigableHorses(); // Keep function name
+            const currentIndex = navigableItems.findIndex(h => h.id === itemId);
+            prevHorseBtn.disabled = (currentIndex <= 0);
+            nextHorseBtn.disabled = (currentIndex < 0 || currentIndex >= navigableItems.length - 1);
+        }
+
+        function renderPoolPage() {
+             const breedingItems = horsesData.filter(h => h && h.status === 'breeding'); // Keep status logic
+             const sires = breedingItems.filter(h => h.gender === 'M'); // Keep gender logic
+             const dams = breedingItems.filter(h => h.gender === 'F'); // Keep gender logic
+             renderPoolList(sires, siresListElement, "Sires"); // Keep category names
+             renderPoolList(dams, damsListElement, "Dams"); // Keep category names
+         }
+
+        // **** CORRECTED renderPoolList function ****
+        function renderPoolList(itemArray, targetElement, type) {
+             targetElement.innerHTML = '';
+             if (itemArray.length === 0) {
+                 targetElement.innerHTML = `<p class="no-horses">No ${type} currently in the Pool.</p>`; // Generic message
+                 return;
+             }
+             itemArray.sort((a, b) => a.name.localeCompare(b.name));
+             itemArray.forEach(item => {
+                 const places = calculatePlaces(item);
+                 const card = document.createElement('div');
+                 card.className = 'horse-card'; // Keep class name
+                 const displayOverall = item.overall || '-';
+                 const displaySpeed = item.speed || '-';
+                 const displaySprint = item.sprint || '-';
+                 const displayEndurance = item.endurance || '-';
+
+                 let financialsHTML = '';
+                 // Show financials only for Sires (or adjust logic if needed)
+                 // Display the raw accumulated value here
+                 if (type === "Sires") {
+                     financialsHTML = `
+                         <div class="financials-pool">
+                             <h4>Financials</h4>
+                             <p><strong>Cost:</strong> <span>${item.breedCost || 'N/A'}</span></p>
+                             <p><strong>Start Bal:</strong> <span>${item.strtZedBal || 'N/A'}</span></p>
+                             <p><strong>Balance:</strong> <span>${item.zedBalance || 'N/A'}</span></p>
+                             <p><strong>Total Value Sold:</strong> <span>${item.soldBreeds || 'N/A'}</span></p>
+                         </div>
+                     `;
+                 }
+
+                 // Genericized labels in card
+                 card.innerHTML = `
+                     <h3>${item.name}</h3>
+                     <h4>Basic Info</h4>
+                     <p><strong>Gen:</strong> <span>${item.gen || 'N/A'}</span></p>
+                     <p><strong>Breed:</strong> <span>${item.breed || 'N/A'}</span></p>
+                     <p><strong>Colour:</strong> <span>${item.colourTrait || 'N/A'}</span></p>
+                     <h4>Stats</h4>
+                     <p><strong>Overall:</strong> <span class="stars">${displayOverall}</span></p>
+                     <p><strong>Speed:</strong> <span class="stars">${displaySpeed}</span></p>
+                     <p><strong>Sprint:</strong> <span class="stars">${displaySprint}</span></p>
+                     <p><strong>Endurance:</strong> <span class="stars">${displayEndurance}</span></p>
+                     <h4>Record</h4> <!-- Generic label -->
+                     <p><strong>Races:</strong> <span>${item.races ?? 'N/A'}</span></p>
+                     <p><strong>1st:</strong> <span>${item.first ?? 'N/A'}</span></p>
+                     <p><strong>2nd:</strong> <span>${item.second ?? 'N/A'}</span></p>
+                     <p><strong>3rd:</strong> <span>${item.third ?? 'N/A'}</span></p>
+                     <p><strong>Places:</strong> <span>${places}</span></p>
+                     ${financialsHTML}
+                     <a href="#" class="view-details-link" data-id="${item.id}">View Full Details</a>
+                 `;
+                 card.querySelector('.view-details-link').addEventListener('click', (e) => {
+                     e.preventDefault();
+                     showDetailPage(item.id);
+                 });
+                 targetElement.appendChild(card);
+             });
+         }
+        // **** END OF CORRECTED renderPoolList function ****
+
+
+        function renderBreedsPage() {
+            breedingRecordsList.innerHTML = ''; // Clear only the history list
+            const offspring = horsesData.filter(h => h && h.status !== 'forged' && (h.sireName || h.damName)); // Keep relationship logic
+
+            if (offspring.length === 0) {
+                breedingRecordsList.innerHTML = '<p class="no-records">No breeding records found.</p>'; // Generic message
+            } else {
+                 offspring.sort((a, b) => a.name.localeCompare(b.name));
+                 // Kept star/breed/gen options as they define structure
+                 const starOptions = ` <option value="-">-</option> <option>⭐️</option> <option>⭐️⭐️</option> <option>⭐️⭐️☀️</option> <option>⭐️⭐️⭐️</option> <option>⭐️⭐️⭐️☀️</option> <option>⭐️⭐️⭐️⭐️</option> <option>⭐️⭐️⭐️⭐️☀️</option> <option>⭐️⭐️⭐️⭐️⭐️</option> `;
+                 const breedOptions = `<option value="">Unknown</option><option>Nakamoto</option><option>Szabo</option><option>Finney</option><option>Buterin</option>`;
+                 const genOptions = `<option value="">Unknown</option><option>G0</option><option>G1</option><option>G2</option><option>G3</option><option>G4</option><option>G5</option>`;
+
+                 const createNameElement = (itemName, itemObject) => { // Renamed from horse
+                     if (itemObject && itemObject.status !== 'forged') {
+                         // Allow clicking to view details
+                         return `<span class="clickable-horse-name" onclick="showDetailPage(${itemObject.id})">${itemName}</span>`;
+                     } else if (itemName) {
+                         let suffix = '';
+                         if (itemObject && itemObject.status === 'forged') {
+                             suffix = ' <span class="forged-label">(Removed)</span>'; // Generic label
+                         } else {
+                             suffix = ' <em style="font-size:0.8em; color:var(--text-color); opacity: 0.7;">(Not found)</em>'; // Generic label
+                         }
+                         return `<span class="non-clickable-name">${itemName}</span>${suffix}`;
+                     } else {
+                         return 'Unknown';
+                     }
+                 };
+
+                 offspring.forEach(child => {
+                     const sire = findHorseByName(child.sireName); // Keep relationship finding
+                     const dam = findHorseByName(child.damName);   // Keep relationship finding
+                     const sirePlaces = calculatePlaces(sire);
+                     const damPlaces = calculatePlaces(dam);
+                     const childPlaces = calculatePlaces(child);
+                     const sireIsForged = sire && sire.status === 'forged';
+                     const damIsForged = dam && dam.status === 'forged';
+                     const canEditSire = sire && !sireIsForged;
+                     const canEditDam = dam && !damIsForged;
+
+                     // Kept stat display logic
+                     const sireDisplayOverall = sire?.overall || '-';
+                     const sireDisplaySpeed = sire?.speed || '-';
+                     const sireDisplaySprint = sire?.sprint || '-';
+                     const sireDisplayEndurance = sire?.endurance || '-';
+                     const damDisplayOverall = dam?.overall || '-';
+                     const damDisplaySpeed = dam?.speed || '-';
+                     const damDisplaySprint = dam?.sprint || '-';
+                     const damDisplayEndurance = dam?.endurance || '-';
+                     const childDisplayOverall = child.overall || '-';
+                     const childDisplaySpeed = child.speed || '-';
+                     const childDisplaySprint = child.sprint || '-';
+                     const childDisplayEndurance = child.endurance || '-';
+
+                     const recordCard = document.createElement('div');
+                     recordCard.className = 'breeding-record-card'; // Keep class
+                     recordCard.setAttribute('data-offspring-id', child.id);
+
+                     const sireNameElement = createNameElement(child.sireName, sire);
+                     const damNameElement = createNameElement(child.damName, dam);
+                     const childNameElement = createNameElement(child.name, child);
+
+                     // Genericized labels in HTML sections
+                     let sireHTML = `
+                         <div class="parent-section sire-section" data-parent-id="${sire?.id || ''}" data-parent-type="sire">
+                             <h3>Sire Details</h3>
+                             <div class="horse-details display-details">
+                                 <p><strong>Name:</strong> ${sireNameElement}</p>
+                                 <p><strong>Breed:</strong> <span>${sire?.breed || child.sireBreed || 'N/A'}</span></p>
+                                 <p><strong>Colour:</strong> <span>${sire?.colourTrait || child.sireColourTrait || 'N/A'}</span></p>
+                                 <p><strong>Gen:</strong> <span>${sire?.gen || 'N/A'}</span></p>
+                                 <p><strong>Overall:</strong> <span class="stars">${sireDisplayOverall}</span></p>
+                                 <p><strong>Speed:</strong> <span class="stars">${sireDisplaySpeed}</span></p>
+                                 <p><strong>Sprint:</strong> <span class="stars">${sireDisplaySprint}</span></p>
+                                 <p><strong>Endurance:</strong> <span class="stars">${sireDisplayEndurance}</span></p>
+                                 <p><strong>Races:</strong> <span>${sire?.races ?? 'N/A'}</span></p>
+                                 <p><strong>Places:</strong> <span>${sire ? sirePlaces : 'N/A'}</span></p>
+                             </div>
+                             <div class="inline-edit-form hidden">
+                                 <label>Breed:</label> <select class="inline-breed">${breedOptions}</select>
+                                 <label>Colour Trait:</label> <select class="inline-colour">${breedOptions}</select>
+                                 <label>Gen:</label> <select class="inline-gen">${genOptions}</select>
+                                 <label>Overall:</label> <select class="inline-overall">${starOptions}</select>
+                                 <label>Speed:</label> <select class="inline-speed">${starOptions}</select>
+                                 <label>Sprint:</label> <select class="inline-sprint">${starOptions}</select>
+                                 <label>Endurance:</label> <select class="inline-endurance">${starOptions}</select>
+                                 <label>Races:</label> <input type="number" class="inline-races" min="0" value="0">
+                                 <div class="inline-edit-buttons">
+                                     <button class="button-link btn-primary btn-sm save-parent-edit">Save</button>
+                                     <button type="button" class="button-link btn-secondary btn-sm cancel-parent-edit">Cancel</button>
+                                 </div>
+                             </div>
+                             ${canEditSire ? `<button class="button-link btn-warning btn-sm edit-parent-button">Edit Sire Details</button>` : ''}
+                         </div>
+                     `;
+
+                     let damHTML = `
+                         <div class="parent-section dam-section" data-parent-id="${dam?.id || ''}" data-parent-type="dam">
+                             <h3>Dam Details</h3>
+                              <div class="horse-details display-details">
+                                 <p><strong>Name:</strong> ${damNameElement}</p>
+                                 <p><strong>Breed:</strong> <span>${dam?.breed || child.damBreed || 'N/A'}</span></p>
+                                 <p><strong>Colour:</strong> <span>${dam?.colourTrait || child.damColourTrait || 'N/A'}</span></p>
+                                 <p><strong>Gen:</strong> <span>${dam?.gen || 'N/A'}</span></p>
+                                 <p><strong>Overall:</strong> <span class="stars">${damDisplayOverall}</span></p>
+                                 <p><strong>Speed:</strong> <span class="stars">${damDisplaySpeed}</span></p>
+                                 <p><strong>Sprint:</strong> <span class="stars">${damDisplaySprint}</span></p>
+                                 <p><strong>Endurance:</strong> <span class="stars">${damDisplayEndurance}</span></p>
+                                 <p><strong>Races:</strong> <span>${dam?.races ?? 'N/A'}</span></p>
+                                 <p><strong>Places:</strong> <span>${dam ? damPlaces : 'N/A'}</span></p>
+                              </div>
+                              <div class="inline-edit-form hidden">
+                                 <label>Breed:</label> <select class="inline-breed">${breedOptions}</select>
+                                 <label>Colour Trait:</label> <select class="inline-colour">${breedOptions}</select>
+                                 <label>Gen:</label> <select class="inline-gen">${genOptions}</select>
+                                 <label>Overall:</label> <select class="inline-overall">${starOptions}</select>
+                                 <label>Speed:</label> <select class="inline-speed">${starOptions}</select>
+                                 <label>Sprint:</label> <select class="inline-sprint">${starOptions}</select>
+                                 <label>Endurance:</label> <select class="inline-endurance">${starOptions}</select>
+                                 <label>Races:</label> <input type="number" class="inline-races" min="0" value="0">
+                                 <div class="inline-edit-buttons">
+                                     <button class="button-link btn-primary btn-sm save-parent-edit">Save</button>
+                                     <button type="button" class="button-link btn-secondary btn-sm cancel-parent-edit">Cancel</button>
+                                 </div>
+                             </div>
+                              ${canEditDam ? `<button class="button-link btn-warning btn-sm edit-parent-button">Edit Dam Details</button>` : ''}
+                         </div>
+                     `;
+
+                     let offspringHTML = `
+                         <div class="offspring-section">
+                             <h3>Offspring Details</h3>
+                              <div class="horse-details">
+                                 <p><strong>Name:</strong> ${childNameElement}</p>
+                                 <p><strong>Breed:</strong> <span>${child.breed || 'N/A'}</span></p>
+                                 <p><strong>Colour:</strong> <span>${child.colourTrait || 'N/A'}</span></p>
+                                 <p><strong>Gen:</strong> <span>${child.gen || 'N/A'}</span></p>
+                                  <p><strong>Overall:</strong> <span class="stars">${childDisplayOverall}</span></p>
+                                  <p><strong>Speed:</strong> <span class="stars">${childDisplaySpeed}</span></p>
+                                  <p><strong>Sprint:</strong> <span class="stars">${childDisplaySprint}</span></p>
+                                  <p><strong>Endurance:</strong> <span class="stars">${childDisplayEndurance}</span></p>
+                                  <p><strong>Races:</strong> <span>${child.races ?? 'N/A'}</span></p>
+                                 <p><strong>Places:</strong> <span>${childPlaces}</span></p>
+                                 <p><strong>Cost:</strong> <span>${child.breedCost || 'N/A'}</span></p> <!-- Generic label -->
+                             </div>
+                              <button class="button-link btn-warning btn-sm edit-offspring-button" data-id="${child.id}">Edit Offspring</button>
+                         </div>
+                     `;
+
+                     recordCard.innerHTML = `<div class="record-details">${sireHTML}${damHTML}${offspringHTML}</div>`;
+                     breedingRecordsList.appendChild(recordCard);
+                 });
+            }
+            if (offspringResultDiv) offspringResultDiv.classList.add('hidden');
+        }
+
+        function renderLineagePage() {
+            lineageDisplayArea.innerHTML = '<p class="no-lineage">Generating lineage...</p>'; // Generic message
+
+            const nonForgedItems = horsesData.filter(h => h && h.status !== 'forged'); // Renamed var
+            if (nonForgedItems.length === 0) {
+                lineageDisplayArea.innerHTML = '<p class="no-lineage">No items found to display lineage.</p>'; // Generic message
+                return;
+            }
+
+            let finalHTML = '';
+            const globallyProcessedItems = new Set(); // Renamed var
+
+            const sortedItems = [...nonForgedItems].sort((a, b) => a.name.localeCompare(b.name)); // Renamed var
+
+            sortedItems.forEach(item => { // Renamed var
+                if (globallyProcessedItems.has(item.id)) {
+                    return;
+                }
+
+                const sire = findHorseByName(item.sireName); // Keep relationship logic
+                const dam = findHorseByName(item.damName);   // Keep relationship logic
+                const sireIsEffectivelyRootParent = !sire || sire.status === 'forged';
+                const damIsEffectivelyRootParent = !dam || dam.status === 'forged';
+
+                if (sireIsEffectivelyRootParent && damIsEffectivelyRootParent) {
+
+                    let parentLine = '';
+                    if (item.sireName || item.damName) {
+                        const sireIsForged = sire && sire.status === 'forged';
+                        const damIsForged = dam && dam.status === 'forged';
+                        const sireOverall = sire?.overall ? `<span class="lineage-stars">${sire.overall}</span>` : '';
+                        const damOverall = dam?.overall ? `<span class="lineage-stars">${dam.overall}</span>` : '';
+                        const sireRecord = formatRaceRecord(sire);
+                        const damRecord = formatRaceRecord(dam);
+
+                        const sireNameDisplay = item.sireName || 'Unknown Sire';
+                        const damNameDisplay = item.damName || 'Unknown Dam';
+
+                        const sireText = item.sireName ? `${sireNameDisplay} ${sireOverall} ${sireIsForged ? '(Removed)' : ''} ${sireRecord}` : 'Unknown Sire'; // Generic label
+                        const damText = item.damName ? `${damNameDisplay} ${damOverall} ${damIsForged ? '(Removed)' : ''} ${damRecord}` : 'Unknown Dam'; // Generic label
+
+                        parentLine = `${sireText} + ${damText}\n`;
+                    }
+
+                    const processedInThisBranch = new Set();
+                    const treeContent = parentLine + renderLineageBranch(item.id, 0, processedInThisBranch); // Keep function name
+
+                    finalHTML += `<div class="lineage-tree-card">${treeContent}</div>`; // Keep class
+
+                    processedInThisBranch.forEach(id => globallyProcessedItems.add(id));
+                }
+            });
+
+            if (finalHTML.trim() === '') {
+                 lineageDisplayArea.innerHTML = '<p class="no-lineage">No lineage trees could be generated.</p>'; // Generic message
+            } else {
+                lineageDisplayArea.innerHTML = finalHTML;
+            }
+        }
+
+        function renderLineageBranch(itemId, level, processedInBranch) { // Renamed var
+            const item = findHorseById(itemId); // Keep func name
+            if (!item || item.status === 'forged') {
+                return '';
+            }
+
+            if (processedInBranch.has(itemId)) {
+                return `${'  '.repeat(level * 2)}└── [Circular Ref: ${item.name}]\n`;
+            }
+            processedInBranch.add(itemId);
+
+            const indent = '  '.repeat(level * 2);
+            const prefix = level > 0 ? '└── ' : '';
+            const statusDisplay = item.status === 'active' ? 'Active' : item.status.charAt(0).toUpperCase() + item.status.slice(1); // Generic label
+            const displayOverall = item.overall ? `<span class="lineage-stars">${item.overall}</span>` : '-';
+            const raceRecord = formatRaceRecord(item);
+            const itemNameDisplay = item.name; // Keep name
+
+            let branchHTML = `${indent}${prefix}${itemNameDisplay} (${item.gen || 'N/A'}, ${statusDisplay}, ${displayOverall}) ${raceRecord}\n`;
+
+            // Find children using relationship logic
+            const children = horsesData.filter(child =>
+                child.status !== 'forged' &&
+                (child.sireName?.toLowerCase().trim() === item.name?.toLowerCase().trim() ||
+                 child.damName?.toLowerCase().trim() === item.name?.toLowerCase().trim())
+            );
+
+            children.sort((a, b) => a.name.localeCompare(b.name));
+
+            children.forEach(child => {
+                branchHTML += renderLineageBranch(child.id, level + 1, processedInBranch); // Recursive call
+            });
+
+            return branchHTML;
+        }
+
+        // **** CORRECTED renderFinancialsPage function ****
+        function renderFinancialsPage() {
+            financialsTableBody.innerHTML = '';
+            financialsTableFooter.innerHTML = '';
+
+            // REMOVED the filter for status !== 'forged'
+            // Now includes ALL items that are valid objects
+            const relevantItems = horsesData.filter(h => h); // Keep only valid item objects
+
+            if (relevantItems.length === 0) {
+                financialsTableBody.innerHTML = '<tr><td colspan="5" class="no-horses">No items found for financial overview.</td></tr>';
+                return;
+            }
+
+            let totalCost = 0;
+            let totalBalance = 0;
+            let overallProfitLoss = 0; // This will sum the correctly calculated P/L for each item
+            let totalValueSoldSum = 0; // Sum the raw sold value
+
+            relevantItems.sort((a,b) => a.name.localeCompare(b.name));
+
+            relevantItems.forEach(item => {
+                const row = document.createElement('tr');
+                const costNum = parseNumericValue(item.breedCost);
+                const balanceNum = parseNumericValue(item.zedBalance);
+                const totalSaleValueNum = parseNumericValue(item.soldBreeds); // Parse total value sold
+                const profitFromSalesNum = totalSaleValueNum * 0.05; // Calculate 5% profit for this item
+                const profitLossStr = calculateROI(item); // Use the ROI function for display format
+
+                // Add a visual indicator if the item is forged
+                let nameDisplay = item.name;
+                if (item.status === 'forged') {
+                    nameDisplay += ' <span class="forged-label" style="font-weight:normal;">(Forged)</span>'; // Add label directly to name
+                    row.style.opacity = '0.6'; // Make forged rows slightly faded
+                }
+
+                totalCost += costNum;
+                totalBalance += balanceNum;
+                totalValueSoldSum += totalSaleValueNum; // Sum total value
+                // Add this item's actual P/L contribution to the overall total
+                overallProfitLoss += (balanceNum - costNum + profitFromSalesNum);
+
+                row.innerHTML = `
+                    <td>
+                        ${item.status !== 'forged' ? `<span class="action-link" onclick="showDetailPage(${item.id})">${nameDisplay}</span>` : nameDisplay}
+                    </td>
+                    <td>${item.breedCost || 'N/A'}</td>
+                    <td>${item.zedBalance || 'N/A'}</td>
+                    <td>${item.soldBreeds || 'N/A'}</td>
+                    <td>${profitLossStr}</td>
+                `;
+                financialsTableBody.appendChild(row);
+            });
+
+            // Create and append footer row with correctly summed P/L and Total Value Sold
+            const footerRow = document.createElement('tr');
+            footerRow.classList.add('table-footer');
+            const totalProfitLossSign = overallProfitLoss >= 0 ? '+' : '';
+
+            footerRow.innerHTML = `
+                <td><strong>Totals:</strong></td>
+                <td class="footer-total">${formatNumericValue(totalCost)}</td>
+                <td class="footer-total">${formatNumericValue(totalBalance)}</td>
+                <td class="footer-total">${formatNumericValue(totalValueSoldSum)}</td>
+                <td class="footer-total">${totalProfitLossSign}${overallProfitLoss.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</td>
+            `;
+            financialsTableFooter.appendChild(footerRow);
+        }
+        // **** END OF CORRECTED renderFinancialsPage function ****
+
+
+        // ========================================================================
+        // == DETAIL PAGE FORM HANDLING & ACTIONS ==
+        // ========================================================================
+        function hideDetailActionButtons() {
+            editButton.classList.add('hidden');
+            sendToBreedingPoolButton.classList.add('hidden');
+            forgeButton.classList.add('hidden');
+            prevHorseBtn.classList.add('hidden');
+            nextHorseBtn.classList.add('hidden');
+        }
+        function showDetailActionButtons() {
+             const item = findHorseById(currentDetailHorseId); // Keep func name
+             if (item && item.status !== 'forged') {
+                 editButton.classList.remove('hidden');
+                 sendToBreedingPoolButton.classList.remove('hidden');
+                 forgeButton.classList.remove('hidden');
+                 prevHorseBtn.classList.remove('hidden');
+                 nextHorseBtn.classList.remove('hidden');
+             } else {
+                 hideDetailActionButtons();
+             }
+         }
+        function clearDetailForm() { editAddForm.reset(); horseIdInput.value = ""; }
+
+        function populateFormForEdit(itemId) { // Renamed var
+             const item = findHorseById(itemId); // Keep func name
+             if (!item || item.status === 'forged') return;
+
+             horseIdInput.value = item.id;
+             inputName.value = item.name || "";
+             inputGen.value = item.gen || "";
+             inputGender.value = item.gender || "M";
+             inputBreed.value = item.breed || "";
+             inputColourTrait.value = item.colourTrait || "";
+             inputSireName.value = item.sireName || "";
+             inputSireBreed.value = item.sireBreed || "";
+             inputSireColourTrait.value = item.sireColourTrait || "";
+             inputDamName.value = item.damName || "";
+             inputDamBreed.value = item.damBreed || "";
+             inputDamColourTrait.value = item.damColourTrait || "";
+             inputOverall.value = item.overall || "-";
+             inputSpeed.value = item.speed || "-";
+             inputSprint.value = item.sprint || "-";
+             inputEndurance.value = item.endurance || "-";
+             inputRaces.value = item.races ?? 0;
+             inputFirst.value = item.first ?? 0;
+             inputSecond.value = item.second ?? 0;
+             inputThird.value = item.third ?? 0;
+             inputRaceTime.value = item.raceTime || "";
+             // Removed inputPreviousRaceTime population
+             inputCPU.value = item.cpu || "";
+             inputRAM.value = item.ram || "";
+             inputHydraulic.value = item.hydraulic || "";
+             inputBreedCost.value = item.breedCost || "";
+             inputStrtZedBal.value = item.strtZedBal || "";
+             inputZedBalance.value = item.zedBalance || "";
+             // inputSoldBreeds.value = item.soldBreeds ?? ""; // DO NOT populate with total - leave blank for new value
+         }
+
+        // **** UPDATED showEditForm function ****
+        function showEditForm() {
+             if (!currentDetailHorseId) return;
+             const item = findHorseById(currentDetailHorseId); // Keep func name
+             if (!item || item.status === 'forged') {
+                 alert("Cannot edit a removed item."); // Generic message
+                 return;
+             }
+             formTitle.textContent = `Edit ${item.name}`; // Keep name context
+             clearDetailForm();
+             populateFormForEdit(currentDetailHorseId);
+             // Clear the "Add Sale Value" field specifically for editing
+             inputSoldBreeds.value = "";
+             horseFormDiv.classList.remove('hidden');
+             horseProfileDisplayDiv.classList.add('hidden');
+             mainActionsDiv.classList.add('hidden');
+             saveChangesButton.classList.remove('hidden');
+             saveNewButton.classList.add('hidden');
+             const chartContainer = document.getElementById('raceTimeChartContainer');
+             if(chartContainer) chartContainer.classList.add('hidden');
+         }
+        // **** END OF UPDATED showEditForm function ****
+
+        function showAddForm() {
+             currentDetailHorseId = null;
+             formTitle.textContent = "Add New Item"; // Generic title
+             clearDetailForm();
+             inputOverall.value = "-";
+             inputSpeed.value = "-";
+             inputSprint.value = "-";
+             inputEndurance.value = "-";
+             // Ensure "Add Sale Value" is clear for new items too
+             inputSoldBreeds.value = "";
+             horseFormDiv.classList.remove('hidden');
+             horseProfileDisplayDiv.classList.add('hidden');
+             mainActionsDiv.classList.add('hidden');
+             saveChangesButton.classList.add('hidden');
+             saveNewButton.classList.remove('hidden');
+             const chartContainer = document.getElementById('raceTimeChartContainer');
+             if(chartContainer) chartContainer.classList.add('hidden');
+         }
+
+        // **** UPDATED readFormData function ****
+        function readFormData() {
+            const getStarValue = (selectElement) => {
+                return selectElement.value === "-" ? "" : selectElement.value;
+            };
+
+            // Read form data, storing the raw input for soldBreeds (total value)
+            // Removed previousRaceTime
+            const formData = {
+                id: parseInt(horseIdInput.value) || null,
+                name: inputName.value.trim(),
+                gen: inputGen.value,
+                gender: inputGender.value,
+                breed: inputBreed.value,
+                colourTrait: inputColourTrait.value,
+                sireName: inputSireName.value.trim(),
+                sireBreed: inputSireBreed.value,
+                sireColourTrait: inputSireColourTrait.value,
+                damName: inputDamName.value.trim(),
+                damBreed: inputDamBreed.value,
+                damColourTrait: inputDamColourTrait.value,
+                overall: getStarValue(inputOverall),
+                speed: getStarValue(inputSpeed),
+                sprint: getStarValue(inputSprint),
+                endurance: getStarValue(inputEndurance),
+                races: parseInt(inputRaces.value) || 0,
+                first: parseInt(inputFirst.value) || 0,
+                second: parseInt(inputSecond.value) || 0,
+                third: parseInt(inputThird.value) || 0,
+                raceTime: inputRaceTime.value.trim() || null,
+                cpu: inputCPU.value,
+                ram: inputRAM.value,
+                hydraulic: inputHydraulic.value,
+                breedCost: inputBreedCost.value.trim(),
+                strtZedBal: inputStrtZedBal.value.trim(),
+                zedBalance: inputZedBalance.value.trim(),
+                // Store the value entered in the form temporarily.
+                // If editing, this will be *added* to the existing total in handleFormSubmit.
+                // If adding, this will be the initial total.
+                soldBreeds: inputSoldBreeds.value.trim(),
+                status: 'active', // Default status
+                order: null,
+                // raceTimeHistory handled separately
+            };
+
+            // Preserve existing status/order if editing
+            if (formData.id) {
+                const originalItem = findHorseById(formData.id); // Keep func name
+                if (originalItem) {
+                    formData.status = originalItem.status;
+                    formData.order = originalItem.order;
+                }
+            }
+            return formData;
+        }
+        // **** END OF UPDATED readFormData function ****
+
+
+        function cancelDetailForm() {
+             horseFormDiv.classList.add('hidden');
+             mainActionsDiv.classList.remove('hidden');
+             if (currentDetailHorseId) {
+                 renderHorseDetail(currentDetailHorseId); // Re-render profile
+             } else {
+                 showPage('overviewPage');
+             }
+         }
+        function handleSendToBreedingPool() { // Keep function name for related logic
+             if (!currentDetailHorseId) { alert("No item selected."); return; }
+             const index = findIndexById(currentDetailHorseId);
+             if (index === -1) { alert("Selected item not found in data."); return; }
+             if (horsesData[index].status === 'forged') { alert("Cannot send a removed item to pool."); return; } // Generic message
+
+             const itemName = horsesData[index].name;
+             if (window.confirm(`Send "${itemName}" to the Pool? (Status will change to 'breeding')`)) { // Generic message
+                 horsesData[index].status = 'breeding'; // Keep status logic
+                 saveHorsesData();
+                 alert(`"${itemName}" status updated to Pool.`); // Generic message
+                 renderHorseDetail(currentDetailHorseId);
+                 populateHorseSelectorForDetail();
+             }
+         }
+        function handleForgeHorse() { // Keep function name, means 'remove' here
+            if (!currentDetailHorseId) { alert("No item selected."); return; }
+            const index = findIndexById(currentDetailHorseId);
+            if (index === -1) { alert("Selected item not found in data."); return; }
+            if (horsesData[index].status === 'forged') { alert("This item is already removed."); return; } // Generic message
+
+            const itemName = horsesData[index].name;
+            if (window.confirm(`ARE YOU SURE you want to Forge "${itemName}"? This item will be marked as 'Forged', hidden from active lists, but kept for relationship records. This cannot be undone easily.`)) { // Updated confirmation message
+                horsesData[index].status = 'forged'; // Use 'forged' internally to mean removed
+                horsesData[index].order = null;
+                saveHorsesData();
+                alert(`"${itemName}" has been Forged.`); // Updated alert message
+                currentDetailHorseId = null;
+                showPage('overviewPage');
+            }
+        }
+        // **** UPDATED handleFormSubmit function ****
+        function handleFormSubmit(event) {
+             event.preventDefault();
+             const formData = readFormData(); // Reads form, formData.soldBreeds has NEW value entered
+
+             if (!formData.name) {
+                 alert("Item Name is required!"); // Generic message
+                 inputName.focus();
+                 return;
+             }
+
+             const editingItemId = formData.id; // Renamed var
+
+             if (editingItemId === null) { // Adding new item
+                 formData.id = nextId++;
+                 const activeItems = horsesData.filter(h => h.status === 'active');
+                 const maxOrder = activeItems.reduce((max, h) => Math.max(max, h.order ?? -1), -1);
+                 formData.order = maxOrder + 1;
+                 formData.status = 'active';
+                 // formData.soldBreeds already holds the initial value from the form
+                 // Ensure it's stored as a string if needed for consistency
+                 formData.soldBreeds = String(parseNumericValue(formData.soldBreeds));
+                 formData.raceTimeHistory = [];
+
+                 const newRaceTime = formData.raceTime;
+                 if (newRaceTime && parseRaceTime(newRaceTime) !== null) {
+                     formData.raceTimeHistory.push({ timestamp: Date.now(), time: newRaceTime });
+                 }
+
+                 horsesData.push(formData);
+                 currentDetailHorseId = formData.id;
+                 alert(`${formData.name} added successfully!`); // Generic message
+
+             } else { // Editing existing item
+                 const index = findIndexById(editingItemId);
+                 if (index !== -1) {
+                     const originalItem = { ...horsesData[index] }; // Get a copy of the original data
+                     if (originalItem.status === 'forged') {
+                         alert("Cannot save changes to a removed item."); // Generic message
+                         cancelDetailForm();
+                         return;
+                     }
+
+                     // --- Accumulate Sold Value ---
+                     // Get the *new sale value* entered by the user (already in formData)
+                     const newSaleValue = parseNumericValue(formData.soldBreeds);
+
+                     // Get the *previous accumulated total* from the original data
+                     const currentTotalSold = parseNumericValue(originalItem.soldBreeds);
+
+                     // Calculate the *new accumulated total*
+                     const newAccumulatedTotal = currentTotalSold + newSaleValue;
+
+                     // *** Update the formData object with the NEW ACCUMULATED total ***
+                     // Store as string to keep consistency with other monetary fields
+                     formData.soldBreeds = String(newAccumulatedTotal);
+                     // --- End Accumulation ---
+
+
+                     // Update raceTimeHistory (Kept logic)
+                     const newRaceTime = formData.raceTime; // Use the time from formData
+                     // Ensure history array exists
+                     if (!Array.isArray(originalItem.raceTimeHistory)) {
+                         originalItem.raceTimeHistory = [];
+                     }
+                     const lastRecordedTimeEntry = originalItem.raceTimeHistory.length > 0 ? originalItem.raceTimeHistory[originalItem.raceTimeHistory.length - 1] : null;
+
+                     // Add to history only if it's a valid time and different from the last recorded time's value
+                     if (newRaceTime && parseRaceTime(newRaceTime) !== null && (!lastRecordedTimeEntry || lastRecordedTimeEntry.time !== newRaceTime)) {
+                         originalItem.raceTimeHistory.push({ timestamp: Date.now(), time: newRaceTime });
+                     }
+                     // Preserve the potentially updated history from originalItem
+                     formData.raceTimeHistory = originalItem.raceTimeHistory;
+
+
+                     // Merge updates (formData now contains the *correct* accumulated soldBreeds)
+                     horsesData[index] = { ...originalItem, ...formData }; // Merge original data with updated form data
+                     currentDetailHorseId = editingItemId;
+                     alert(`${formData.name} updated successfully!`); // Generic message
+                 } else {
+                     console.error("Update Error: Could not find item with ID", editingItemId); // Generic message
+                     alert("Error updating item data. Item not found."); // Generic message
+                     cancelDetailForm();
+                     return;
+                 }
+             }
+
+             saveHorsesData();
+             horseFormDiv.classList.add('hidden');
+             mainActionsDiv.classList.remove('hidden');
+             populateHorseSelectorForDetail();
+             renderHorseDetail(currentDetailHorseId); // Re-render profile to show updated accumulated total
+         }
+         // **** END OF UPDATED handleFormSubmit function ****
+
+
+        // ========================================================================
+        // == BREEDING SIMULATION FUNCTIONS (Kept core logic, genericized text) ==
+        // ========================================================================
+        function populateBreedingSelectors() { // Keep relationship logic
+            selectSire.innerHTML = '<option value="">-- Select Sire --</option>';
+            selectDam.innerHTML = '<option value="">-- Select Dam --</option>';
+            breedButton.disabled = true;
+            offspringResultDiv.classList.add('hidden');
+
+            const potentialSires = horsesData.filter(h => h.gender === 'M' && h.status !== 'forged'); // Kept gender/status logic
+            const potentialDams = horsesData.filter(h => h.gender === 'F' && h.status !== 'forged');   // Kept gender/status logic
+
+            potentialSires.sort((a, b) => a.name.localeCompare(b.name));
+            potentialDams.sort((a, b) => a.name.localeCompare(b.name));
+
+            potentialSires.forEach(sire => {
+                const option = document.createElement('option');
+                option.value = sire.id;
+                option.textContent = `${sire.name} (${sire.gen})`; // Keep format for clarity
+                selectSire.appendChild(option);
+            });
+
+            potentialDams.forEach(dam => {
+                const option = document.createElement('option');
+                option.value = dam.id;
+                option.textContent = `${dam.name} (${dam.gen})`; // Keep format for clarity
+                selectDam.appendChild(option);
+            });
+        }
+
+        function checkBreedButtonState() {
+            breedButton.disabled = !(selectSire.value && selectDam.value);
+        }
+
+        function handleBreedClick() { // Keep name, means 'simulate'
+            const sireId = parseInt(selectSire.value);
+            const damId = parseInt(selectDam.value);
+
+            if (!sireId || !damId) {
+                alert("Please select both a Sire and a Dam."); // Keep specific terms
+                return;
+            }
+
+            const sire = findHorseById(sireId); // Keep func name
+            const dam = findHorseById(damId);   // Keep func name
+
+            if (!sire || !dam) {
+                alert("Selected Sire or Dam not found in data."); // Keep specific terms
+                return;
+            }
+
+            tempOffspringData = generateOffspring(sire, dam); // Keep func name
+            displayOffspringResult(tempOffspringData); // Keep func name
+        }
+
+        function generateOffspring(sire, dam) { // Keep function and parameter names
+            // Keep all generation, gender, breed, stat calculation logic as it defines the simulation
+            const sireGenNum = parseGen(sire.gen);
+            const damGenNum = parseGen(dam.gen);
+            const offspringGen = `G${Math.max(sireGenNum, damGenNum) + 1}`;
+            const offspringGender = Math.random() < 0.5 ? 'M' : 'F';
+            const offspringBreed = Math.random() < 0.5 ? sire.breed : dam.breed;
+            const offspringColourTrait = Math.random() < 0.5 ? sire.colourTrait : dam.colourTrait;
+
+            const calculateStat = (sireStat, damStat, breed, statName) => {
+                let sireVal = getStarNumericValue(sireStat);
+                let damVal = getStarNumericValue(damStat);
+                let avgVal = (sireVal + damVal) / 2;
+                let adjustment = 0;
+                let randomness = 0;
+                // Keep breed-specific adjustments as they are part of the simulation rules
+                switch (breed) {
+                    case 'Nakamoto':
+                         if (statName === 'sprint') adjustment = 0.25;
+                         if (statName === 'endurance') adjustment = -0.15;
+                         break;
+                    case 'Szabo':
+                         if (statName === 'endurance') adjustment = 0.2;
+                         if (statName === 'sprint') adjustment = -0.1;
+                          if (statName === 'speed') adjustment = 0.1;
+                         break;
+                    case 'Finney':
+                         if (statName === 'endurance') adjustment = 0.25;
+                         if (statName === 'sprint') adjustment = -0.15;
+                         break;
+                     case 'Buterin':
+                         randomness = (Math.random() * 1.0) - 0.5;
+                         break;
+                }
+                randomness += (Math.random() * 0.5) - 0.25;
+                let finalVal = avgVal + adjustment + randomness;
+                finalVal = Math.max(1, Math.min(5, finalVal));
+                return mapNumericToStars(finalVal);
+            };
+
+            const offspringOverall = calculateStat(sire.overall, dam.overall, offspringBreed, 'overall');
+            const offspringSpeed = calculateStat(sire.speed, dam.speed, offspringBreed, 'speed');
+            const offspringSprint = calculateStat(sire.sprint, dam.sprint, offspringBreed, 'sprint');
+            const offspringEndurance = calculateStat(sire.endurance, dam.endurance, offspringBreed, 'endurance');
+
+            // Return structure, zeroing out specific values
+            // Removed previousRaceTime
+            return {
+                name: "", // User sets
+                gen: offspringGen,
+                gender: offspringGender,
+                breed: offspringBreed,
+                colourTrait: offspringColourTrait,
+                sireName: sire.name, // Keep parent names
+                sireBreed: sire.breed,
+                sireColourTrait: sire.colourTrait,
+                damName: dam.name, // Keep parent names
+                damBreed: dam.breed,
+                damColourTrait: dam.colourTrait,
+                overall: offspringOverall, // Calculated stat
+                speed: offspringSpeed,     // Calculated stat
+                sprint: offspringSprint,   // Calculated stat
+                endurance: offspringEndurance, // Calculated stat
+                races: 0, first: 0, second: 0, third: 0, // Zero defaults
+                raceTime: null,
+                cpu: null, ram: null, hydraulic: null, // Null defaults for augments
+                breedCost: "", strtZedBal: "", zedBalance: "", soldBreeds: "", // Empty string defaults for monetary values
+                raceTimeHistory: [], status: 'active', order: null
+            };
+        }
+
+        function displayOffspringResult(offspringData) { // Keep func name
+            if (!offspringData || !offspringResultDiv) return;
+
+            inputOffspringName.value = ""; // Clear name input
+            // Display calculated/derived data
+            offspringGenSpan.textContent = offspringData.gen || 'N/A';
+            offspringGenderSpan.textContent = offspringData.gender || 'N/A';
+            offspringBreedSpan.textContent = offspringData.breed || 'N/A';
+            offspringColourTraitSpan.textContent = offspringData.colourTrait || 'N/A';
+            offspringOverallSpan.textContent = offspringData.overall || '-';
+            offspringSpeedSpan.textContent = offspringData.speed || '-';
+            offspringSprintSpan.textContent = offspringData.sprint || '-';
+            offspringEnduranceSpan.textContent = offspringData.endurance || '-';
+            offspringSireNameSpan.textContent = offspringData.sireName || 'N/A';
+            offspringDamNameSpan.textContent = offspringData.damName || 'N/A';
+
+            offspringResultDiv.classList.remove('hidden');
+        }
+
+        function handleAddOffspring() { // Keep func name
+            if (!tempOffspringData) {
+                alert("No offspring data generated yet.");
+                return;
+            }
+            const offspringName = inputOffspringName.value.trim();
+            if (!offspringName) {
+                alert("Please enter a unique name for the offspring.");
+                inputOffspringName.focus();
+                return;
+            }
+            if (findHorseByName(offspringName)) { // Check for existing name
+                 alert(`An item named "${offspringName}" already exists. Please choose a unique name.`); // Generic message
+                 inputOffspringName.focus();
+                 return;
+            }
+
+            tempOffspringData.name = offspringName;
+            tempOffspringData.id = nextId++;
+            const maxOrder = horsesData.reduce((max, h) => Math.max(max, h.order ?? -1), -1);
+            tempOffspringData.order = maxOrder + 1;
+
+            horsesData.push(tempOffspringData);
+            saveHorsesData();
+            alert(`"${offspringName}" added successfully!`); // Generic message
+
+            renderBreedsPage();
+            populateBreedingSelectors();
+            cancelOffspring();
+        }
+
+        function cancelOffspring() {
+            offspringResultDiv.classList.add('hidden');
+            tempOffspringData = null;
+            inputOffspringName.value = "";
+        }
+
+        // ========================================================================
+        // == BREEDS PAGE INLINE EDIT FUNCTIONS (Kept logic, genericized text) ==
+        // ========================================================================
+        function toggleParentEditMode(buttonElement) {
+            const parentSection = buttonElement.closest('.parent-section');
+            if (!parentSection) return;
+            const displayDiv = parentSection.querySelector('.display-details');
+            const editDiv = parentSection.querySelector('.inline-edit-form');
+            const parentId = parentSection.getAttribute('data-parent-id');
+            if (!displayDiv || !editDiv) { console.error("Could not find display/edit elements for inline edit."); return; }
+            const parent = findHorseById(parentId); // Keep func name
+            if (!parent || parent.status === 'forged') { alert("Cannot edit details for an item that is not found or has been removed."); return; } // Generic message
+
+            const isCurrentlyHidden = editDiv.classList.contains('hidden');
+            displayDiv.classList.toggle('hidden', isCurrentlyHidden);
+            editDiv.classList.toggle('hidden', !isCurrentlyHidden);
+            buttonElement.classList.toggle('hidden', isCurrentlyHidden);
+
+            // Populate form if opening
+            if (isCurrentlyHidden) {
+                editDiv.querySelector('.inline-breed').value = parent.breed || "";
+                editDiv.querySelector('.inline-colour').value = parent.colourTrait || "";
+                editDiv.querySelector('.inline-gen').value = parent.gen || "";
+                editDiv.querySelector('.inline-overall').value = parent.overall || "-";
+                editDiv.querySelector('.inline-speed').value = parent.speed || "-";
+                editDiv.querySelector('.inline-sprint').value = parent.sprint || "-";
+                editDiv.querySelector('.inline-endurance').value = parent.endurance || "-";
+                editDiv.querySelector('.inline-races').value = parent.races ?? 0;
+            }
+        }
+        function cancelParentEdit(buttonElement) {
+             const parentSection = buttonElement.closest('.parent-section');
+             if (!parentSection) return;
+             parentSection.querySelector('.display-details').classList.remove('hidden');
+             parentSection.querySelector('.inline-edit-form').classList.add('hidden');
+             const editButton = parentSection.querySelector('.edit-parent-button');
+             if(editButton) editButton.classList.remove('hidden');
+         }
+        function saveParentEdit(buttonElement) {
+             const parentSection = buttonElement.closest('.parent-section');
+             if (!parentSection) return;
+             const parentId = parseInt(parentSection.getAttribute('data-parent-id'));
+             if (isNaN(parentId)) { alert("Error: Invalid parent ID."); cancelParentEdit(buttonElement); return; }
+             const parentIndex = findIndexById(parentId);
+             if (parentIndex === -1) { alert("Error: Could not find parent item data to save."); cancelParentEdit(buttonElement); return; } // Generic message
+             if (horsesData[parentIndex].status === 'forged') { alert("Error: Cannot save changes to a removed item."); cancelParentEdit(buttonElement); return; } // Generic message
+
+             const editDiv = parentSection.querySelector('.inline-edit-form');
+             const getInlineStarValue = (selector) => {
+                 const value = editDiv.querySelector(selector).value;
+                 return value === "-" ? "" : value;
+             };
+
+             // Read updated data from inline form
+             const updatedData = {
+                 breed: editDiv.querySelector('.inline-breed').value,
+                 colourTrait: editDiv.querySelector('.inline-colour').value,
+                 gen: editDiv.querySelector('.inline-gen').value,
+                 overall: getInlineStarValue('.inline-overall'),
+                 speed: getInlineStarValue('.inline-speed'),
+                 sprint: getInlineStarValue('.inline-sprint'),
+                 endurance: getInlineStarValue('.inline-endurance'),
+                 races: parseInt(editDiv.querySelector('.inline-races').value) || 0,
+             };
+             Object.assign(horsesData[parentIndex], updatedData); // Merge updates
+             saveHorsesData();
+             alert(`Details for ${horsesData[parentIndex].name} updated successfully.`); // Generic message
+             renderBreedsPage(); // Refresh view
+             renderLineagePage(); // Refresh lineage if relevant
+         }
+
+
+        // ========================================================================
+        // == THEME TOGGLE (Kept as is) ==
+        // ========================================================================
+        function applyTheme(isDark) {
+             document.body.classList.toggle('dark-mode', isDark);
+             darkModeToggle.checked = isDark;
+         }
+        function toggleTheme() {
+             const currentIsDark = document.body.classList.contains('dark-mode');
+             const newIsDark = !currentIsDark;
+             applyTheme(newIsDark);
+             localStorage.setItem('darkMode', newIsDark);
+         }
+
+        // ========================================================================
+        // == DRAG AND DROP FOR OVERVIEW TABLE (Kept as is) ==
+        // ========================================================================
+        function getDragAfterElement(container, y) {
+             const draggableElements = [...container.querySelectorAll('tr[draggable="true"]:not(.dragging)')];
+             return draggableElements.reduce((closest, child) => {
+                 const box = child.getBoundingClientRect();
+                 const offset = y - box.top - box.height / 2;
+                 if (offset < 0 && offset > closest.offset) {
+                     return { offset: offset, element: child };
+                 } else {
+                     return closest;
+                 }
+             }, { offset: Number.NEGATIVE_INFINITY }).element;
+         }
+        horseTableBody.addEventListener('dragstart', (e) => {
+            if (e.target.tagName === 'TR' && e.target.hasAttribute('draggable')) {
+                draggedRow = e.target;
+                draggedRow.classList.add('dragging');
+                e.dataTransfer.setData('text/plain', draggedRow.dataset.horseId); // Keep attribute name
+                e.dataTransfer.effectAllowed = 'move';
+            } else {
+                e.preventDefault();
+            }
+        });
+        horseTableBody.addEventListener('dragend', () => {
+            if(draggedRow) { draggedRow.classList.remove('dragging'); }
+            horseTableBody.querySelectorAll('.drag-over').forEach(row => row.classList.remove('drag-over'));
+            draggedRow = null;
+        });
+        horseTableBody.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            const afterElement = getDragAfterElement(horseTableBody, e.clientY);
+            const currentOver = horseTableBody.querySelector('.drag-over');
+             if (currentOver && currentOver !== afterElement && currentOver !== afterElement?.previousElementSibling) {
+                currentOver.classList.remove('drag-over');
+            }
+             if (afterElement && afterElement !== draggedRow) {
+                afterElement.classList.add('drag-over');
+            }
+            e.dataTransfer.dropEffect = 'move';
+        });
+         horseTableBody.addEventListener('dragleave', (e) => {
+             const relatedTarget = e.relatedTarget;
+             let parentTBody = null;
+             if (relatedTarget) { parentTBody = relatedTarget.closest('tbody'); }
+             if (parentTBody !== horseTableBody) {
+                 horseTableBody.querySelectorAll('.drag-over').forEach(row => row.classList.remove('drag-over'));
+             }
+         });
+        horseTableBody.addEventListener('drop', (e) => {
+             e.preventDefault();
+             horseTableBody.querySelectorAll('.drag-over').forEach(row => row.classList.remove('drag-over'));
+             if (!draggedRow) return;
+             const afterElement = getDragAfterElement(horseTableBody, e.clientY);
+             const droppedItemId = parseInt(draggedRow.dataset.horseId); // Keep attribute name
+
+             let orderedActiveIds = horsesData
+                 .filter(h => h.status === 'active')
+                 .sort((a, b) => (a.order ?? Infinity) - (b.order ?? Infinity))
+                 .map(h => h.id);
+
+             const oldIndex = orderedActiveIds.indexOf(droppedItemId);
+             if (oldIndex > -1) { orderedActiveIds.splice(oldIndex, 1); }
+              else { console.warn("Dropped item ID not found in active ordered list?"); }
+
+             let insertIndex;
+             if (afterElement) {
+                 const targetId = parseInt(afterElement.dataset.horseId); // Keep attribute name
+                 const targetIdIndex = orderedActiveIds.indexOf(targetId);
+                 insertIndex = (targetIdIndex > -1) ? targetIdIndex : orderedActiveIds.length;
+             } else {
+                 insertIndex = orderedActiveIds.length;
+             }
+             orderedActiveIds.splice(insertIndex, 0, droppedItemId);
+
+             // Update order property based on new array order
+             let currentOrder = 0;
+             orderedActiveIds.forEach(id => {
+                 const itemIndex = findIndexById(id); // Keep func name
+                 if (itemIndex !== -1) { horsesData[itemIndex].order = currentOrder++; }
+             });
+
+             saveHorsesData();
+             renderOverviewPage(); // Refresh view
+             draggedRow = null;
+         });
+
+        // ========================================================================
+        // == SCROLL TO TOP BUTTON LOGIC (Kept as is) ==
+        // ========================================================================
+        window.onscroll = function() { scrollTrigger() };
+        function scrollTrigger() {
+          const scrollPosition = document.documentElement.scrollTop || document.body.scrollTop;
+          const scrollThreshold = 200;
+          if (scrollTopButton) {
+              if (scrollPosition > scrollThreshold) { scrollTopButton.style.display = "block"; }
+              else { scrollTopButton.style.display = "none"; }
+          }
+        }
+        function backToTop() { window.scrollTo({top: 0, behavior: 'smooth'}); }
+
+        // ========================================================================
+        // == EVENT LISTENERS (Kept logic, some var names updated for clarity) ==
+        // ========================================================================
+        horseSelector.addEventListener('change', (event) => {
+             const selectedId = event.target.value;
+             if (selectedId && selectedId !== "") {
+                 showDetailPage(selectedId);
+             } else {
+                 // Handle case where "-- Select an Item --" is chosen
+                 currentDetailHorseId = null;
+                 horseProfileDisplayDiv.classList.add('hidden');
+                 horseFormDiv.classList.add('hidden');
+                 mainActionsDiv.classList.remove('hidden');
+                 hideDetailActionButtons();
+                 horseProfileDisplayDiv.innerHTML = '<p style="text-align:center; padding: 20px;">Select an item to view details.</p>'; // Generic message
+                 horseProfileDisplayDiv.classList.remove('hidden');
+                 const chartContainer = document.getElementById('raceTimeChartContainer');
+                 if(chartContainer) chartContainer.classList.add('hidden');
+             }
+         });
+        editButton.addEventListener('click', showEditForm);
+        sendToBreedingPoolButton.addEventListener('click', handleSendToBreedingPool);
+        forgeButton.addEventListener('click', handleForgeHorse); // 'Forge' means 'Remove'
+        cancelButton.addEventListener('click', cancelDetailForm);
+        editAddForm.addEventListener('submit', handleFormSubmit);
+
+        // Previous/Next Navigation Listeners (kept logic)
+        prevHorseBtn.addEventListener('click', () => {
+            if (!currentDetailHorseId) return;
+            const navigableItems = getNavigableHorses(); // Keep func name
+            const currentIndex = navigableItems.findIndex(h => h.id === currentDetailHorseId);
+            if (currentIndex > 0) { showDetailPage(navigableItems[currentIndex - 1].id); }
+        });
+        nextHorseBtn.addEventListener('click', () => {
+             if (!currentDetailHorseId) return;
+             const navigableItems = getNavigableHorses(); // Keep func name
+             const currentIndex = navigableItems.findIndex(h => h.id === currentDetailHorseId);
+             if (currentIndex !== -1 && currentIndex < navigableItems.length - 1) { showDetailPage(navigableItems[currentIndex + 1].id); }
+        });
+
+        // Breeds Page Listeners (kept logic)
+        breedingRecordsList.addEventListener('click', (event) => {
+             const button = event.target.closest('button');
+             if (button) {
+                 if (button.classList.contains('edit-offspring-button')) { const itemId = button.getAttribute('data-id'); if (itemId) showDetailPage(itemId); return; } // Renamed var
+                 if (button.classList.contains('edit-parent-button')) { toggleParentEditMode(button); return; }
+                 if (button.classList.contains('save-parent-edit')) { saveParentEdit(button); return; }
+                 if (button.classList.contains('cancel-parent-edit')) { cancelParentEdit(button); return; }
+             }
+             // Clicks on spans with onclick handled by browser
+        });
+        if(selectSire && selectDam && breedButton) { // Simulation controls
+             selectSire.addEventListener('change', checkBreedButtonState);
+             selectDam.addEventListener('change', checkBreedButtonState);
+             breedButton.addEventListener('click', handleBreedClick); // 'Breed' means 'Simulate'
+        }
+        if(addOffspringButton) { // Add simulated result
+             addOffspringButton.addEventListener('click', handleAddOffspring);
+        }
+
+        // Import File Listener
+        importFileInput.addEventListener('change', importData);
+
+        // Theme and Scroll Listeners
+        darkModeToggle.addEventListener('change', toggleTheme);
+        if (scrollTopButton) { scrollTopButton.addEventListener('click', backToTop); }
+         else { console.warn("Scroll Top Button element not found."); }
+
+        // ========================================================================
+        // == INITIALISATION ==
+        // ========================================================================
+        document.addEventListener('DOMContentLoaded', () => {
+            loadHorsesData(); // Load data (will be empty initially or from storage)
+            const savedDarkMode = localStorage.getItem('darkMode') === 'true';
+            applyTheme(savedDarkMode); // Apply saved theme
+            showPage('overviewPage'); // Show initial page
+            scrollTrigger(); // Set initial state of scroll button
+        });
+
+    </script>
+
+</body>
+</html>
