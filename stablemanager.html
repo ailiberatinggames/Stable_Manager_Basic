@@ -755,18 +755,19 @@
                  alert("Could not save data. LocalStorage might be full or disabled.");
              }
          }
+        // **** UPDATED loadHorsesData function ****
         function loadHorsesData() {
             const storedData = localStorage.getItem(STORAGE_KEY);
-            let dataToUse = JSON.parse(JSON.stringify(defaultHorsesData)); // Uses the now empty default
+            let dataToUse = defaultHorsesData; // Start with empty default
 
             if (storedData) {
                 try {
                     let parsedData = JSON.parse(storedData);
-                    if (Array.isArray(parsedData)) { // Allow empty array
-                        dataToUse = parsedData;
+                    if (Array.isArray(parsedData)) {
+                        dataToUse = parsedData; // Use stored data if valid array
                     } else {
                         console.warn("Stored data is not a valid array, using empty default.");
-                        dataToUse = []; // Ensure it's an array
+                        dataToUse = [];
                     }
                 } catch (e) {
                     console.error("Parse Error loading data:", e);
@@ -781,36 +782,60 @@
             let updated = false;
             dataToUse = Array.isArray(dataToUse) ? dataToUse.filter(h => h && typeof h === 'object') : []; // Filter valid objects
 
-            // Data migration/validation logic (kept as it ensures structure)
+            // --- Refined Validation/Migration Loop ---
             dataToUse.forEach((h, index) => {
+                // ID Management
                 if (h.id && typeof h.id === 'number' && h.id > maxId) {
                     maxId = h.id;
                 }
-                if (!h.status) { h.status = 'active'; updated = true; }
-                if (h.order === undefined || h.order === null || typeof h.order !== 'number') { h.order = index; updated = true; }
-                if (h.hasOwnProperty('time') && !h.hasOwnProperty('raceTime')) { h.raceTime = h.time; delete h.time; updated = true; }
-                 // Removed check for previousRaceTime
-                 if (!h.hasOwnProperty('soldBreeds')) { h.soldBreeds = ""; updated = true;} // Default to empty string for value
-                 if (!h.hasOwnProperty('strtZedBal')) { h.strtZedBal = ""; updated = true; } // Cleared default value
-                 if (typeof h.races !== 'number' || isNaN(h.races)) { h.races = 0; updated = true; }
-                 if (typeof h.first !== 'number' || isNaN(h.first)) { h.first = 0; updated = true; }
-                 if (typeof h.second !== 'number' || isNaN(h.second)) { h.second = 0; updated = true; }
-                 if (typeof h.third !== 'number' || isNaN(h.third)) { h.third = 0; updated = true; }
-                 if (!h.hasOwnProperty('raceTimeHistory') || !Array.isArray(h.raceTimeHistory)) {
-                    h.raceTimeHistory = [];
-                    updated = true;
-                 }
-                 // Clear specific value formatters if necessary, e.g., for breedCost, zedBalance
-                 if (typeof h.breedCost !== 'string') { h.breedCost = ""; updated = true; }
-                 if (typeof h.zedBalance !== 'string') { h.zedBalance = ""; updated = true; }
-                 // Ensure soldBreeds is treated as a string or number for storage (empty string default)
-                 if (typeof h.soldBreeds !== 'string' && typeof h.soldBreeds !== 'number') { h.soldBreeds = ""; updated = true; }
+                // Ensure basic structure fields exist
+                if (!h.hasOwnProperty('status')) { h.status = 'active'; updated = true; }
+                if (!h.hasOwnProperty('order') || typeof h.order !== 'number') { h.order = index; updated = true; }
+                if (!h.hasOwnProperty('name')) { h.name = 'Unnamed'; updated = true; } // Add default name if missing
+                if (!h.hasOwnProperty('raceTimeHistory') || !Array.isArray(h.raceTimeHistory)) { h.raceTimeHistory = []; updated = true; }
 
+                // Ensure numeric fields are numbers or default to 0
+                const numericFields = ['races', 'first', 'second', 'third'];
+                numericFields.forEach(field => {
+                    if (!h.hasOwnProperty(field) || typeof h[field] !== 'number' || isNaN(h[field])) {
+                        h[field] = 0;
+                        updated = true;
+                    }
+                });
+
+                // Ensure monetary fields exist as strings (default to empty string if missing)
+                // This is less strict than before, preserving existing valid strings from import
+                const monetaryFields = ['breedCost', 'strtZedBal', 'zedBalance', 'soldBreeds'];
+                monetaryFields.forEach(field => {
+                     if (!h.hasOwnProperty(field) || (typeof h[field] !== 'string' && typeof h[field] !== 'number')) {
+                        h[field] = ""; // Default to empty string if missing or wrong type
+                        updated = true;
+                    } else if (typeof h[field] === 'number') {
+                        // Convert number to string for consistency if found (e.g., from older data/imports)
+                        h[field] = String(h[field]);
+                        updated = true;
+                    }
+                 });
+
+                 // Ensure other potentially optional fields exist (defaulting to null or appropriate type)
+                 const optionalFields = ['gen', 'gender', 'breed', 'colourTrait', 'sireName', 'sireBreed', 'sireColourTrait', 'damName', 'damBreed', 'damColourTrait', 'overall', 'speed', 'sprint', 'endurance', 'raceTime', 'cpu', 'ram', 'hydraulic'];
+                 optionalFields.forEach(field => {
+                    if (!h.hasOwnProperty(field)) {
+                        // Assign reasonable defaults if field is completely missing
+                        if (['overall', 'speed', 'sprint', 'endurance'].includes(field)) {
+                             h[field] = "-";
+                        } else {
+                             h[field] = null; // Or "" depending on preference
+                        }
+                        updated = true;
+                    }
+                 });
             });
+            // --- End of Refined Loop ---
 
             nextId = maxId + 1;
 
-            // Assign IDs if missing
+            // Final pass to assign IDs if absolutely missing after processing
             dataToUse.forEach(h => {
                 if (!h.id || typeof h.id !== 'number') {
                     h.id = nextId++;
@@ -820,11 +845,13 @@
 
             horsesData = dataToUse;
 
+            // Save back only if changes were made during validation/migration or if it was initial load
             if (updated || !storedData) {
-                console.log("Saving initial or updated item data.");
+                console.log("Saving processed or updated item data.");
                 saveHorsesData();
             }
         }
+        // **** END OF UPDATED loadHorsesData function ****
 
 
         // --- Import/Export Functions ---
