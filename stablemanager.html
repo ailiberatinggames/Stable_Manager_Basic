@@ -3,7 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Template</title> <!-- Title removed -->
+    <!-- Updated Title -->
+    <title>Stable Manager</title>
     <style>
         /* --- Global Styles --- */
         :root { /* Define light mode colors */
@@ -85,6 +86,18 @@
             position: relative;
             transition: background-color 0.3s ease, color 0.3s ease;
         }
+        /* New Style for App Title */
+        .app-title {
+            font-size: 1rem; /* Adjust size as needed */
+            font-style: italic;
+            text-align: left;
+            color: var(--text-color); /* Use theme color */
+            margin-bottom: 15px; /* Space below title */
+            margin-top: 0; /* Remove default top margin */
+            padding-top: 5px; /* Add slight padding if needed */
+            border-bottom: 1px solid var(--border-color-light); /* Optional subtle separator */
+            padding-bottom: 10px; /* Optional subtle separator */
+        }
         h1, h2, h3 {
             color: var(--heading-color);
             text-align: center;
@@ -97,6 +110,8 @@
             padding-bottom: 15px;
             font-size: 2.3em;
             font-weight: 600;
+            /* Remove margin-top if app-title provides spacing */
+            margin-top: 0;
         }
         h2 {
             border-bottom: 1px solid var(--border-color);
@@ -283,7 +298,10 @@
             </label>
         </div>
 
-        <h1></h1> <!-- Title text removed -->
+        <!-- Added App Title Element -->
+        <p class="app-title">Stable Manager</p>
+
+        <h1></h1> <!-- Main title remains empty -->
 
         <!-- Navigation -->
         <div class="nav-links">
@@ -846,7 +864,8 @@
             horsesData = dataToUse;
 
             // Save back only if changes were made during validation/migration or if it was initial load
-            if (updated || !storedData) {
+            // Don't automatically save here if data came from storage unless it was updated.
+            if (updated) {
                 console.log("Saving processed or updated item data.");
                 saveHorsesData();
             }
@@ -876,6 +895,7 @@
             }
         }
 
+        // **** UPDATED importData function ****
         function importData(event) {
             const file = event.target.files[0];
             if (!file) {
@@ -883,6 +903,7 @@
             }
             if (!file.name.endsWith('.json')) {
                 alert("Please select a valid JSON file (.json).");
+                event.target.value = null; // Clear input even on error
                 return;
             }
 
@@ -894,21 +915,33 @@
                         throw new Error("Imported data is not a valid array.");
                     }
 
-                    // Simple validation (check for name/id)
-                    const isValid = importedData.every(item => typeof item === 'object' && item !== null && item.hasOwnProperty('name') && item.hasOwnProperty('id'));
+                    // Basic validation: Check if items are objects and have id/name
+                    const isValid = importedData.every(item =>
+                        typeof item === 'object' && item !== null && item.hasOwnProperty('id') && item.hasOwnProperty('name')
+                    );
 
                     if (!isValid) {
-                         throw new Error("Imported data structure seems invalid. Missing required fields like 'name' or 'id'.");
+                         throw new Error("Imported data structure seems invalid. Missing required fields like 'name' or 'id' in one or more items.");
                     }
 
                     if (window.confirm("Importing will OVERWRITE your current data. Are you sure you want to continue?")) {
-                        horsesData = importedData; // Overwrite
-                        loadHorsesData(); // Re-process/validate the imported data
-                        saveHorsesData(); // Save the newly imported data
+                        // 1. Assign validated imported data directly
+                        horsesData = importedData;
+
+                        // 2. Save the imported data to localStorage IMMEDIATELY
+                        saveHorsesData();
+
+                        // 3. Call loadHorsesData *after* saving.
+                        //    This will now read the correct imported data from storage
+                        //    and primarily recalculate nextId and apply minor defaults if needed.
+                        loadHorsesData();
+
                         alert("Data imported successfully! Refreshing views.");
+
+                        // Refresh the currently visible page
                         const currentPage = allPages.find(page => !page.classList.contains('hidden'));
                         if (currentPage) {
-                            showPage(currentPage.id); // Refresh current page view
+                            showPage(currentPage.id);
                         } else {
                             showPage('overviewPage'); // Default to overview
                         }
@@ -927,7 +960,7 @@
             };
             reader.readAsText(file);
         }
-        // --- End Import/Export Functions ---
+         // **** END OF UPDATED importData function ****
 
 
         // ========================================================================
