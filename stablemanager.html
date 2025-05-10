@@ -65,7 +65,7 @@
             --nav-btn-disabled-color: #6c757d;
             --nav-btn-disabled-border: #6c757d;
             --chart-grid-color: rgba(255, 255, 255, 0.15);
-            --chart-text-color: #f0f0f0; /* Default for dark mode chart text elements */
+            --chart-text-color: #FFFFFF; /* Explicit WHITE for dark mode chart axis/tick/legend text */
         }
 
         body {
@@ -194,7 +194,7 @@
         body.dark-mode .chartjs-tooltip .chartjs-tooltip-title,
         body.dark-mode .chartjs-tooltip .chartjs-tooltip-body,
         body.dark-mode .chartjs-tooltip .chartjs-tooltip-body li span {
-             color: var(--text-color) !important; /* Uses --text-color from body.dark-mode */
+             color: var(--text-color) !important; /* Tooltip text uses --text-color (#e9ecef) */
         }
         /* Chart titles (H3 inside chart containers) will use general H3 styling which respects theme */
     </style>
@@ -502,7 +502,6 @@
         function renderOverviewPage() { horseTableBody.innerHTML = ''; const activeItems = horsesData.filter(h => h && h.status === 'active').sort((a, b) => (a.order ?? Infinity) - (b.order ?? Infinity)); let totalCost = 0, totalBalance = 0; if (activeItems.length === 0) { horseTableBody.innerHTML = '<tr><td colspan="15" class="no-horses">No active items found.</td></tr>'; return; } activeItems.forEach(item => { const places = calculatePlaces(item), roi = calculateROI(item); totalCost += parseNumericValue(item?.breedCost); totalBalance += parseNumericValue(item?.zedBalance); const row = document.createElement('tr'); row.setAttribute('draggable', true); row.setAttribute('data-horse-id', item.id); row.innerHTML = `<td><span class="drag-handle">↕️</span></td> <td>${item.name}</td> <td>${item.gen||'N/A'}</td> <td>${item.gender||'N/A'}</td> <td>${item.breed||'N/A'}</td> <td class="stars">${item.overall||'-'}</td> <td class="stars">${item.speed||'-'}</td> <td class="stars">${item.sprint||'-'}</td> <td class="stars">${item.endurance||'-'}</td> <td>${item.races??'N/A'}</td> <td>${places}</td> <td>${item.breedCost||'N/A'}</td> <td>${item.zedBalance||'N/A'}</td> <td>${roi}</td> <td><span class="action-link" data-id="${item.id}">Details</span></td>`; row.querySelector('.action-link').addEventListener('click', (e) => { e.stopPropagation(); showDetailPage(item.id); }); horseTableBody.appendChild(row); }); if (activeItems.length > 0) { const footerRow = document.createElement('tr'); footerRow.classList.add('table-footer'); footerRow.innerHTML = `<td colspan="11"></td> <td class="footer-total">${formatNumericValue(totalCost)}</td> <td class="footer-total">${formatNumericValue(totalBalance)}</td> <td colspan="2"></td>`; horseTableBody.appendChild(footerRow); } }
         function populateHorseSelectorForDetail() { const currentSelectedId = horseSelector.value; horseSelector.innerHTML = '<option value="">-- Select an Item --</option>'; getNavigableHorses().forEach(item => { const option = document.createElement('option'); option.value = item.id; option.textContent = item.name; horseSelector.appendChild(option); }); const selectedItem = findHorseById(currentSelectedId); if (selectedItem && selectedItem.status !== 'forged') horseSelector.value = currentSelectedId; else { const currentDetailItem = findHorseById(currentDetailHorseId); if (currentDetailItem && currentDetailItem.status !== 'forged') horseSelector.value = currentDetailHorseId; else horseSelector.value = ""; } }
 
-        // **** MODIFIED renderHorseDetail for Chart Text and Grid Colors (using explicit options) ****
         function renderHorseDetail(itemId) {
             const item = findHorseById(itemId);
             const race1TimeChartContainer = document.getElementById('race1TimeChartContainer');
@@ -527,9 +526,15 @@
             horseProfileDisplayDiv.classList.remove('hidden'); horseFormDiv.classList.add('hidden'); mainActionsDiv.classList.remove('hidden'); showDetailActionButtons();
 
             // Get current theme colors for chart text and grids
-            const currentChartTextColor = getComputedStyle(document.documentElement).getPropertyValue('--chart-text-color').trim();
+            let effectiveChartTextColor = getComputedStyle(document.documentElement).getPropertyValue('--chart-text-color').trim();
+            const isDarkMode = document.body.classList.contains('dark-mode');
+
+            if (isDarkMode) {
+                effectiveChartTextColor = '#FFFFFF'; // Force PURE WHITE for dark mode chart text
+            }
+
             const currentChartGridColor = getComputedStyle(document.documentElement).getPropertyValue('--chart-grid-color').trim();
-            const currentTooltipBgColor = document.body.classList.contains('dark-mode') ? 'rgba(30,30,30,0.9)' : 'rgba(250,250,250,0.9)'; // Tooltip BG
+            const currentTooltipBgColor = isDarkMode ? 'rgba(30,30,30,0.9)' : 'rgba(250,250,250,0.9)';
 
             // --- Race Times Chart (Combined Race 1 and Race 2) ---
             if (race1TimeChartContainer && race1TimeCanvas && race1NoDataMsg) {
@@ -540,7 +545,6 @@
 
                 if (race1History.length >= 1 || race2History.length >= 1) {
                     race1TimeChartContainer.classList.remove('hidden'); race1TimeCanvas.classList.remove('hidden'); race1NoDataMsg.classList.add('hidden');
-                    // Chart title color is handled by general H3 CSS.
 
                     let overallFastestS = Infinity, overallSlowestS = 0, overallFastestT = "N/A", overallSlowestT = "N/A", validOverallT = false;
                     if(combinedRaceHistory.length > 0) { combinedRaceHistory.forEach(e => { const ts = parseRaceTime(e.time); if (ts !== null) { validOverallT = true; if (ts < overallFastestS) { overallFastestS = ts; overallFastestT = e.time; } if (ts > overallSlowestS) { overallSlowestS = ts; overallSlowestT = e.time; } } }); }
@@ -553,15 +557,15 @@
                         if (overallFastestS !== Infinity) { datasets.push({ label: 'Overall Fastest', data: [{x:firstTs,y:overallFastestS},{x:lastTs,y:overallFastestS}], borderColor:'rgb(40,167,69)', borderWidth:2, borderDash:[5,5], pointRadius:0, fill:false, tension:0, order:1 }); }
                         if (overallSlowestS > 0 && overallSlowestS !== Infinity && overallSlowestS !== overallFastestS) { datasets.push({ label: 'Overall Slowest', data: [{x:firstTs,y:overallSlowestS},{x:lastTs,y:overallSlowestS}], borderColor:'rgb(220,53,69)', borderWidth:2, borderDash:[5,5], pointRadius:0, fill:false, tension:0, order:0 }); }
                     }
-                    let yOpt = { beginAtZero: false, title: { display: true, text: 'Time (s - Lower is Better)', color: currentChartTextColor }, ticks: { color: currentChartTextColor }, grid: { color: currentChartGridColor } };
+                    let yOpt = { beginAtZero: false, title: { display: true, text: 'Time (s - Lower is Better)', color: effectiveChartTextColor }, ticks: { color: effectiveChartTextColor }, grid: { color: currentChartGridColor } };
                     if (validOverallT && overallFastestS !== Infinity) { const pad = Math.max((overallSlowestS - overallFastestS) * 0.1, 0.5) || 1; yOpt.suggestedMin = Math.max(0, overallFastestS - pad); yOpt.suggestedMax = overallSlowestS + pad; }
 
                     race1TimeChartInstance = new Chart(race1TimeCanvas.getContext('2d'), { type: 'line', data: { datasets: datasets },
                         options: {
                             responsive: true, maintainAspectRatio: true,
-                            scales: { x: { type: 'time', time: { unit: 'day', tooltipFormat: 'PPpp', displayFormats: { day: 'MMM d' }}, title: { display: true, text: 'Date', color: currentChartTextColor }, ticks: { color: currentChartTextColor }, grid: { color: currentChartGridColor } }, y: yOpt },
-                            plugins: { legend: {position:'top', labels:{color: currentChartTextColor}},
-                                tooltip: { titleColor: currentChartTextColor, bodyColor: currentChartTextColor, backgroundColor: currentTooltipBgColor, callbacks: { title: (i) => (i[0].dataset.label.includes('Fastest') || i[0].dataset.label.includes('Slowest')) ? i[0].dataset.label : new Date(i[0].parsed.x).toLocaleDateString(), label: (c) => { let l=''; if(c.dataset.label==='Overall Fastest')l=`Fastest: ${overallFastestT} (${overallFastestS.toFixed(2)}s)`; else if(c.dataset.label==='Overall Slowest')l=`Slowest: ${overallSlowestT} (${overallSlowestS.toFixed(2)}s)`; else{l=c.dataset.label||'';if(l)l+=': ';const o=c.raw?.originalTime;if(o)l+=`${o} (${c.parsed.y.toFixed(2)}s)`;else if(c.parsed.y!==null)l+=c.parsed.y.toFixed(2)+'s';}return l;}}}}
+                            scales: { x: { type: 'time', time: { unit: 'day', tooltipFormat: 'PPpp', displayFormats: { day: 'MMM d' }}, title: { display: true, text: 'Date', color: effectiveChartTextColor }, ticks: { color: effectiveChartTextColor }, grid: { color: currentChartGridColor } }, y: yOpt },
+                            plugins: { legend: {position:'top', labels:{color: effectiveChartTextColor}},
+                                tooltip: { titleColor: effectiveChartTextColor, bodyColor: effectiveChartTextColor, backgroundColor: currentTooltipBgColor, callbacks: { title: (i) => (i[0].dataset.label.includes('Fastest') || i[0].dataset.label.includes('Slowest')) ? i[0].dataset.label : new Date(i[0].parsed.x).toLocaleDateString(), label: (c) => { let l=''; if(c.dataset.label==='Overall Fastest')l=`Fastest: ${overallFastestT} (${overallFastestS.toFixed(2)}s)`; else if(c.dataset.label==='Overall Slowest')l=`Slowest: ${overallSlowestT} (${overallSlowestS.toFixed(2)}s)`; else{l=c.dataset.label||'';if(l)l+=': ';const o=c.raw?.originalTime;if(o)l+=`${o} (${c.parsed.y.toFixed(2)}s)`;else if(c.parsed.y!==null)l+=c.parsed.y.toFixed(2)+'s';}return l;}}}}
                         }
                     });
                 } else { race1TimeChartContainer.classList.remove('hidden'); race1TimeCanvas.classList.add('hidden'); race1NoDataMsg.textContent = "No race time data for Race 1 or Race 2."; race1NoDataMsg.classList.remove('hidden'); }
@@ -570,9 +574,9 @@
             // ZED Balance Chart
             if (zedBalanceChartContainer && zedBalanceCanvas && zedBalanceNoDataMsg) { if (zedBalanceChartInstance) { zedBalanceChartInstance.destroy(); zedBalanceChartInstance = null; } const balHist = (item.zedBalanceHistory || []).filter(e => e && typeof e.balance === 'string' && e.timestamp && e.balance.trim() !== "").map(e => ({ ts: e.timestamp, val: parseNumericValue(e.balance), orig: e.balance })).filter(e => e.val !== null).sort((a,b) => a.ts - b.ts); if (balHist.length >= 1) { zedBalanceChartContainer.classList.remove('hidden'); zedBalanceCanvas.classList.remove('hidden'); zedBalanceNoDataMsg.classList.add('hidden'); const chartData = balHist.map(e => ({ x: e.ts, y: e.val })); zedBalanceChartInstance = new Chart(zedBalanceCanvas.getContext('2d'), { type: 'line', data: { datasets: [{ label: 'ZED Balance', data: chartData, borderColor: 'rgb(255,159,64)', backgroundColor: 'rgba(255,159,64,0.2)', tension: 0.1, fill: true, pointRadius: 3, pointHoverRadius: 5 }] },
                 options: { responsive: true, maintainAspectRatio: true,
-                    scales: { x: { type: 'time', time: { unit: 'day', tooltipFormat: 'PPpp', displayFormats: { day: 'MMM d' } }, title: { display: true, text: 'Date', color: currentChartTextColor }, ticks: { color: currentChartTextColor }, grid: { color: currentChartGridColor } }, y: { beginAtZero: false, title: { display: true, text: 'Balance', color: currentChartTextColor }, ticks: { callback: (v) => v.toLocaleString(undefined, {minimumFractionDigits:0,maximumFractionDigits:2}), color: currentChartTextColor }, grid: { color: currentChartGridColor } } },
-                    plugins: { legend: { position:'top', labels:{color: currentChartTextColor} },
-                        tooltip: { titleColor: currentChartTextColor, bodyColor: currentChartTextColor, backgroundColor: currentTooltipBgColor, callbacks: { title: (i) => new Date(i[0].parsed.x).toLocaleDateString(), label: (c) => { let l = c.dataset.label || ''; if(l) l+=': '; const origE = balHist.find(bh => bh.ts === c.parsed.x); if (origE && origE.orig) l += origE.orig; else if (c.parsed.y !== null) l += c.parsed.y.toLocaleString(undefined, {minimumFractionDigits:2,maximumFractionDigits:2}); return l; } } }
+                    scales: { x: { type: 'time', time: { unit: 'day', tooltipFormat: 'PPpp', displayFormats: { day: 'MMM d' } }, title: { display: true, text: 'Date', color: effectiveChartTextColor }, ticks: { color: effectiveChartTextColor }, grid: { color: currentChartGridColor } }, y: { beginAtZero: false, title: { display: true, text: 'Balance', color: effectiveChartTextColor }, ticks: { callback: (v) => v.toLocaleString(undefined, {minimumFractionDigits:0,maximumFractionDigits:2}), color: effectiveChartTextColor }, grid: { color: currentChartGridColor } } },
+                    plugins: { legend: { position:'top', labels:{color: effectiveChartTextColor} },
+                        tooltip: { titleColor: effectiveChartTextColor, bodyColor: effectiveChartTextColor, backgroundColor: currentTooltipBgColor, callbacks: { title: (i) => new Date(i[0].parsed.x).toLocaleDateString(), label: (c) => { let l = c.dataset.label || ''; if(l) l+=': '; const origE = balHist.find(bh => bh.ts === c.parsed.x); if (origE && origE.orig) l += origE.orig; else if (c.parsed.y !== null) l += c.parsed.y.toLocaleString(undefined, {minimumFractionDigits:2,maximumFractionDigits:2}); return l; } } }
                     }
                 }
             }); } else { zedBalanceChartContainer.classList.remove('hidden'); zedBalanceCanvas.classList.add('hidden'); zedBalanceNoDataMsg.textContent = "No ZED Balance history."; zedBalanceNoDataMsg.classList.remove('hidden'); } } else console.error("ZED Balance Chart elements missing.");
@@ -770,17 +774,14 @@
         function applyTheme(dark) {
             document.body.classList.toggle('dark-mode', dark);
             darkModeToggle.checked = dark;
-            // Chart.js global defaults will be set based on the current theme when charts are rendered/re-rendered.
-            // We don't set Chart.defaults here anymore, but rely on renderHorseDetail picking up CSS vars.
         }
 
         function toggleTheme() {
             const newIsDark = !document.body.classList.contains('dark-mode');
-            applyTheme(newIsDark); // This just toggles body class and checkbox
+            applyTheme(newIsDark);
             localStorage.setItem('darkMode', newIsDark);
-            // If on detail page and a horse is selected, re-render its details to apply new chart styles
             if (detailPage && !detailPage.classList.contains('hidden') && currentDetailHorseId !== null) {
-                renderHorseDetail(currentDetailHorseId);
+                renderHorseDetail(currentDetailHorseId); // Re-render to apply new chart styles
             }
         }
         window.onscroll = function() { scrollTrigger() }; function scrollTrigger() { if (scrollTopButton) scrollTopButton.style.display = (document.documentElement.scrollTop || document.body.scrollTop) > 200 ? "block" : "none"; }
@@ -859,7 +860,7 @@
         // ========================================================================
         document.addEventListener('DOMContentLoaded', () => {
             loadHorsesData();
-            applyTheme(localStorage.getItem('darkMode') === 'true'); // Apply theme and set Chart.js defaults
+            applyTheme(localStorage.getItem('darkMode') === 'true');
             showPage('overviewPage');
             scrollTrigger();
         });
