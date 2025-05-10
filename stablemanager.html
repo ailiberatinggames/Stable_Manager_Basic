@@ -9,8 +9,8 @@
         :root { /* Define light mode colors */
             --body-bg: #dcdcdc;
             --container-bg: #f8f9fa;
-            --text-color: #212529; /* General text for light mode */
-            --heading-color: #1a1a1a; /* Titles, including chart titles if not overridden by JS */
+            --text-color: #212529;
+            --heading-color: #1a1a1a;
             --border-color: #dee2e6;
             --border-color-light: #e9ecef;
             --border-color-dark: #cccccc;
@@ -33,14 +33,15 @@
             --nav-btn-disabled-bg: #e9ecef;
             --nav-btn-disabled-color: #adb5bd;
             --nav-btn-disabled-border: #ced4da;
-            --chart-grid-color: rgba(0, 0, 0, 0.1); /* Grid line color for light mode */
+            --chart-grid-color: rgba(0, 0, 0, 0.1);
+            --chart-text-color: #555555; /* Default for light mode chart text elements */
         }
 
         body.dark-mode { /* Define dark mode colors */
             --body-bg: #212529;
             --container-bg: #343a40;
-            --text-color: #f0f0f0; /* Lighter text for dark mode, will be used by charts */
-            --heading-color: #f8f9fa; /* Lighter headings for dark mode */
+            --text-color: #e9ecef;
+            --heading-color: #f8f9fa;
             --border-color: #495057;
             --border-color-light: #495057;
             --border-color-dark: #5a6268;
@@ -63,7 +64,8 @@
             --nav-btn-disabled-bg: #495057;
             --nav-btn-disabled-color: #6c757d;
             --nav-btn-disabled-border: #6c757d;
-            --chart-grid-color: rgba(255, 255, 255, 0.15); /* Grid line color for dark mode */
+            --chart-grid-color: rgba(255, 255, 255, 0.15);
+            --chart-text-color: #f0f0f0; /* Default for dark mode chart text elements */
         }
 
         body {
@@ -72,11 +74,10 @@
         }
         .page-container { max-width: 1400px; margin: 40px auto 25px; background: var(--container-bg); padding: 25px 30px; border-radius: 8px; box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2); color: var(--text-color); position: relative; transition: background-color 0.3s ease, color 0.3s ease; }
         .app-title { font-size: 1rem; font-style: italic; text-align: left; color: var(--text-color); margin-bottom: 15px; margin-top: 0; padding-top: 5px; border-bottom: 1px solid var(--border-color-light); padding-bottom: 10px; }
-        h1, h2 { color: var(--heading-color); text-align: center; margin-top: 0; margin-bottom: 25px; transition: color 0.3s ease; }
+        h1, h2, h3 { color: var(--heading-color); text-align: center; margin-top: 0; margin-bottom: 25px; transition: color 0.3s ease; }
         h1 { border-bottom: 2px solid var(--border-color-dark); padding-bottom: 15px; font-size: 2.3em; font-weight: 600; margin-top: 0; }
         h2 { border-bottom: 1px solid var(--border-color); padding-bottom: 12px; margin-top: 40px; font-size: 1.9em; font-weight: 500; }
-        /* h3 is used for chart titles AND general section titles */
-        h3 { font-size: 1.4em; font-weight: 600; color: var(--heading-color); }
+        h3 { font-size: 1.4em; font-weight: 600; color: var(--heading-color); } /* General h3, chart h3 in containers below */
         label { display: block; margin-bottom: 6px; font-weight: 600; font-size: 0.95em; color: var(--text-color); opacity: 0.9; }
         select, input[type="text"], input[type="number"], input[type="url"] { width: 100%; padding: 10px 12px; margin-bottom: 18px; border: 1px solid var(--input-border); border-radius: 4px; box-sizing: border-box; font-size: 1em; background-color: var(--input-bg); color: var(--input-color); transition: border-color 0.2s ease, box-shadow 0.2s ease, background-color 0.3s ease, color 0.3s ease; }
         select:focus, input:focus { border-color: #80bdff; outline: 0; box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25); }
@@ -130,8 +131,8 @@
         #detailPage #horseProfileDisplay h2 { text-align: left; border-bottom: none; font-size: 1.7em; margin-bottom: 20px; color: var(--heading-color); }
         #detailPage .profile-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 25px; }
         #detailPage .profile-section { background-color: var(--card-bg); padding: 20px; border: 1px solid var(--border-color-light); border-radius: 5px; box-shadow: 0 1px 2px var(--card-shadow); }
-        /* Chart titles (H3) color is handled via general h3 and body.dark-mode h3 */
-        body.dark-mode #detailPage .profile-section h3 { border-bottom-color: var(--border-color-dark); }
+        #detailPage .profile-section h3 { /* General h3 for sections */ margin-top: 0; color: #007bff; font-size: 1.2em; border-bottom: 1px solid var(--border-color-light); padding-bottom: 8px; margin-bottom: 15px; text-align: left; font-weight: 600;}
+        body.dark-mode #detailPage .profile-section h3 { color: #58a6ff; border-bottom-color: var(--border-color-dark); } /* Specific dark mode adjustments for these section h3s */
         #detailPage #horseProfileDisplay p { margin: 7px 0; color: var(--text-color); font-size: 0.95em; }
         #detailPage #horseProfileDisplay strong { color: var(--heading-color); opacity: 0.9; display: inline-block; font-weight: 600; }
         #detailPage #basicInfo strong, #detailPage #raceRecord strong, #detailPage #pedigree strong, #detailPage #financials strong { min-width: 145px; }
@@ -143,7 +144,7 @@
         #prevHorseBtn, #nextHorseBtn { background-color: var(--nav-btn-color); color: white; border-color: var(--nav-btn-color); }
         #prevHorseBtn:hover:not(:disabled), #nextHorseBtn:hover:not(:disabled) { background-color: var(--nav-btn-hover-color); border-color: var(--nav-btn-hover-color); }
         #race1TimeChartContainer, #zedBalanceChartContainer { margin-top: 20px; padding: 15px; background-color: var(--card-bg); border: 1px solid var(--border-color); border-radius: 5px; box-shadow: 0 1px 3px var(--card-shadow); }
-        #race1TimeChartContainer h3, #zedBalanceChartContainer h3 { text-align: center; margin-top: 0; margin-bottom: 15px; color: var(--heading-color) !important; border-bottom: 1px solid var(--border-color-light); padding-bottom: 10px; }
+        #race1TimeChartContainer h3, #zedBalanceChartContainer h3 { text-align: center; margin-top: 0; margin-bottom: 15px; color: var(--heading-color); border-bottom: 1px solid var(--border-color-light); padding-bottom: 10px; } /* Chart container H3 titles use --heading-color */
         #race1TimeChartContainer p, #zedBalanceChartContainer p { text-align: center; font-style: italic; opacity: 0.7; }
         #poolPage .horse-list { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 25px; margin-top: 20px; }
         #poolPage .horse-card { border: 1px solid var(--border-color); border-radius: 6px; padding: 20px; background-color: var(--card-bg); box-shadow: 0 2px 5px var(--card-shadow); transition: box-shadow 0.2s ease; }
@@ -193,13 +194,9 @@
         body.dark-mode .chartjs-tooltip .chartjs-tooltip-title,
         body.dark-mode .chartjs-tooltip .chartjs-tooltip-body,
         body.dark-mode .chartjs-tooltip .chartjs-tooltip-body li span {
-             color: var(--text-color) !important; /* Use theme's main text color for tooltips in dark mode */
+             color: var(--text-color) !important; /* Uses --text-color from body.dark-mode */
         }
-        /* Ensure chart titles (H3 within chart containers) use the theme's heading color */
-        #race1TimeChartContainer h3,
-        #zedBalanceChartContainer h3 {
-            color: var(--heading-color);
-        }
+        /* Chart titles (H3 inside chart containers) will use general H3 styling which respects theme */
     </style>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/date-fns@2.29.3/cdn.min.js"></script>
@@ -505,7 +502,7 @@
         function renderOverviewPage() { horseTableBody.innerHTML = ''; const activeItems = horsesData.filter(h => h && h.status === 'active').sort((a, b) => (a.order ?? Infinity) - (b.order ?? Infinity)); let totalCost = 0, totalBalance = 0; if (activeItems.length === 0) { horseTableBody.innerHTML = '<tr><td colspan="15" class="no-horses">No active items found.</td></tr>'; return; } activeItems.forEach(item => { const places = calculatePlaces(item), roi = calculateROI(item); totalCost += parseNumericValue(item?.breedCost); totalBalance += parseNumericValue(item?.zedBalance); const row = document.createElement('tr'); row.setAttribute('draggable', true); row.setAttribute('data-horse-id', item.id); row.innerHTML = `<td><span class="drag-handle">↕️</span></td> <td>${item.name}</td> <td>${item.gen||'N/A'}</td> <td>${item.gender||'N/A'}</td> <td>${item.breed||'N/A'}</td> <td class="stars">${item.overall||'-'}</td> <td class="stars">${item.speed||'-'}</td> <td class="stars">${item.sprint||'-'}</td> <td class="stars">${item.endurance||'-'}</td> <td>${item.races??'N/A'}</td> <td>${places}</td> <td>${item.breedCost||'N/A'}</td> <td>${item.zedBalance||'N/A'}</td> <td>${roi}</td> <td><span class="action-link" data-id="${item.id}">Details</span></td>`; row.querySelector('.action-link').addEventListener('click', (e) => { e.stopPropagation(); showDetailPage(item.id); }); horseTableBody.appendChild(row); }); if (activeItems.length > 0) { const footerRow = document.createElement('tr'); footerRow.classList.add('table-footer'); footerRow.innerHTML = `<td colspan="11"></td> <td class="footer-total">${formatNumericValue(totalCost)}</td> <td class="footer-total">${formatNumericValue(totalBalance)}</td> <td colspan="2"></td>`; horseTableBody.appendChild(footerRow); } }
         function populateHorseSelectorForDetail() { const currentSelectedId = horseSelector.value; horseSelector.innerHTML = '<option value="">-- Select an Item --</option>'; getNavigableHorses().forEach(item => { const option = document.createElement('option'); option.value = item.id; option.textContent = item.name; horseSelector.appendChild(option); }); const selectedItem = findHorseById(currentSelectedId); if (selectedItem && selectedItem.status !== 'forged') horseSelector.value = currentSelectedId; else { const currentDetailItem = findHorseById(currentDetailHorseId); if (currentDetailItem && currentDetailItem.status !== 'forged') horseSelector.value = currentDetailHorseId; else horseSelector.value = ""; } }
 
-        // **** MODIFIED renderHorseDetail for Chart Text and Grid Colors ****
+        // **** MODIFIED renderHorseDetail for Chart Text and Grid Colors (using explicit options) ****
         function renderHorseDetail(itemId) {
             const item = findHorseById(itemId);
             const race1TimeChartContainer = document.getElementById('race1TimeChartContainer');
@@ -532,7 +529,7 @@
             // Get current theme colors for chart text and grids
             const currentChartTextColor = getComputedStyle(document.documentElement).getPropertyValue('--chart-text-color').trim();
             const currentChartGridColor = getComputedStyle(document.documentElement).getPropertyValue('--chart-grid-color').trim();
-            // Chart titles (H3) are styled by CSS directly using --heading-color via the H3 tag itself.
+            const currentTooltipBgColor = document.body.classList.contains('dark-mode') ? 'rgba(30,30,30,0.9)' : 'rgba(250,250,250,0.9)'; // Tooltip BG
 
             // --- Race Times Chart (Combined Race 1 and Race 2) ---
             if (race1TimeChartContainer && race1TimeCanvas && race1NoDataMsg) {
@@ -543,7 +540,7 @@
 
                 if (race1History.length >= 1 || race2History.length >= 1) {
                     race1TimeChartContainer.classList.remove('hidden'); race1TimeCanvas.classList.remove('hidden'); race1NoDataMsg.classList.add('hidden');
-                    // Title "Race Times History" is set in HTML, color comes from H3 style
+                    // Chart title color is handled by general H3 CSS.
 
                     let overallFastestS = Infinity, overallSlowestS = 0, overallFastestT = "N/A", overallSlowestT = "N/A", validOverallT = false;
                     if(combinedRaceHistory.length > 0) { combinedRaceHistory.forEach(e => { const ts = parseRaceTime(e.time); if (ts !== null) { validOverallT = true; if (ts < overallFastestS) { overallFastestS = ts; overallFastestT = e.time; } if (ts > overallSlowestS) { overallSlowestS = ts; overallSlowestT = e.time; } } }); }
@@ -564,7 +561,7 @@
                             responsive: true, maintainAspectRatio: true,
                             scales: { x: { type: 'time', time: { unit: 'day', tooltipFormat: 'PPpp', displayFormats: { day: 'MMM d' }}, title: { display: true, text: 'Date', color: currentChartTextColor }, ticks: { color: currentChartTextColor }, grid: { color: currentChartGridColor } }, y: yOpt },
                             plugins: { legend: {position:'top', labels:{color: currentChartTextColor}},
-                                tooltip: { titleColor: currentChartTextColor, bodyColor: currentChartTextColor, backgroundColor: document.body.classList.contains('dark-mode') ? 'rgba(30,30,30,0.9)' : 'rgba(240,240,240,0.9)', callbacks: { title: (i) => (i[0].dataset.label.includes('Fastest') || i[0].dataset.label.includes('Slowest')) ? i[0].dataset.label : new Date(i[0].parsed.x).toLocaleDateString(), label: (c) => { let l=''; if(c.dataset.label==='Overall Fastest')l=`Fastest: ${overallFastestT} (${overallFastestS.toFixed(2)}s)`; else if(c.dataset.label==='Overall Slowest')l=`Slowest: ${overallSlowestT} (${overallSlowestS.toFixed(2)}s)`; else{l=c.dataset.label||'';if(l)l+=': ';const o=c.raw?.originalTime;if(o)l+=`${o} (${c.parsed.y.toFixed(2)}s)`;else if(c.parsed.y!==null)l+=c.parsed.y.toFixed(2)+'s';}return l;}}}}
+                                tooltip: { titleColor: currentChartTextColor, bodyColor: currentChartTextColor, backgroundColor: currentTooltipBgColor, callbacks: { title: (i) => (i[0].dataset.label.includes('Fastest') || i[0].dataset.label.includes('Slowest')) ? i[0].dataset.label : new Date(i[0].parsed.x).toLocaleDateString(), label: (c) => { let l=''; if(c.dataset.label==='Overall Fastest')l=`Fastest: ${overallFastestT} (${overallFastestS.toFixed(2)}s)`; else if(c.dataset.label==='Overall Slowest')l=`Slowest: ${overallSlowestT} (${overallSlowestS.toFixed(2)}s)`; else{l=c.dataset.label||'';if(l)l+=': ';const o=c.raw?.originalTime;if(o)l+=`${o} (${c.parsed.y.toFixed(2)}s)`;else if(c.parsed.y!==null)l+=c.parsed.y.toFixed(2)+'s';}return l;}}}}
                         }
                     });
                 } else { race1TimeChartContainer.classList.remove('hidden'); race1TimeCanvas.classList.add('hidden'); race1NoDataMsg.textContent = "No race time data for Race 1 or Race 2."; race1NoDataMsg.classList.remove('hidden'); }
@@ -575,7 +572,7 @@
                 options: { responsive: true, maintainAspectRatio: true,
                     scales: { x: { type: 'time', time: { unit: 'day', tooltipFormat: 'PPpp', displayFormats: { day: 'MMM d' } }, title: { display: true, text: 'Date', color: currentChartTextColor }, ticks: { color: currentChartTextColor }, grid: { color: currentChartGridColor } }, y: { beginAtZero: false, title: { display: true, text: 'Balance', color: currentChartTextColor }, ticks: { callback: (v) => v.toLocaleString(undefined, {minimumFractionDigits:0,maximumFractionDigits:2}), color: currentChartTextColor }, grid: { color: currentChartGridColor } } },
                     plugins: { legend: { position:'top', labels:{color: currentChartTextColor} },
-                        tooltip: { titleColor: currentChartTextColor, bodyColor: currentChartTextColor, backgroundColor: document.body.classList.contains('dark-mode') ? 'rgba(30,30,30,0.9)' : 'rgba(240,240,240,0.9)', callbacks: { title: (i) => new Date(i[0].parsed.x).toLocaleDateString(), label: (c) => { let l = c.dataset.label || ''; if(l) l+=': '; const origE = balHist.find(bh => bh.ts === c.parsed.x); if (origE && origE.orig) l += origE.orig; else if (c.parsed.y !== null) l += c.parsed.y.toLocaleString(undefined, {minimumFractionDigits:2,maximumFractionDigits:2}); return l; } } }
+                        tooltip: { titleColor: currentChartTextColor, bodyColor: currentChartTextColor, backgroundColor: currentTooltipBgColor, callbacks: { title: (i) => new Date(i[0].parsed.x).toLocaleDateString(), label: (c) => { let l = c.dataset.label || ''; if(l) l+=': '; const origE = balHist.find(bh => bh.ts === c.parsed.x); if (origE && origE.orig) l += origE.orig; else if (c.parsed.y !== null) l += c.parsed.y.toLocaleString(undefined, {minimumFractionDigits:2,maximumFractionDigits:2}); return l; } } }
                     }
                 }
             }); } else { zedBalanceChartContainer.classList.remove('hidden'); zedBalanceCanvas.classList.add('hidden'); zedBalanceNoDataMsg.textContent = "No ZED Balance history."; zedBalanceNoDataMsg.classList.remove('hidden'); } } else console.error("ZED Balance Chart elements missing.");
@@ -687,40 +684,18 @@
                      const newStrtZedBalFromForm = formData.strtZedBal;
                      if (!Array.isArray(originalItem.zedBalanceHistory)) originalItem.zedBalanceHistory = [];
 
-                     let hasStartBalanceChanged = originalItem.strtZedBal !== newStrtZedBalFromForm;
-
-                     // If history is empty AND a start balance is provided in the form (new or changed)
+                     // If history is empty AND a start balance is now in the form, this becomes the first point.
                      if (originalItem.zedBalanceHistory.length === 0 && newStrtZedBalFromForm && newStrtZedBalFromForm.trim() !== "") {
                          originalItem.zedBalanceHistory.push({ timestamp: Date.now() - 100000, balance: newStrtZedBalFromForm });
-                         // If current balance is also provided AND different from this newly set start balance, add it too.
                          if (newZedBalanceFromForm && newZedBalanceFromForm.trim() !== "" && newZedBalanceFromForm !== newStrtZedBalFromForm) {
-                             originalItem.zedBalanceHistory.push({ timestamp: Date.now() - 99000, balance: newZedBalanceFromForm });
+                            originalItem.zedBalanceHistory.push({ timestamp: Date.now() - 99000, balance: newZedBalanceFromForm });
                          }
-                     }
-                     // If history is NOT empty, but the start balance in the form was changed
-                     else if (hasStartBalanceChanged && newStrtZedBalFromForm && newStrtZedBalFromForm.trim() !== "") {
-                         // This indicates a correction of the start balance after history has begun.
-                         // Simplest approach: update the first record if it was the original start balance.
-                         // More robust might involve inserting or indicating a correction.
-                         // For now, if the very first entry *was* the old start balance, update it.
-                         if (originalItem.zedBalanceHistory.length > 0 && originalItem.zedBalanceHistory[0].balance === originalItem.strtZedBal) {
-                             originalItem.zedBalanceHistory[0].balance = newStrtZedBalFromForm;
-                             // originalItem.zedBalanceHistory[0].timestamp = Date.now() - 100000; // Optionally update timestamp
-                         }
-                         // If the history isn't empty but doesn't start with the old strtZedBal (e.g. it was empty then current bal added)
-                         // and now a strtZedBal is entered, prepend it.
-                         else if (originalItem.zedBalanceHistory.length > 0 && newStrtZedBalFromForm !== originalItem.zedBalanceHistory[0].balance) {
-                            // This case is complex if we want to preserve chronological order strictly.
-                            // For now, if a strtZedBal is changed and history exists, we focus on currentBalance updates below.
-                            // The main strtZedBal property on the horse will be updated by `formData.strtZedBal`.
-                         }
-                     }
-
-                     // Handle Current Balance (zedBalance) Update from form
-                     const lastZedBalanceEntry = originalItem.zedBalanceHistory.length > 0 ? originalItem.zedBalanceHistory[originalItem.zedBalanceHistory.length - 1] : null;
-                     if (newZedBalanceFromForm && typeof newZedBalanceFromForm === 'string' && newZedBalanceFromForm.trim() !== "" &&
-                         (!lastZedBalanceEntry || lastZedBalanceEntry.balance !== newZedBalanceFromForm)) {
-                         originalItem.zedBalanceHistory.push({ timestamp: Date.now(), balance: newZedBalanceFromForm });
+                     } else {
+                        const lastZedBalanceEntry = originalItem.zedBalanceHistory.length > 0 ? originalItem.zedBalanceHistory[originalItem.zedBalanceHistory.length - 1] : null;
+                        if (newZedBalanceFromForm && typeof newZedBalanceFromForm === 'string' && newZedBalanceFromForm.trim() !== "" &&
+                            (!lastZedBalanceEntry || lastZedBalanceEntry.balance !== newZedBalanceFromForm)) {
+                            originalItem.zedBalanceHistory.push({ timestamp: Date.now(), balance: newZedBalanceFromForm });
+                        }
                      }
                      formData.zedBalanceHistory = originalItem.zedBalanceHistory;
 
@@ -795,17 +770,17 @@
         function applyTheme(dark) {
             document.body.classList.toggle('dark-mode', dark);
             darkModeToggle.checked = dark;
-            // Update Chart.js global defaults when theme changes for future chart renders
-            // This will be picked up by charts when they are re-rendered.
-            Chart.defaults.color = getComputedStyle(document.documentElement).getPropertyValue('--chart-text-color').trim();
-            Chart.defaults.borderColor = getComputedStyle(document.documentElement).getPropertyValue('--chart-grid-color').trim();
+            // Chart.js global defaults will be set based on the current theme when charts are rendered/re-rendered.
+            // We don't set Chart.defaults here anymore, but rely on renderHorseDetail picking up CSS vars.
         }
+
         function toggleTheme() {
             const newIsDark = !document.body.classList.contains('dark-mode');
-            applyTheme(newIsDark);
+            applyTheme(newIsDark); // This just toggles body class and checkbox
             localStorage.setItem('darkMode', newIsDark);
+            // If on detail page and a horse is selected, re-render its details to apply new chart styles
             if (detailPage && !detailPage.classList.contains('hidden') && currentDetailHorseId !== null) {
-                renderHorseDetail(currentDetailHorseId); // Re-render to apply new chart defaults
+                renderHorseDetail(currentDetailHorseId);
             }
         }
         window.onscroll = function() { scrollTrigger() }; function scrollTrigger() { if (scrollTopButton) scrollTopButton.style.display = (document.documentElement.scrollTop || document.body.scrollTop) > 200 ? "block" : "none"; }
@@ -816,40 +791,43 @@
         // ========================================================================
         function importRaceDataFromCSV(event) {
             const file=event.target.files[0];if(!file)return;if(!file.name.endsWith('.csv')){alert("Select CSV file.");event.target.value=null;return;}if(!window.Papa){alert("Papa Parse not loaded.");event.target.value=null;return;}
-            Papa.parse(file,{header:true,skipEmptyLines:true,dynamicTyping:true,
+            Papa.parse(file,{header:true,skipEmptyLines:true,dynamicTyping:false,
                 complete:function(results){
                     if(results.errors.length>0){console.error("CSV Errors:",results.errors);alert("CSV parse errors.");event.target.value=null;return;}
-                    const nameCol='Horse Name',dateCol='Race Date',timeCol='Race Time',posCol='Position';
-                    if(!results.data.length||!results.data[0].hasOwnProperty(nameCol)){alert(`'${nameCol}' column missing.`);event.target.value=null;return;}
-                    if(!window.confirm(`Found ${results.data.length} records. Import and update Race 1 data?`)){event.target.value=null;return;}
-                    let updated=0,processed=0,ids=[];
-                    results.data.forEach(rec=>{
-                        processed++;const ident=rec[nameCol];if(!ident)return;
-                        const idx=horsesData.findIndex(h=>h.name.toLowerCase().trim()===String(ident).toLowerCase().trim());
-                        if(idx!==-1){
-                            const horse=horsesData[idx];let changed=false;
-                            horse.races=(parseInt(horse.races)||0)+1;changed=true;
-                            const pos=rec[posCol];
-                            if(pos===1||String(pos).toLowerCase()==='1st')horse.first=(parseInt(horse.first)||0)+1;
-                            else if(pos===2||String(pos).toLowerCase()==='2nd')horse.second=(parseInt(horse.second)||0)+1;
-                            else if(pos===3||String(pos).toLowerCase()==='3rd')horse.third=(parseInt(horse.third)||0)+1;
-                            const newTime=rec[timeCol];
-                            if(newTime&&typeof newTime==='string'&&parseRaceTime(newTime)!==null){
-                                horse.race1Time=newTime;
-                                let ts=Date.now();if(rec[dateCol]){const pDate=new Date(rec[dateCol]);if(!isNaN(pDate.getTime()))ts=pDate.getTime();}
-                                if(!Array.isArray(horse.race1TimeHistory))horse.race1TimeHistory=[];
-                                horse.race1TimeHistory.push({timestamp:ts,time:newTime});
-                                changed=true;
-                            }
-                            if(changed&&!ids.includes(horse.id))ids.push(horse.id);
-                        }else console.warn(`Horse "${ident}" not found.`);
+                    const raceData = results.data; if (!raceData.length) { alert("No data in CSV."); event.target.value = null; return; }
+                    const COL = { RACE_ID: 'race_id', RACE_DATE: 'race_date', RACE_POTS_TOTAL: 'race_pots_total', USER_ID: 'user_id', STABLE_NAME: 'stable_name', GATE_NUMBER: 'gate_number', HORSE_ID: 'horse_id', HORSE_NAME: 'horse_name', BLOODLINE: 'bloodline', GENERATION: 'generation', RATING: 'rating', SPEED_RATING: 'speed_rating', SPRINT_RATING: 'sprint_rating', ENDURANCE_RATING: 'endurance_rating', FINISH_POSITION: 'finish_position', FINISH_TIME: 'finish_time', EARNINGS: 'earnings', STAKE: 'stake', PROFIT_LOSS: 'profit_loss', ODDS: 'odds', STARTING_POINTS: 'starting_points', POINTS_CHANGE: 'points_change', ENDING_POINTS: 'ending_points', CPU_AUGMENT: 'cpu_augment', RAM_AUGMENT: 'ram_augment', HYDRAULIC_AUGMENT: 'hydraulic_augment'};
+                    if(!raceData[0].hasOwnProperty(COL.HORSE_NAME) || !raceData[0].hasOwnProperty(COL.FINISH_TIME) || !raceData[0].hasOwnProperty(COL.STABLE_NAME) ){alert(`CSV must contain '${COL.HORSE_NAME}', '${COL.FINISH_TIME}', and '${COL.STABLE_NAME}'.`); event.target.value=null; return;}
+                    const userStableNameInput = prompt("Enter YOUR ZED Stable Name (from CSV):"); if (!userStableNameInput || userStableNameInput.trim() === "") { alert("Stable Name required. Import cancelled."); if(event.target) event.target.value = null; return; }
+                    const userStableNameLower = userStableNameInput.toLowerCase().trim();
+                    if(!window.confirm(`Found ${raceData.length} CSV records. Import for stable "${userStableNameInput}"?`)){if(event.target) event.target.value=null;return;}
+                    let horsesUpdatedCount = 0, recordsProcessedForUserStable = 0; const updatedHorseIds = new Set();
+                    raceData.forEach(rec=>{
+                        const stableNameFromCSV = String(rec[COL.STABLE_NAME]||'').toLowerCase().trim(); if (stableNameFromCSV !== userStableNameLower) return;
+                        recordsProcessedForUserStable++; const horseNameFromCSV = String(rec[COL.HORSE_NAME]||'').trim(); if(!horseNameFromCSV){console.warn("Skipping: no horse name.", rec); return;}
+                        let horseIndex = horsesData.findIndex(h=>h.name.toLowerCase()===horseNameFromCSV.toLowerCase()); let horse;
+                        if(horseIndex === -1){ console.warn(`Horse "${horseNameFromCSV}" (stable "${userStableNameInput}") not in Manager. Skipping.`); return; } else { horse = horsesData[horseIndex]; }
+                        let changed = false; horse.races=(parseInt(horse.races)||0)+1; changed=true;
+                        const pos = parseInt(rec[COL.FINISH_POSITION]); if(!isNaN(pos)){ if(pos===1)horse.first=(parseInt(horse.first)||0)+1; else if(pos===2)horse.second=(parseInt(horse.second)||0)+1; else if(pos===3)horse.third=(parseInt(horse.third)||0)+1; changed=true; }
+                        const newRaceTime = String(rec[COL.FINISH_TIME]||'').trim(); const raceDateStr = String(rec[COL.RACE_DATE]||'').trim(); let raceTimestamp = Date.now(); if(raceDateStr){const pD=new Date(raceDateStr);if(!isNaN(pD.getTime()))raceTimestamp=pD.getTime();}
+                        if(newRaceTime && parseRaceTime(newRaceTime)!==null){ horse.race1Time=newRaceTime; if(!Array.isArray(horse.race1TimeHistory))horse.race1TimeHistory=[]; horse.race1TimeHistory.push({timestamp:raceTimestamp,time:newRaceTime}); changed=true; }
+                        const profitLossNum = parseNumericValue(String(rec[COL.PROFIT_LOSS]||'0').trim());
+                        if(!isNaN(profitLossNum)){ const currentBal = parseNumericValue(horse.zedBalance||"0"); const newBal = currentBal + profitLossNum; horse.zedBalance = formatNumericValue(newBal); if(!Array.isArray(horse.zedBalanceHistory))horse.zedBalanceHistory=[]; const lastBalEntry = horse.zedBalanceHistory.length>0 ? horse.zedBalanceHistory[horse.zedBalanceHistory.length-1] : null; if(!lastBalEntry || lastBalEntry.balance !== horse.zedBalance) horse.zedBalanceHistory.push({timestamp:raceTimestamp,balance:horse.zedBalance}); changed=true;}
+                        const cpu=String(rec[COL.CPU_AUGMENT]||'').trim(), ram=String(rec[COL.RAM_AUGMENT]||'').trim(), hyd=String(rec[COL.HYDRAULIC_AUGMENT]||'').trim();
+                        let augChanged=false; if(cpu&&horse.cpu!==cpu){horse.cpu=cpu;augChanged=true;} if(ram&&horse.ram!==ram){horse.ram=ram;augChanged=true;} if(hyd&&horse.hydraulic!==hyd){horse.hydraulic=hyd;augChanged=true;}
+                        if(augChanged){if(!Array.isArray(horse.augmentHistory))horse.augmentHistory=[]; horse.augmentHistory.push({timestamp:raceTimestamp,cpu:horse.cpu,ram:horse.ram,hydraulic:horse.hydraulic}); changed=true;}
+                        if((!horse.breed || horse.breed === "Unknown") && rec[COL.BLOODLINE]){horse.breed = mapBloodlineToBreed(String(rec[COL.BLOODLINE])); changed=true;}
+                        if(!horse.gen && rec[COL.GENERATION]){horse.gen = formatGeneration(String(rec[COL.GENERATION])); changed=true;}
+                        if(changed) updatedHorseIds.add(horse.id);
                     });
-                    updated=ids.length;
-                    if(updated>0){saveHorsesData();alert(`${updated} horse(s) updated with ${processed} records for Race 1.`);const currentPg=allPages.find(p=>!p.classList.contains('hidden'));if(currentPg){showPage(currentPg.id);if(currentPg.id==='detailPage'&&currentDetailHorseId){renderHorseDetail(currentDetailHorseId);populateHorseSelectorForDetail();}}else showPage('overviewPage');}else if(processed>0)alert(`Processed ${processed} records, no matches found.`);else alert("No records processed.");
-                },error:(err)=>{console.error("CSV Parse Error:",err);alert("Error parsing CSV.");}
+                    horsesUpdatedCount = updatedHorseIds.size;
+                    if(horsesUpdatedCount > 0){ saveHorsesData(); alert(`${horsesUpdatedCount} horse(s) from stable "${userStableNameInput}" updated with ${recordsProcessedForUserStable} records. Refresh views.`); const currentPg=allPages.find(p=>!p.classList.contains('hidden')); if(currentPg){showPage(currentPg.id);if(currentPg.id==='detailPage'&&currentDetailHorseId&&updatedHorseIds.has(currentDetailHorseId))renderHorseDetail(currentDetailHorseId);}else showPage('overviewPage'); populateHorseSelectorForDetail(); }
+                    else if (recordsProcessedForUserStable > 0) alert(`Processed ${recordsProcessedForUserStable} records for "${userStableNameInput}", no new info found.`); else if (raceData.length > 0 && recordsProcessedForUserStable === 0) alert(`No records found for stable "${userStableNameInput}" in CSV.`); else alert("No valid records processed.");
+                }, error:(err)=>{console.error("CSV Parse Error:",err);alert("Error parsing CSV.");}
             });
-            event.target.value = null;
+            if(event.target) event.target.value = null;
         }
+        function mapBloodlineToBreed(bloodline) { if (!bloodline) return ""; const upperBloodline = bloodline.toUpperCase(); switch (upperBloodline) { case 'NAKAMOTO': return 'Nakamoto'; case 'SZABO': return 'Szabo'; case 'FINNEY': return 'Finney'; case 'BUTERIN': return 'Buterin'; default: return bloodline; } }
+        function formatGeneration(generation) { if (!generation) return ""; return generation; }
 
         // ========================================================================
         // == DRAG AND DROP FOR OVERVIEW TABLE ==
@@ -881,7 +859,7 @@
         // ========================================================================
         document.addEventListener('DOMContentLoaded', () => {
             loadHorsesData();
-            applyTheme(localStorage.getItem('darkMode') === 'true');
+            applyTheme(localStorage.getItem('darkMode') === 'true'); // Apply theme and set Chart.js defaults
             showPage('overviewPage');
             scrollTrigger();
         });
