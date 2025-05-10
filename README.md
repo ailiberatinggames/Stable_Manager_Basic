@@ -1,14 +1,26 @@
-How to Use the Stable Manager HTML File
-The Stable Manager is a client-side web application for managing virtual horses. To use it, simply download the index.html file and open it in a modern web browser like Chrome, Firefox, or Edge. No additional installation or server setup is required.
-Data Storage
-Data is stored locally in your browser's localStorage, meaning it persists across sessions but is specific to the browser and device you're using. Be aware that clearing browser storage or using a different browser/device will result in data loss. It's recommended to regularly export your data using the "Export Data" feature to keep a backup.
-Manual Data Entry
-All horse information must be entered manually through the application's interface, such as forms for adding or editing horse details. There is no automatic data retrieval or integration with external services, ensuring you have full control over the data input.
-Survey Note: Detailed Analysis of Stable Manager Usage and Data Handling
-This survey note provides an in-depth examination of the Stable Manager HTML file, focusing on its usage, data storage mechanisms, and manual data entry processes, as derived from the provided HTML and JavaScript code. The analysis aims to offer a comprehensive understanding for users and potential contributors, ensuring clarity on how to effectively utilize the application.
-Introduction and Overview
-The Stable Manager is a client-side web application built with HTML, CSS, and JavaScript, designed to facilitate the management of virtual horses. It includes functionalities for tracking horse profiles, simulating breeding, viewing financials, and exploring lineage trees, all accessible directly within a web browser. This application is particularly useful for users engaged in virtual horse management simulations, offering a user-friendly interface for data management without requiring server-side infrastructure.
-Features and Functionalities
+Download and Open:
+Download the index.html file.
+
+Open it in a modern web browser (e.g., Chrome, Firefox, Edge). No installation or server setup needed.
+
+Manage Horses:
+Manually add or edit horse details (e.g., generation, gender, breed, stats) using the app’s forms.
+
+View horse profiles, simulate breeding, check financials, or explore lineage trees.
+
+Data Storage:
+Data is saved in your browser’s localStorage, so it stays on your device and persists across sessions.
+
+Data is tied to the specific browser/device. Switching browsers or clearing storage will erase data.
+
+Use the “Export Data” feature to back up your data regularly.
+
+Key Notes:
+No automatic data retrieval or external service integration—enter all data manually.
+
+The app now includes MyBloods data dump for enhanced horse management.
+
+
 The application boasts a range of features to enhance user experience and functionality:
 Horse Management: Users can add, edit, and view detailed profiles of horses, including attributes like generation, gender, breed, and performance stats.
 
