@@ -372,6 +372,21 @@
         .csv-preview-grid .value-arrow { margin: 0 5px; }
 
         /* Backfill Race IDs Styling */
+        #backfillRaceIdsSection { /* Ensure it's block when not hidden */
+            /* display: block;  profile-section already makes it block */
+            /* other styles are inherited from .profile-section */
+            /* The style `grid-column: 1 / -1;` might be an issue if the parent is not a grid when horseProfileDisplay is hidden. */
+            /* Let's ensure it's not part of a grid that might collapse it, by overriding grid-column if necessary. */
+        }
+        #backfillRaceIdsSection:not(.hidden) { /* When it's meant to be visible */
+            display: block !important; /* Force display block */
+            grid-column: auto !important; /* Override grid-column if it was causing issues */
+            width: 100%; /* Ensure it takes full width available */
+        }
+
+        #backfillRaceIdsSection.hidden { /* This is already in global styles but reiterate for clarity */
+            display: none !important;
+        }
         #backfillRaceIdsSection .race-entry-backfill {
             border: 1px solid var(--border-color-light);
             padding: 15px;
@@ -523,18 +538,18 @@
                      <div style="margin-top: 20px; text-align: center;">
                         <button id="manageRaceIdsBtn" class="btn-info">Manage Historical Race Data</button>
                     </div>
-                    <div id="backfillRaceIdsSection" class="profile-section hidden" style="grid-column: 1 / -1; margin-top:20px;">
-                        <h3>Edit Historical Race Data for <span id="backfillHorseName"></span></h3>
-                        <p>Modify race details or add missing Race IDs. Dates should be MM/DD/YYYY, Times HH:MM (24-hour).</p>
-                        <div id="backfillRaceListContainer">
-                            {/* Entries will be populated here by JS */}
-                        </div>
-                        <div style="text-align: center; margin-top: 20px;">
-                            <button id="saveBackfilledRaceIdsBtn" class="btn-success">Save Changes</button>
-                            <button type="button" onclick="closeBackfillSection()" class="btn-secondary">Cancel</button>
-                        </div>
-                    </div>
                  </div>
+                 <div id="backfillRaceIdsSection" class="profile-section hidden" style="margin-top:20px;"> {/* Removed grid-column here */}
+                    <h3>Edit Historical Race Data for <span id="backfillHorseName"></span></h3>
+                    <p>Modify race details or add missing Race IDs. Dates should be MM/DD/YYYY, Times HH:MM (24-hour).</p>
+                    <div id="backfillRaceListContainer">
+                        {/* Entries will be populated here by JS */}
+                    </div>
+                    <div style="text-align: center; margin-top: 20px;">
+                        <button id="saveBackfilledRaceIdsBtn" class="btn-success">Save Changes</button>
+                        <button type="button" onclick="closeBackfillSection()" class="btn-secondary">Cancel</button>
+                    </div>
+                </div>
                  <div id="horseForm" class="hidden">
                      <h2 id="formTitle"></h2>
                      <form id="editAddForm">
@@ -796,12 +811,15 @@
 
         function calculateROI(item) {
             if (item === null || item === undefined) return "N/A";
-            const currentHorseBalance = parseNumericValue(item.zedBalance);
-            const initialCost = parseNumericValue(item.breedCost);
-            const totalSaleValue = parseNumericValue(item.soldBreeds);
-            const profitFromSales = totalSaleValue * 0.95; // Assuming user gets 95% of breed sales
 
-            const totalProfitLoss = (currentHorseBalance + profitFromSales) - initialCost;
+            const currentHorseBalance = parseNumericValue(item.zedBalance); // Current Balance
+            const initialCost = parseNumericValue(item.breedCost); // Cost
+            const totalSaleValue = parseNumericValue(item.soldBreeds); // Total Value Sold
+
+            // New Calculation: (Current Balance + (Total Value Sold * 0.05)) - Cost
+            const profitFromSalesComponent = totalSaleValue * 0.05; // 5% of Total Value Sold
+            const totalProfitLoss = (currentHorseBalance + profitFromSalesComponent) - initialCost;
+
             return `${(totalProfitLoss >= 0 ? '+' : '')}${totalProfitLoss.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
         }
 
@@ -1452,7 +1470,8 @@
             inputSoldBreeds.value = "";
             horseFormDiv.classList.remove('hidden');
             horseProfileDisplayDiv.classList.add('hidden');
-            mainActionsDiv.classList.add('hidden');
+            mainActionsDiv.classList.add('hidden'); // Hide main actions when form is shown
+            if (backfillRaceIdsSection) backfillRaceIdsSection.classList.add('hidden'); // Hide backfill if open
             saveChangesButton.classList.remove('hidden');
             saveNewButton.classList.add('hidden');
             document.getElementById('race1TimeChartContainer')?.classList.add('hidden');
@@ -1472,7 +1491,9 @@
 
             horseFormDiv.classList.remove('hidden');
             horseProfileDisplayDiv.classList.add('hidden');
-            mainActionsDiv.classList.add('hidden');
+            mainActionsDiv.classList.add('hidden'); // Hide main actions when form is shown
+            if (backfillRaceIdsSection) backfillRaceIdsSection.classList.add('hidden'); // Hide backfill if open
+
             saveChangesButton.classList.add('hidden');
             saveNewButton.classList.remove('hidden');
             document.getElementById('race1TimeChartContainer')?.classList.add('hidden');
@@ -1664,31 +1685,45 @@
         function backToTop() { window.scrollTo({top: 0, behavior: 'smooth'}); }
 
         function showBackfillRaceIdsUI() {
+            console.log('showBackfillRaceIdsUI START. currentDetailHorseId:', currentDetailHorseId);
             if (!currentDetailHorseId || !backfillRaceIdsSection || !backfillHorseName || !backfillRaceListContainer ) {
                 console.error("Cannot show backfill UI: missing current horse ID or DOM elements for backfillRaceListContainer."); return;
             }
             const horse = findHorseById(currentDetailHorseId);
+            console.log('Horse for backfill:', horse);
             if (!horse) { alert("Horse not found for backfilling Race IDs."); return; }
 
             backfillHorseName.textContent = horse.name;
             const allHistoricalRaces = getCombinedRaceHistory(horse);
+            console.log('Historical races to populate:', allHistoricalRaces);
 
             populateBackfillList(allHistoricalRaces, horse.id);
 
-            backfillRaceIdsSection.classList.remove('hidden');
             if(horseProfileDisplayDiv) horseProfileDisplayDiv.classList.add('hidden');
+            if(mainActionsDiv) mainActionsDiv.classList.add('hidden'); // Also hide main actions
+            if(horseFormDiv) horseFormDiv.classList.add('hidden'); // Ensure edit form is hidden
+
+            backfillRaceIdsSection.classList.remove('hidden');
+            console.log('showBackfillRaceIdsUI END. backfillRaceIdsSection hidden:', backfillRaceIdsSection.classList.contains('hidden'));
         }
 
         function populateBackfillList(historicalEntries, horseId) {
-            if (!backfillRaceListContainer) { console.error("backfillRaceListContainer is missing."); return; }
+            if (!backfillRaceListContainer) {
+                console.error("populateBackfillList: backfillRaceListContainer is missing.");
+                return;
+            }
             backfillRaceListContainer.innerHTML = '';
+            console.log(`populateBackfillList: Starting. Found ${historicalEntries.length} entries for horse ID ${horseId}.`);
 
             if (historicalEntries.length === 0) {
                 backfillRaceListContainer.innerHTML = '<p><em>No historical race entries found for this item.</em></p>';
+                console.log("populateBackfillList: No entries to display.");
                 return;
             }
 
-            historicalEntries.forEach((entry) => {
+            historicalEntries.forEach((entry, index) => { // Added index for logging
+                console.log(`populateBackfillList: Processing entry ${index + 1}/${historicalEntries.length}`, entry);
+
                 const entryDiv = document.createElement('div');
                 entryDiv.className = 'race-entry-backfill';
                 entryDiv.setAttribute('data-history-array-name', entry.originalArrayName);
@@ -1697,18 +1732,25 @@
                 const originalDateObj = new Date(entry.timestamp);
                 let displayDate = 'N/A', displayTime = 'N/A';
 
-                const _dateAdapter = Chart._adapters._date;
-                if (_dateAdapter && typeof _dateAdapter.prototype.format === 'function') {
+                console.log(`populateBackfillList: Entry ${index + 1} - Original timestamp: ${entry.timestamp}, Parsed Date Obj:`, originalDateObj, `Is NaN: ${isNaN(originalDateObj.valueOf())}`);
+
+
+                if (originalDateObj && !isNaN(originalDateObj.valueOf())) {
                     try {
-                        displayDate = _dateAdapter.prototype.format.call(null, entry.timestamp, 'MM/dd/yyyy');
-                        displayTime = _dateAdapter.prototype.format.call(null, entry.timestamp, 'HH:mm');
-                    } catch (e) { console.warn("Error formatting date for backfill UI:", e); }
-                } else {
-                     console.warn("populateBackfillList: Chart.js date adapter not found for formatting. Using fallback.");
-                    if (!isNaN(originalDateObj.valueOf())) {
-                        displayDate = `${(originalDateObj.getMonth() + 1).toString().padStart(2, '0')}/${originalDateObj.getDate().toString().padStart(2, '0')}/${originalDateObj.getFullYear()}`;
-                        displayTime = `${originalDateObj.getHours().toString().padStart(2, '0')}:${originalDateObj.getMinutes().toString().padStart(2, '0')}`;
+                        const month = (originalDateObj.getMonth() + 1).toString().padStart(2, '0');
+                        const day = originalDateObj.getDate().toString().padStart(2, '0');
+                        const year = originalDateObj.getFullYear();
+                        displayDate = `${month}/${day}/${year}`;
+
+                        const hours = originalDateObj.getHours().toString().padStart(2, '0');
+                        const minutes = originalDateObj.getMinutes().toString().padStart(2, '0');
+                        displayTime = `${hours}:${minutes}`;
+                        console.log(`populateBackfillList: Entry ${index + 1} - Formatted displayDate: ${displayDate}, displayTime: ${displayTime}`);
+                    } catch (e) {
+                        console.warn(`populateBackfillList: Entry ${index + 1} - Error formatting date:`, e, "Timestamp was:", entry.timestamp);
                     }
+                } else {
+                    console.warn(`populateBackfillList: Entry ${index + 1} - Invalid timestamp or Date object. Timestamp:`, entry.timestamp, "Parsed Date:", originalDateObj);
                 }
 
                 entryDiv.innerHTML = `
@@ -1727,15 +1769,23 @@
                         <input type="text" class="backfill-raceid" id="backfill-raceid-${horseId}-${entry.originalArrayName}-${entry.originalArrayIndex}" value="${entry.race_id || ''}" placeholder="Enter Race ID">
                     </div>
                 `;
-                backfillRaceListContainer.appendChild(entryDiv);
+                try {
+                    backfillRaceListContainer.appendChild(entryDiv);
+                    console.log(`populateBackfillList: Entry ${index + 1} - Appended to container.`);
+                } catch (e) {
+                    console.error(`populateBackfillList: Entry ${index + 1} - Error appending entryDiv:`, e, entryDiv);
+                }
             });
+            console.log("populateBackfillList: Finished processing all entries.");
         }
+
 
         function closeBackfillSection() {
             if(backfillRaceIdsSection) backfillRaceIdsSection.classList.add('hidden');
+            if(mainActionsDiv) mainActionsDiv.classList.remove('hidden'); // Show main actions again
             if(horseProfileDisplayDiv && currentDetailHorseId) {
                  horseProfileDisplayDiv.classList.remove('hidden');
-                 renderHorseDetail(currentDetailHorseId);
+                 renderHorseDetail(currentDetailHorseId); // Re-render the profile which also handles charts
             }
         }
 
@@ -1746,7 +1796,6 @@
 
             let horse = horsesData[horseIndex];
             let changesMade = false;
-            const _dateAdapter = Chart._adapters._date;
 
             document.querySelectorAll('#backfillRaceListContainer .race-entry-backfill').forEach(entryDiv => {
                 const historyArrayName = entryDiv.dataset.historyArrayName;
@@ -1764,13 +1813,36 @@
                 let newTimestamp = originalTimestamp;
                 const newDateStr = entryDiv.querySelector('.backfill-date').value.trim();
                 const newTimeOfDayStr = entryDiv.querySelector('.backfill-timeofday').value.trim();
+
                 if (newDateStr && newTimeOfDayStr) {
-                    if (_dateAdapter && typeof _dateAdapter.prototype.parse === 'function' && typeof _dateAdapter.prototype.isValid === 'function') {
-                        let parsedTs = _dateAdapter.prototype.parse.call(null, `${newDateStr} ${newTimeOfDayStr}`, 'MM/dd/yyyy HH:mm');
-                        if (_dateAdapter.prototype.isValid.call(null, parsedTs)) {
-                            newTimestamp = (parsedTs instanceof Date) ? parsedTs.getTime() : parsedTs;
-                        } else { console.warn(`  Invalid date/time format for backfill: Date='${newDateStr}', Time='${newTimeOfDayStr}'.`); newTimestamp = originalTimestamp; }
-                    } else { console.warn("  Chart.js date adapter not found for backfill parsing."); newTimestamp = originalTimestamp; }
+                    const dateParts = newDateStr.split('/');
+                    const timeParts = newTimeOfDayStr.split(':');
+
+                    if (dateParts.length === 3 && timeParts.length === 2) {
+                        const month = parseInt(dateParts[0], 10) - 1; // JS months are 0-indexed
+                        const day = parseInt(dateParts[1], 10);
+                        const year = parseInt(dateParts[2], 10);
+                        const hours = parseInt(timeParts[0], 10);
+                        const minutes = parseInt(timeParts[1], 10);
+
+                        if (!isNaN(month) && !isNaN(day) && !isNaN(year) && !isNaN(hours) && !isNaN(minutes)) {
+                            const parsedDateObj = new Date(year, month, day, hours, minutes);
+                            if (parsedDateObj && !isNaN(parsedDateObj.valueOf()) &&
+                                parsedDateObj.getFullYear() === year &&
+                                parsedDateObj.getMonth() === month &&
+                                parsedDateObj.getDate() === day &&
+                                parsedDateObj.getHours() === hours &&
+                                parsedDateObj.getMinutes() === minutes) {
+                                newTimestamp = parsedDateObj.getTime();
+                            } else {
+                                console.warn(`  Invalid date/time value for backfill: Date='${newDateStr}', Time='${newTimeOfDayStr}'. Resulted in invalid Date object or mismatch.`);
+                            }
+                        } else {
+                             console.warn(`  Non-numeric parts in date/time for backfill: Date='${newDateStr}', Time='${newTimeOfDayStr}'.`);
+                        }
+                    } else {
+                        console.warn(`  Incorrect date/time string structure for backfill: Date='${newDateStr}', Time='${newTimeOfDayStr}'. Expected MM/DD/YYYY and HH:MM.`);
+                    }
                 }
                 if (raceEntry.timestamp !== newTimestamp) { raceEntry.timestamp = newTimestamp; changesMade = true; }
 
@@ -1805,7 +1877,7 @@
             if (changesMade) {
                 saveHorsesData();
                 alert("Historical race data updated successfully!");
-                closeBackfillSection();
+                closeBackfillSection(); // This will re-render the detail page, including charts
             } else {
                 alert("No changes were made to the historical race data.");
             }
@@ -1925,20 +1997,32 @@
 
                 const newRaceTime = String(rec[COL_CSV.FINISH_TIME] || '').trim();
                 const raceDateStr = String(rec[COL_CSV.RACE_DATE] || '').trim();
-                let raceTimestamp = Date.now();
+                let raceTimestamp = Date.now(); // Default to now if date is invalid/missing
                 if (raceDateStr) {
-                    const _date = Chart._adapters._date;
-                    if (_date && _date.prototype && typeof _date.prototype.parse === 'function' && typeof _date.prototype.isValid === 'function') {
-                        const parsedDate = _date.prototype.parse.call(null, raceDateStr, 'MM/dd/yyyy');
-                        if (_date.prototype.isValid.call(null, parsedDate)) {
-                            raceTimestamp = (parsedDate instanceof Date) ? parsedDate.getTime() : parsedDate;
+                    const dateParts = raceDateStr.split('/'); // Assuming MM/DD/YYYY from CSV
+                    if (dateParts.length === 3) {
+                        const month = parseInt(dateParts[0], 10) - 1;
+                        const day = parseInt(dateParts[1], 10);
+                        const year = parseInt(dateParts[2], 10);
+                        if (!isNaN(month) && !isNaN(day) && !isNaN(year)) {
+                             const parsedDateObj = new Date(year, month, day);
+                             // Basic validation: check if date construction was valid and matches input parts
+                             if (parsedDateObj && !isNaN(parsedDateObj.valueOf()) &&
+                                parsedDateObj.getFullYear() === year &&
+                                parsedDateObj.getMonth() === month &&
+                                parsedDateObj.getDate() === day) {
+                                raceTimestamp = parsedDateObj.getTime();
+                            } else {
+                                console.warn(`  Invalid race_date in CSV: "${raceDateStr}". Using current timestamp for event.`);
+                            }
                         } else {
-                            console.warn(`  Invalid race_date format in CSV (via adapter): "${raceDateStr}". Using current timestamp for event.`);
+                             console.warn(`  Non-numeric parts in race_date in CSV: "${raceDateStr}". Using current timestamp.`);
                         }
                     } else {
-                         console.warn("  Chart.js date adapter or date-fns functions not found. Cannot parse CSV date. Using current timestamp.");
+                         console.warn(`  Incorrect race_date structure in CSV: "${raceDateStr}". Expected MM/DD/YYYY. Using current timestamp.`);
                     }
                 }
+
 
                 const raceIdFromCsv = String(rec[COL_CSV.RACE_ID] || '').trim();
                 if (newRaceTime && parseRaceTime(newRaceTime) !== null) {
@@ -2219,5 +2303,12 @@
         });
     </script>
     <!-- END OF MAIN JAVASCRIPT -->
+
+    <div style="text-align: center; padding: 20px; font-size: 0.9em; color: var(--text-color); line-height: 1.5;">
+        <p>Consider supporting development:</p>
+        <p style="font-family: monospace; word-break: break-all; margin-top: 0.5em;">0xfAa9eC2Eab2A441709538A80AD12fbeF686B7032 (ZED/ERC-20)</p>
+        <p style="margin-top: 1.5em;">© 2025 AI Liberating Games. All Rights Reserved.</p>
+    </div>
+
 </body>
 </html>
